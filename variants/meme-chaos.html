@@ -797,7 +797,7 @@ body {
     let thumbHTML;
     if (meme) {
       thumbHTML = '<div class="card-thumb-wrap">' +
-        '<img src="../' + meme.file + '" alt="' + (meme.alt || '') + '" loading="lazy">' +
+        '<img src="../' + meme.file.replace(/\/winner\.\w+$/, '/thumb.jpg') + '" alt="' + (meme.alt || '') + '" loading="lazy">' +
         '<div class="dank-meter">' + generateStars(dankStars) + '</div>' +
         '</div>';
     } else {

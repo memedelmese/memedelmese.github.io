@@ -736,7 +736,7 @@ body::after{
           html += `
             <div class="tv-tile" data-key="${key}" data-idx="${memes.indexOf(meme)}" title="${meme.title}">
               <div class="tv-screen">
-                <img src="../${meme.file}" alt="${meme.alt}" loading="lazy">
+                <img src="../${meme.file.replace(/\/winner\.\w+$/, '/thumb.jpg')}" alt="${meme.alt}" loading="lazy">
               </div>
               <div class="tv-label"><span class="month-name">${monthName}</span></div>
               <div class="power-led"></div>

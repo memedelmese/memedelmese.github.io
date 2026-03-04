@@ -527,7 +527,7 @@ body{
       html += `
       <article class="meme-card" data-key="${key}" data-index="${i}">
         <div class="card-img-wrap">
-          <img src="../${m.file}" alt="${m.alt}" loading="lazy">
+          <img src="../${m.file.replace(/\/winner\.\w+$/, '/thumb.jpg')}" alt="${m.alt}" loading="lazy">
           <div class="card-overlay">
             <div class="overlay-month">${month}</div>
             <div class="overlay-year">${m.year}</div>

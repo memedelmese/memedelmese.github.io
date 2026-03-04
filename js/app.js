@@ -185,7 +185,8 @@
 
         if (active) {
           html += `<div class="thumb-placeholder">${MONTH_EMOJI[m]}</div>`;
-          html += `<img class="month-thumb" src="${meme.file}" alt="${meme.alt}" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()">`;
+          const thumbSrc = meme.file.replace(/\/winner\.\w+$/, '/thumb.jpg');
+          html += `<img class="month-thumb" src="${thumbSrc}" alt="${meme.alt}" loading="lazy" onload="this.classList.add('loaded')" onerror="this.remove()">`;
         } else {
           html += `<div class="thumb-placeholder">🔒</div>`;
         }

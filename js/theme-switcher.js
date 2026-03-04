@@ -6,11 +6,9 @@
   'use strict';
 
   var THEMES = [
-    { id: 'default',          label: '🌆 Vaporwave',        url: '/' },
     { id: 'meme-chaos',       label: '🤡 Meme Chaos',       url: '/variants/meme-chaos.html' },
     { id: 'vaporwave-sunset', label: '🌅 Vaporwave Sunset',  url: '/variants/vaporwave-sunset.html' },
     { id: 'cyberpunk',        label: '🏙️ Cyberpunk',         url: '/variants/cyberpunk.html' },
-    { id: 'gallery',          label: '🖼️ Gallery Moderna',   url: '/variants/gallery.html' },
     { id: 'blade-runner',     label: '🌧️ Blade Runner',      url: '/variants/blade-runner.html' },
   ];
 
@@ -33,21 +31,18 @@
     return 'default';
   }
 
-  // First visit: random redirect
-  function handleFirstVisit() {
-    var stored = localStorage.getItem(STORAGE_KEY);
+  // Root URL: always redirect to a random theme
+  function handleRootRedirect() {
     var isRoot = location.pathname === '/' ||
                  location.pathname === '/index.html' ||
                  location.pathname.endsWith('/memedelmese.github.io/') ||
                  location.pathname.endsWith('/memedelmese.github.io/index.html');
 
-    if (!stored && isRoot) {
+    if (isRoot) {
       var pick = THEMES[Math.floor(Math.random() * THEMES.length)];
       localStorage.setItem(STORAGE_KEY, pick.id);
-      if (pick.id !== 'default') {
-        location.href = pick.url + location.hash;
-        return true;
-      }
+      location.replace(pick.url + location.hash);
+      return true;
     }
     return false;
   }
@@ -167,7 +162,7 @@
   }
 
   // Boot
-  if (handleFirstVisit()) return; // redirecting, stop here
+  if (handleRootRedirect()) return; // redirecting, stop here
   injectStyles();
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', buildSwitcher);

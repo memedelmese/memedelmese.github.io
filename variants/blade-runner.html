@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme del Mese — Archivio Memorie</title>
+  <style>
+    /* ========================================================
+       BLADE RUNNER THEME — Meme del Mese
+       Inspired by Blade Runner (1982) & Blade Runner 2049
+       ======================================================== */
+
+    /* --- Reset & Base --- */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --amber: #e8a534;
+      --gold: #ffc857;
+      --teal: #3a7ca5;
+      --teal-light: #5bbcd6;
+      --orange-deep: #d45113;
+      --neon-pink: #ff6b8a;
+      --neon-blue: #4fc3f7;
+      --bg-dark: #0c0c0e;
+      --bg-card: #141416;
+      --bg-card-hover: #1a1a1e;
+      --text-warm: #e0d6c8;
+      --text-muted: #8a8378;
+      --text-dim: #5a5550;
+      --border-warm: rgba(232, 165, 52, 0.12);
+      --border-warm-hover: rgba(232, 165, 52, 0.35);
+      --font-title: 'Century Gothic', 'Gill Sans', 'Trebuchet MS', sans-serif;
+      --font-body: 'Helvetica Neue', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-warm);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* --- Letterbox Bars (Cinematic Aspect) --- */
+    .letterbox-top,
+    .letterbox-bottom {
+      position: fixed;
+      left: 0;
+      right: 0;
+      height: 18px;
+      background: #000;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .letterbox-top { top: 0; }
+    .letterbox-bottom { bottom: 0; }
+
+    /* --- Rain Effect --- */
+    .rain-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .rain-layer {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 300%;
+      pointer-events: none;
+    }
+
+    .rain-layer-1 {
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 7vw,
+          rgba(174, 194, 210, 0.06) 7vw,
+          transparent 7.05vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 13vw,
+          rgba(174, 194, 210, 0.04) 13vw,
+          transparent 13.05vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 23vw,
+          rgba(174, 194, 210, 0.07) 23vw,
+          transparent 23.05vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 31vw,
+          rgba(174, 194, 210, 0.05) 31vw,
+          transparent 31.05vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 43vw,
+          rgba(174, 194, 210, 0.06) 43vw,
+          transparent 43.05vw
+        );
+      background-size: 100% 80px;
+      animation: rain-fall-1 0.8s linear infinite;
+    }
+
+    .rain-layer-2 {
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 3vw,
+          rgba(174, 194, 210, 0.05) 3vw,
+          transparent 3.04vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 11vw,
+          rgba(174, 194, 210, 0.04) 11vw,
+          transparent 11.04vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 19vw,
+          rgba(174, 194, 210, 0.06) 19vw,
+          transparent 19.04vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 29vw,
+          rgba(174, 194, 210, 0.03) 29vw,
+          transparent 29.04vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 37vw,
+          rgba(174, 194, 210, 0.05) 37vw,
+          transparent 37.04vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 47vw,
+          rgba(174, 194, 210, 0.04) 47vw,
+          transparent 47.04vw
+        );
+      background-size: 100% 60px;
+      animation: rain-fall-2 0.6s linear infinite;
+    }
+
+    .rain-layer-3 {
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 5vw,
+          rgba(200, 215, 225, 0.03) 5vw,
+          transparent 5.03vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 17vw,
+          rgba(200, 215, 225, 0.04) 17vw,
+          transparent 17.03vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 41vw,
+          rgba(200, 215, 225, 0.03) 41vw,
+          transparent 41.03vw
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 53vw,
+          rgba(200, 215, 225, 0.05) 53vw,
+          transparent 53.03vw
+        );
+      background-size: 100% 120px;
+      animation: rain-fall-3 1.2s linear infinite;
+    }
+
+    @keyframes rain-fall-1 {
+      0%   { transform: translateY(-33.33%); }
+      100% { transform: translateY(0%); }
+    }
+    @keyframes rain-fall-2 {
+      0%   { transform: translateY(-33.33%); }
+      100% { transform: translateY(0%); }
+    }
+    @keyframes rain-fall-3 {
+      0%   { transform: translateY(-33.33%); }
+      100% { transform: translateY(0%); }
+    }
+
+    /* --- Atmospheric Fog Overlays --- */
+    .fog-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(232, 165, 52, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(58, 124, 165, 0.035) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(212, 81, 19, 0.02) 0%, transparent 60%),
+        radial-gradient(ellipse at 90% 90%, rgba(232, 165, 52, 0.03) 0%, transparent 40%),
+        radial-gradient(ellipse at 10% 30%, rgba(79, 195, 247, 0.02) 0%, transparent 45%);
+    }
+
+    /* --- Film Grain Overlay --- */
+    .grain-overlay {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      animation: grain-drift 0.5s steps(3) infinite;
+    }
+
+    @keyframes grain-drift {
+      0%   { transform: translate(0, 0); }
+      33%  { transform: translate(-2px, 1px); }
+      66%  { transform: translate(1px, -1px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* --- Lightning Flash --- */
+    .lightning-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 4;
+      pointer-events: none;
+      background: rgba(180, 195, 210, 0);
+      animation: lightning-flash 18s ease-in-out infinite;
+    }
+
+    @keyframes lightning-flash {
+      0%, 94%, 96%, 100% { background: rgba(180, 195, 210, 0); }
+      94.5% { background: rgba(180, 195, 210, 0.04); }
+      95%   { background: rgba(180, 195, 210, 0); }
+      95.3% { background: rgba(180, 195, 210, 0.06); }
+      95.5% { background: rgba(180, 195, 210, 0); }
+    }
+
+    /* --- Neon Sign (酒 Sake) --- */
+    .neon-sign {
+      position: fixed;
+      top: 100px;
+      right: 30px;
+      z-index: 10;
+      font-size: 1.6rem;
+      color: var(--neon-pink);
+      text-shadow:
+        0 0 7px rgba(255, 107, 138, 0.6),
+        0 0 20px rgba(255, 107, 138, 0.3),
+        0 0 40px rgba(255, 107, 138, 0.15);
+      animation: neon-flicker 4s ease-in-out infinite;
+      user-select: none;
+      opacity: 0.7;
+    }
+
+    @keyframes neon-flicker {
+      0%, 100% { opacity: 0.7; }
+      5%       { opacity: 0.5; }
+      5.5%     { opacity: 0.75; }
+      6%       { opacity: 0.4; }
+      6.5%     { opacity: 0.7; }
+      50%      { opacity: 0.65; }
+      50.5%    { opacity: 0.8; }
+      51%      { opacity: 0.6; }
+      80%      { opacity: 0.72; }
+    }
+
+    /* --- Voight-Kampff Indicator --- */
+    .vk-indicator {
+      position: fixed;
+      bottom: 50px;
+      right: 30px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .vk-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 6px rgba(232, 165, 52, 0.5), 0 0 12px rgba(232, 165, 52, 0.2);
+      animation: vk-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes vk-pulse {
+      0%, 100% { opacity: 0.4; box-shadow: 0 0 4px rgba(232, 165, 52, 0.3); }
+      50%      { opacity: 1;   box-shadow: 0 0 8px rgba(232, 165, 52, 0.6), 0 0 16px rgba(232, 165, 52, 0.2); }
+    }
+
+    /* ========================================================
+       CONTENT LAYERS
+       ======================================================== */
+
+    .page-content {
+      position: relative;
+      z-index: 5;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+
+    /* --- Navigation Bar --- */
+    .nav-bar {
+      padding: 28px 40px 0;
+    }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.4s ease, text-shadow 0.4s ease;
+      opacity: 0.7;
+    }
+    .nav-back:hover {
+      color: var(--amber);
+      text-shadow: 0 0 12px rgba(232, 165, 52, 0.3);
+      opacity: 1;
+    }
+
+    /* --- Header --- */
+    .hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 40px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(ellipse at 50% 70%, rgba(232, 165, 52, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 30% 40%, rgba(58, 124, 165, 0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-title {
+      font-family: var(--font-title);
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 200;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--text-warm);
+      margin-bottom: 20px;
+      text-indent: 0.5em;
+      text-shadow: 0 0 40px rgba(232, 165, 52, 0.1);
+      animation: title-reveal 2s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes title-reveal {
+      0%   { opacity: 0; letter-spacing: 0.8em; }
+      100% { opacity: 1; letter-spacing: 0.5em; }
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 50px;
+      animation: fade-up 1.5s ease-out 0.6s forwards;
+      opacity: 0;
+    }
+
+    .hero-quote {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.8;
+      animation: fade-up 1.5s ease-out 1.2s forwards;
+      opacity: 0;
+    }
+    .hero-quote::before { content: '"'; }
+    .hero-quote::after  { content: '"'; }
+
+    .hero-line {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--amber), transparent);
+      margin: 30px auto 0;
+      opacity: 0.4;
+      animation: fade-up 1.5s ease-out 1.6s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fade-up {
+      0%   { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Archive Section --- */
+    .archive {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 40px 80px;
+    }
+
+    /* --- Year Section --- */
+    .year-section {
+      margin-bottom: 70px;
+    }
+
+    .year-heading {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 35px;
+    }
+
+    .year-label {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      font-weight: 200;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-warm);
+      white-space: nowrap;
+      text-shadow: 0 0 20px rgba(232, 165, 52, 0.15);
+    }
+
+    .year-label span {
+      color: var(--amber);
+      text-shadow: 0 0 25px rgba(232, 165, 52, 0.25);
+    }
+
+    .year-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-warm-hover), transparent 80%);
+    }
+
+    /* --- Meme Grid --- */
+    .meme-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    /* --- Meme Tile (Memory Fragment) --- */
+    .meme-tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border-warm);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+    }
+
+    .meme-tile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      pointer-events: none;
+      transition: box-shadow 0.5s ease;
+    }
+
+    .meme-tile:hover {
+      border-color: var(--border-warm-hover);
+      transform: translateY(-3px) scale(1.01);
+      box-shadow:
+        0 8px 30px rgba(232, 165, 52, 0.08),
+        0 0 50px rgba(232, 165, 52, 0.04);
+    }
+    .meme-tile:hover::before {
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .meme-tile:hover .tile-thumb img {
+      filter: sepia(0) saturate(1.1) brightness(1.05);
+      transform: scale(1.06);
+    }
+
+    .meme-tile:hover .tile-led {
+      opacity: 1;
+      box-shadow: 0 0 6px rgba(232, 165, 52, 0.6), 0 0 12px rgba(232, 165, 52, 0.2);
+    }
+
+    .tile-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #0a0a0c;
+    }
+
+    .tile-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(0.15) saturate(0.85) brightness(0.92);
+      transition: filter 0.5s ease, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Vignette on image */
+    .tile-thumb::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+    }
+
+    .tile-info {
+      padding: 14px 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tile-title {
+      font-family: var(--font-title);
+      font-size: 0.78rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-warm);
+    }
+
+    .tile-serial {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tile-led {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+      opacity: 0.5;
+      transition: opacity 0.5s ease, box-shadow 0.5s ease;
+      flex-shrink: 0;
+    }
+
+    /* --- Locked / Corrupted Memory Tile --- */
+    .meme-tile.locked {
+      cursor: default;
+      opacity: 0.3;
+    }
+    .meme-tile.locked:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--border-warm);
+    }
+    .meme-tile.locked:hover .tile-led {
+      opacity: 0.3;
+    }
+
+    .tile-corrupt {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(232, 165, 52, 0.02) 0px,
+          transparent 1px,
+          transparent 3px,
+          rgba(232, 165, 52, 0.01) 4px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          rgba(232, 165, 52, 0.01) 0px,
+          transparent 2px,
+          transparent 5px
+        ),
+        var(--bg-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tile-corrupt::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+
+    .corrupt-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      opacity: 0.6;
+      z-index: 1;
+    }
+
+    .tile-corrupt-led {
+      background: rgba(232, 165, 52, 0.15) !important;
+      box-shadow: none !important;
+    }
+
+    /* ========================================================
+       DETAIL VIEW
+       ======================================================== */
+    .detail-view {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 40px 100px;
+      animation: detail-fade-in 0.8s ease-out forwards;
+    }
+
+    .detail-view.active {
+      display: block;
+    }
+
+    @keyframes detail-fade-in {
+      0%   { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-back {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-bottom: 50px;
+      transition: color 0.4s ease;
+      opacity: 0.7;
+    }
+    .detail-back:hover {
+      color: var(--amber);
+      opacity: 1;
+    }
+
+    .detail-heading {
+      font-family: var(--font-title);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 200;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-warm);
+      margin-bottom: 10px;
+      text-indent: 0.35em;
+    }
+
+    .detail-serial {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      margin-bottom: 40px;
+    }
+
+    .detail-image-wrap {
+      position: relative;
+      width: 100%;
+      margin-bottom: 40px;
+      border: 1px solid var(--border-warm);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: zoom-in;
+      background: #0a0a0c;
+    }
+
+    .detail-image-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.35);
+      pointer-events: none;
+    }
+
+    .detail-image-wrap img {
+      width: 100%;
+      display: block;
+      filter: brightness(0.96);
+    }
+
+    .detail-notes {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      font-style: italic;
+    }
+
+    .detail-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-warm);
+    }
+
+    .detail-nav a {
+      font-family: var(--font-title);
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.4s ease, text-shadow 0.4s ease;
+      cursor: pointer;
+    }
+    .detail-nav a:hover {
+      color: var(--amber);
+      text-shadow: 0 0 15px rgba(232, 165, 52, 0.2);
+    }
+    .detail-nav a.disabled {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    /* ========================================================
+       ZOOM MODAL
+       ======================================================== */
+    .zoom-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.95);
+      cursor: zoom-out;
+      justify-content: center;
+      align-items: center;
+      animation: modal-fade 0.4s ease-out;
+    }
+    .zoom-modal.active {
+      display: flex;
+    }
+
+    @keyframes modal-fade {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .zoom-modal img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border: 1px solid rgba(232, 165, 52, 0.15);
+      box-shadow: 0 0 60px rgba(232, 165, 52, 0.06);
+    }
+
+    .zoom-close {
+      position: absolute;
+      top: 30px;
+      right: 35px;
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      font-weight: 200;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.3s ease;
+      line-height: 1;
+      z-index: 101;
+    }
+    .zoom-close:hover {
+      color: var(--amber);
+    }
+
+    /* ========================================================
+       FOOTER
+       ======================================================== */
+    .site-footer {
+      padding: 50px 40px 50px;
+      text-align: center;
+      position: relative;
+    }
+
+    .footer-line {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232, 165, 52, 0.2), transparent);
+      margin: 0 auto 30px;
+    }
+
+    .footer-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 15px;
+    }
+
+    .footer-meta {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0.5;
+    }
+
+    /* ========================================================
+       LOADING STATE
+       ======================================================== */
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 30vh;
+      gap: 16px;
+    }
+
+    .loading-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .loading-dots span {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+      opacity: 0.3;
+      animation: load-pulse 1.4s ease-in-out infinite;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes load-pulse {
+      0%, 100% { opacity: 0.2; }
+      50%      { opacity: 0.8; }
+    }
+
+    .loading-text {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    /* ========================================================
+       ERROR STATE
+       ======================================================== */
+    .error-state {
+      text-align: center;
+      padding: 80px 40px;
+    }
+    .error-state p {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--orange-deep);
+      letter-spacing: 0.1em;
+    }
+
+    /* ========================================================
+       RESPONSIVE
+       ======================================================== */
+    @media (max-width: 1024px) {
+      .meme-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .meme-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .hero {
+        min-height: 55vh;
+        padding: 60px 24px;
+      }
+      .hero-title {
+        letter-spacing: 0.3em;
+      }
+      @keyframes title-reveal {
+        0%   { opacity: 0; letter-spacing: 0.5em; }
+        100% { opacity: 1; letter-spacing: 0.3em; }
+      }
+      .archive {
+        padding: 30px 20px 60px;
+      }
+      .nav-bar {
+        padding: 24px 20px 0;
+      }
+      .neon-sign {
+        top: 70px;
+        right: 16px;
+        font-size: 1.2rem;
+      }
+      .vk-indicator {
+        bottom: 35px;
+        right: 16px;
+      }
+      .letterbox-top,
+      .letterbox-bottom {
+        height: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .meme-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .hero-title {
+        font-size: 1.6rem;
+        letter-spacing: 0.25em;
+      }
+      @keyframes title-reveal {
+        0%   { opacity: 0; letter-spacing: 0.4em; }
+        100% { opacity: 1; letter-spacing: 0.25em; }
+      }
+      .hero-quote {
+        font-size: 0.85rem;
+      }
+      .detail-nav {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+    }
+
+    /* ========================================================
+       SCROLLBAR
+       ======================================================== */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(232, 165, 52, 0.15);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(232, 165, 52, 0.3);
+    }
+
+    /* --- Accessibility: focus styles --- */
+    a:focus-visible,
+    .meme-tile:focus-visible {
+      outline: 1px solid var(--amber);
+      outline-offset: 2px;
+    }
+
+    /* --- Utility --- */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cinematic Letterbox -->
+  <div class="letterbox-top" aria-hidden="true"></div>
+  <div class="letterbox-bottom" aria-hidden="true"></div>
+
+  <!-- Rain -->
+  <div class="rain-container" aria-hidden="true">
+    <div class="rain-layer rain-layer-1"></div>
+    <div class="rain-layer rain-layer-2"></div>
+    <div class="rain-layer rain-layer-3"></div>
+  </div>
+
+  <!-- Atmospheric Fog -->
+  <div class="fog-overlay" aria-hidden="true"></div>
+
+  <!-- Film Grain -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Lightning -->
+  <div class="lightning-overlay" aria-hidden="true"></div>
+
+  <!-- Neon Sign -->
+  <div class="neon-sign" aria-hidden="true">酒</div>
+
+  <!-- Voight-Kampff Indicator -->
+  <div class="vk-indicator" aria-hidden="true">
+    <div class="vk-dot"></div>
+    <span>VK-TEST ACTIVE</span>
+  </div>
+
+  <!-- Page Content -->
+  <div class="page-content">
+
+    <!-- Nav -->
+    <nav class="nav-bar">
+      <a href="index.html" class="nav-back">← Tutti i temi</a>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="hero" id="hero">
+      <h1 class="hero-title">Meme del Mese</h1>
+      <p class="hero-subtitle">Archivio Memorie // 2022–2025</p>
+      <p class="hero-quote">Ho visto cose che voi umani non potreste immaginarvi…</p>
+      <div class="hero-line" aria-hidden="true"></div>
+    </header>
+
+    <!-- Archive (Grid View) -->
+    <main class="archive" id="archive-view">
+      <div class="loading-state" id="loading">
+        <div class="loading-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <p class="loading-text">Recupero memorie…</p>
+      </div>
+    </main>
+
+    <!-- Detail View -->
+    <section class="detail-view" id="detail-view">
+      <a href="#" class="detail-back" id="detail-back">← Torna all'archivio</a>
+      <h2 class="detail-heading" id="detail-heading"></h2>
+      <p class="detail-serial" id="detail-serial"></p>
+      <div class="detail-image-wrap" id="detail-image-wrap">
+        <img id="detail-img" src="" alt="">
+      </div>
+      <p class="detail-notes" id="detail-notes"></p>
+      <nav class="detail-nav">
+        <a id="detail-prev" href="#">← Memoria precedente</a>
+        <a id="detail-next" href="#">Memoria successiva →</a>
+      </nav>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-line" aria-hidden="true"></div>
+      <p class="footer-quote">Come lacrime nella pioggia…</p>
+      <p class="footer-meta">Meme del Mese // Archivio Memorie</p>
+    </footer>
+  </div>
+
+  <!-- Zoom Modal -->
+  <div class="zoom-modal" id="zoom-modal" role="dialog" aria-label="Immagine ingrandita">
+    <span class="zoom-close" id="zoom-close" role="button" aria-label="Chiudi" tabindex="0">✕</span>
+    <img id="zoom-img" src="" alt="">
+  </div>
+
+  <script>
+    /* ===========================================================
+       Blade Runner — Meme del Mese
+       App Logic
+       =========================================================== */
+
+    (function () {
+      'use strict';
+
+      /* --- Constants --- */
+      const MONTHS_IT = [
+        '', 'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+        'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+      ];
+
+      const ALL_MONTHS = [];
+      for (let y = 2022; y <= 2025; y++) {
+        for (let m = 1; m <= 12; m++) {
+          ALL_MONTHS.push({ year: y, month: m });
+        }
+      }
+
+      /* --- State --- */
+      let memes = [];
+      let flatMemes = [];      // only available (non-locked) memes in order
+      let currentDetailIdx = -1;
+
+      /* --- DOM refs --- */
+      const archiveView  = document.getElementById('archive-view');
+      const detailView   = document.getElementById('detail-view');
+      const loadingEl    = document.getElementById('loading');
+      const heroEl       = document.getElementById('hero');
+      const detailHeading = document.getElementById('detail-heading');
+      const detailSerial  = document.getElementById('detail-serial');
+      const detailImg     = document.getElementById('detail-img');
+      const detailNotes   = document.getElementById('detail-notes');
+      const detailBack    = document.getElementById('detail-back');
+      const detailPrev    = document.getElementById('detail-prev');
+      const detailNext    = document.getElementById('detail-next');
+      const detailImgWrap = document.getElementById('detail-image-wrap');
+      const zoomModal     = document.getElementById('zoom-modal');
+      const zoomImg       = document.getElementById('zoom-img');
+      const zoomClose     = document.getElementById('zoom-close');
+
+      /* --- Helpers --- */
+
+      function pad(n) {
+        return String(n).padStart(2, '0');
+      }
+
+      function serialCode(year, month) {
+        // Replicant-style serial: e.g. N7FAD-2024.03
+        const prefixes = ['N7F', 'K6D', 'R4C', 'J8B', 'L5E', 'M3A',
+                          'P9G', 'Q2H', 'S1J', 'T7K', 'V4L', 'W6M'];
+        const suffix = ['AD', 'BE', 'CF', 'DG', 'EH', 'FJ',
+                         'GK', 'HL', 'JM', 'KN', 'LP', 'MQ'];
+        const mi = (month - 1) % 12;
+        return prefixes[mi] + suffix[(year - 2020) % suffix.length] + '-' + year + '.' + pad(month);
+      }
+
+      function monthName(m) {
+        return MONTHS_IT[m] || '';
+      }
+
+      function memeKey(year, month) {
+        return year + '-' + pad(month);
+      }
+
+      function findMeme(year, month) {
+        return memes.find(function (m) {
+          return m.year === year && m.month === month;
+        });
+      }
+
+      /* --- Build Archive Grid --- */
+
+      function buildArchive() {
+        loadingEl.style.display = 'none';
+
+        // Index memes for quick lookup
+        var memeMap = {};
+        memes.forEach(function (m) {
+          memeMap[memeKey(m.year, m.month)] = m;
+        });
+
+        // Determine which years have data — most recent first
+        var years = [];
+        var yearSet = {};
+        ALL_MONTHS.forEach(function (slot) {
+          if (!yearSet[slot.year]) {
+            var hasAny = memes.some(function (m) { return m.year === slot.year; });
+            if (hasAny) {
+              years.push(slot.year);
+              yearSet[slot.year] = true;
+            }
+          }
+        });
+        years.sort(function (a, b) { return b - a; });
+
+        // Build flat ordered list of available memes (for detail navigation)
+        flatMemes = [];
+        years.forEach(function (y) {
+          for (var m = 1; m <= 12; m++) {
+            var mem = memeMap[memeKey(y, m)];
+            if (mem) flatMemes.push(mem);
+          }
+        });
+
+        // Render year sections
+        years.forEach(function (y) {
+          var section = document.createElement('section');
+          section.className = 'year-section';
+
+          // Year heading
+          var heading = document.createElement('div');
+          heading.className = 'year-heading';
+          heading.innerHTML =
+            '<h2 class="year-label">// Anno <span>' + y + '</span></h2>' +
+            '<div class="year-line" aria-hidden="true"></div>';
+          section.appendChild(heading);
+
+          // Grid
+          var grid = document.createElement('div');
+          grid.className = 'meme-grid';
+
+          for (var m = 1; m <= 12; m++) {
+            var mem = memeMap[memeKey(y, m)];
+            var tile = document.createElement('div');
+            tile.className = 'meme-tile';
+            tile.setAttribute('tabindex', '0');
+            tile.setAttribute('role', 'button');
+
+            if (mem) {
+              // Available meme
+              tile.setAttribute('aria-label', 'Memoria: ' + mem.title);
+              tile.setAttribute('data-year', mem.year);
+              tile.setAttribute('data-month', mem.month);
+
+              var thumbDiv = document.createElement('div');
+              thumbDiv.className = 'tile-thumb';
+              var img = document.createElement('img');
+              img.src = '../' + mem.file;
+              img.alt = mem.alt || ('Meme del mese — ' + monthName(m) + ' ' + y);
+              img.loading = 'lazy';
+              thumbDiv.appendChild(img);
+              tile.appendChild(thumbDiv);
+
+              var info = document.createElement('div');
+              info.className = 'tile-info';
+              info.innerHTML =
+                '<span class="tile-title">' + monthName(m) + ' ' + y + '</span>' +
+                '<span class="tile-serial"><span class="tile-led"></span>' +
+                serialCode(y, m) + '</span>';
+              tile.appendChild(info);
+
+              // Click handler
+              (function (meme) {
+                tile.addEventListener('click', function () {
+                  showDetail(meme);
+                });
+                tile.addEventListener('keydown', function (e) {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showDetail(meme);
+                  }
+                });
+              })(mem);
+
+            } else {
+              // Locked / corrupted memory
+              tile.classList.add('locked');
+              tile.setAttribute('aria-label', 'Memoria corrotta: ' + monthName(m) + ' ' + y);
+              tile.removeAttribute('tabindex');
+
+              var corrupt = document.createElement('div');
+              corrupt.className = 'tile-corrupt';
+              corrupt.innerHTML = '<span class="corrupt-label">Memory Corrupt</span>';
+              tile.appendChild(corrupt);
+
+              var info2 = document.createElement('div');
+              info2.className = 'tile-info';
+              info2.innerHTML =
+                '<span class="tile-title" style="opacity:0.3">' + monthName(m) + ' ' + y + '</span>' +
+                '<span class="tile-serial"><span class="tile-led tile-corrupt-led"></span>' +
+                '<span style="opacity:0.3">DATA LOST</span></span>';
+              tile.appendChild(info2);
+            }
+
+            grid.appendChild(tile);
+          }
+
+          section.appendChild(grid);
+          archiveView.appendChild(section);
+        });
+      }
+
+      /* --- Detail View --- */
+
+      function showDetail(meme) {
+        // Find index in flat list
+        currentDetailIdx = flatMemes.indexOf(meme);
+
+        detailHeading.textContent = 'Memoria // ' + monthName(meme.month) + ' ' + meme.year;
+        detailSerial.textContent = serialCode(meme.year, meme.month);
+        detailImg.src = '../' + meme.file;
+        detailImg.alt = meme.alt || ('Meme del mese — ' + monthName(meme.month) + ' ' + meme.year);
+
+        if (meme.notes) {
+          detailNotes.textContent = meme.notes;
+          detailNotes.style.display = 'block';
+        } else {
+          detailNotes.style.display = 'none';
+        }
+
+        // Nav buttons
+        if (currentDetailIdx > 0) {
+          detailPrev.classList.remove('disabled');
+        } else {
+          detailPrev.classList.add('disabled');
+        }
+        if (currentDetailIdx < flatMemes.length - 1) {
+          detailNext.classList.remove('disabled');
+        } else {
+          detailNext.classList.add('disabled');
+        }
+
+        // Switch views
+        archiveView.style.display = 'none';
+        heroEl.style.display = 'none';
+        detailView.classList.add('active');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function showArchive() {
+        detailView.classList.remove('active');
+        archiveView.style.display = '';
+        heroEl.style.display = '';
+        currentDetailIdx = -1;
+      }
+
+      /* --- Detail Navigation --- */
+
+      detailBack.addEventListener('click', function (e) {
+        e.preventDefault();
+        showArchive();
+      });
+
+      detailPrev.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (currentDetailIdx > 0) {
+          showDetail(flatMemes[currentDetailIdx - 1]);
+        }
+      });
+
+      detailNext.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (currentDetailIdx < flatMemes.length - 1) {
+          showDetail(flatMemes[currentDetailIdx + 1]);
+        }
+      });
+
+      /* --- Zoom Modal --- */
+
+      detailImgWrap.addEventListener('click', function () {
+        zoomImg.src = detailImg.src;
+        zoomImg.alt = detailImg.alt;
+        zoomModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+
+      function closeZoom() {
+        zoomModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      zoomClose.addEventListener('click', closeZoom);
+      zoomModal.addEventListener('click', function (e) {
+        if (e.target === zoomModal) closeZoom();
+      });
+
+      /* --- Keyboard Navigation --- */
+      document.addEventListener('keydown', function (e) {
+        // Escape closes zoom or detail
+        if (e.key === 'Escape') {
+          if (zoomModal.classList.contains('active')) {
+            closeZoom();
+          } else if (detailView.classList.contains('active')) {
+            showArchive();
+          }
+        }
+        // Arrow keys in detail view
+        if (detailView.classList.contains('active') && !zoomModal.classList.contains('active')) {
+          if (e.key === 'ArrowLeft' && currentDetailIdx > 0) {
+            showDetail(flatMemes[currentDetailIdx - 1]);
+          } else if (e.key === 'ArrowRight' && currentDetailIdx < flatMemes.length - 1) {
+            showDetail(flatMemes[currentDetailIdx + 1]);
+          }
+        }
+      });
+
+      /* --- Fetch Data --- */
+
+      fetch('../data/memes.json')
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          memes = data;
+          buildArchive();
+        })
+        .catch(function (err) {
+          loadingEl.innerHTML =
+            '<div class="error-state"><p>// ERRORE: impossibile recuperare le memorie</p>' +
+            '<p style="margin-top:8px;opacity:0.5">' + err.message + '</p></div>';
+          console.error('Failed to load memes:', err);
+        });
+
+    })();
+  </script>
+</body>
+</html>

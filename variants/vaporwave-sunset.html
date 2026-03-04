@@ -699,7 +699,7 @@ body::after{
     loading.style.display = 'none';
     const byYear = {};
     /* Include all 12 months for each year that appears in data */
-    const years = [...new Set(memes.map(m => m.year))].sort();
+    const years = [...new Set(memes.map(m => m.year))].sort((a, b) => b - a);
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth() + 1;

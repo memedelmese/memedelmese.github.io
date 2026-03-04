@@ -92,35 +92,35 @@
           90deg,
           transparent,
           transparent 7vw,
-          rgba(174, 194, 210, 0.06) 7vw,
+          rgba(150, 190, 220, 0.15) 7vw,
           transparent 7.05vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 13vw,
-          rgba(174, 194, 210, 0.04) 13vw,
+          rgba(150, 190, 220, 0.12) 13vw,
           transparent 13.05vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 23vw,
-          rgba(174, 194, 210, 0.07) 23vw,
+          rgba(150, 190, 220, 0.18) 23vw,
           transparent 23.05vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 31vw,
-          rgba(174, 194, 210, 0.05) 31vw,
+          rgba(150, 190, 220, 0.14) 31vw,
           transparent 31.05vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 43vw,
-          rgba(174, 194, 210, 0.06) 43vw,
+          rgba(150, 190, 220, 0.16) 43vw,
           transparent 43.05vw
         );
       background-size: 100% 80px;
@@ -133,42 +133,42 @@
           90deg,
           transparent,
           transparent 3vw,
-          rgba(174, 194, 210, 0.05) 3vw,
+          rgba(150, 190, 220, 0.13) 3vw,
           transparent 3.04vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 11vw,
-          rgba(174, 194, 210, 0.04) 11vw,
+          rgba(150, 190, 220, 0.10) 11vw,
           transparent 11.04vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 19vw,
-          rgba(174, 194, 210, 0.06) 19vw,
+          rgba(150, 190, 220, 0.15) 19vw,
           transparent 19.04vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 29vw,
-          rgba(174, 194, 210, 0.03) 29vw,
+          rgba(150, 190, 220, 0.10) 29vw,
           transparent 29.04vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 37vw,
-          rgba(174, 194, 210, 0.05) 37vw,
+          rgba(150, 190, 220, 0.12) 37vw,
           transparent 37.04vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 47vw,
-          rgba(174, 194, 210, 0.04) 47vw,
+          rgba(150, 190, 220, 0.11) 47vw,
           transparent 47.04vw
         );
       background-size: 100% 60px;
@@ -181,28 +181,28 @@
           90deg,
           transparent,
           transparent 5vw,
-          rgba(200, 215, 225, 0.03) 5vw,
+          rgba(150, 190, 220, 0.08) 5vw,
           transparent 5.03vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 17vw,
-          rgba(200, 215, 225, 0.04) 17vw,
+          rgba(150, 190, 220, 0.10) 17vw,
           transparent 17.03vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 41vw,
-          rgba(200, 215, 225, 0.03) 41vw,
+          rgba(150, 190, 220, 0.09) 41vw,
           transparent 41.03vw
         ),
         repeating-linear-gradient(
           90deg,
           transparent,
           transparent 53vw,
-          rgba(200, 215, 225, 0.05) 53vw,
+          rgba(150, 190, 220, 0.12) 53vw,
           transparent 53.03vw
         );
       background-size: 100% 120px;
@@ -232,11 +232,39 @@
       z-index: 2;
       pointer-events: none;
       background:
-        radial-gradient(ellipse at 20% 80%, rgba(232, 165, 52, 0.04) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 20%, rgba(58, 124, 165, 0.035) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(212, 81, 19, 0.02) 0%, transparent 60%),
-        radial-gradient(ellipse at 90% 90%, rgba(232, 165, 52, 0.03) 0%, transparent 40%),
-        radial-gradient(ellipse at 10% 30%, rgba(79, 195, 247, 0.02) 0%, transparent 45%);
+        radial-gradient(ellipse at 20% 80%, rgba(232, 165, 52, 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(58, 124, 165, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(212, 81, 19, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 90% 90%, rgba(232, 165, 52, 0.08) 0%, transparent 40%),
+        radial-gradient(ellipse at 10% 30%, rgba(79, 195, 247, 0.06) 0%, transparent 45%);
+      background-size: 200% 200%;
+      animation: fog-drift 30s ease-in-out infinite alternate;
+    }
+
+    .fog-overlay-2 {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 45%;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(to top, rgba(232, 165, 52, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 30% 100%, rgba(212, 81, 19, 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 100%, rgba(232, 165, 52, 0.07) 0%, transparent 50%);
+      animation: fog-drift-2 25s ease-in-out infinite alternate;
+    }
+
+    @keyframes fog-drift {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: 30% 20%; }
+    }
+
+    @keyframes fog-drift-2 {
+      0%   { opacity: 0.6; }
+      50%  { opacity: 1; }
+      100% { opacity: 0.7; }
     }
 
     /* --- Film Grain Overlay --- */
@@ -274,12 +302,33 @@
       animation: lightning-flash 18s ease-in-out infinite;
     }
 
+    .lightning-overlay-2 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 4;
+      pointer-events: none;
+      background: rgba(180, 195, 210, 0);
+      animation: lightning-flash-2 25s ease-in-out 7s infinite;
+    }
+
     @keyframes lightning-flash {
       0%, 94%, 96%, 100% { background: rgba(180, 195, 210, 0); }
-      94.5% { background: rgba(180, 195, 210, 0.04); }
+      94.5% { background: rgba(180, 195, 210, 0.08); }
       95%   { background: rgba(180, 195, 210, 0); }
-      95.3% { background: rgba(180, 195, 210, 0.06); }
+      95.3% { background: rgba(180, 195, 210, 0.12); }
       95.5% { background: rgba(180, 195, 210, 0); }
+    }
+
+    @keyframes lightning-flash-2 {
+      0%, 90%, 93%, 100% { background: rgba(200, 210, 230, 0); }
+      90.8% { background: rgba(200, 210, 230, 0.10); }
+      91.2% { background: rgba(200, 210, 230, 0); }
+      91.8% { background: rgba(200, 210, 230, 0.06); }
+      92.2% { background: rgba(200, 210, 230, 0.14); }
+      92.5% { background: rgba(200, 210, 230, 0); }
     }
 
     /* --- Neon Sign (酒 Sake) --- */
@@ -299,6 +348,60 @@
       opacity: 0.7;
     }
 
+    /* --- Additional Neon Signs --- */
+    .neon-sign-replicant {
+      position: fixed;
+      top: 200px;
+      left: 25px;
+      z-index: 10;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--neon-blue);
+      text-shadow:
+        0 0 7px rgba(79, 195, 247, 0.7),
+        0 0 20px rgba(79, 195, 247, 0.4),
+        0 0 40px rgba(79, 195, 247, 0.2);
+      animation: neon-flicker-2 5s ease-in-out 1s infinite;
+      user-select: none;
+      opacity: 0.6;
+      writing-mode: vertical-rl;
+    }
+
+    .neon-sign-katakana {
+      position: fixed;
+      bottom: 180px;
+      left: 28px;
+      z-index: 10;
+      font-size: 1.4rem;
+      color: var(--neon-pink);
+      text-shadow:
+        0 0 7px rgba(255, 107, 138, 0.7),
+        0 0 20px rgba(255, 107, 138, 0.4),
+        0 0 50px rgba(255, 107, 138, 0.2);
+      animation: neon-flicker-3 6s ease-in-out 2.5s infinite;
+      user-select: none;
+      opacity: 0.55;
+    }
+
+    .neon-sign-bar {
+      position: fixed;
+      top: 300px;
+      right: 28px;
+      z-index: 10;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      color: var(--amber);
+      text-shadow:
+        0 0 7px rgba(232, 165, 52, 0.7),
+        0 0 20px rgba(232, 165, 52, 0.4),
+        0 0 40px rgba(232, 165, 52, 0.15);
+      animation: neon-flicker-2 7s ease-in-out 3s infinite;
+      user-select: none;
+      opacity: 0.5;
+    }
+
     @keyframes neon-flicker {
       0%, 100% { opacity: 0.7; }
       5%       { opacity: 0.5; }
@@ -311,6 +414,30 @@
       80%      { opacity: 0.72; }
     }
 
+    @keyframes neon-flicker-2 {
+      0%, 100% { opacity: 0.6; }
+      8%       { opacity: 0.3; }
+      8.5%     { opacity: 0.65; }
+      9%       { opacity: 0.2; }
+      9.5%     { opacity: 0.6; }
+      40%      { opacity: 0.55; }
+      40.5%    { opacity: 0.7; }
+      41%      { opacity: 0.45; }
+      70%      { opacity: 0.62; }
+    }
+
+    @keyframes neon-flicker-3 {
+      0%, 100% { opacity: 0.55; }
+      15%      { opacity: 0.35; }
+      15.3%    { opacity: 0.6; }
+      15.6%    { opacity: 0.25; }
+      16%      { opacity: 0.55; }
+      60%      { opacity: 0.5; }
+      60.5%    { opacity: 0.65; }
+      61%      { opacity: 0.4; }
+      85%      { opacity: 0.58; }
+    }
+
     /* --- Voight-Kampff Indicator --- */
     .vk-indicator {
       position: fixed;
@@ -318,13 +445,19 @@
       right: 30px;
       z-index: 10;
       display: flex;
-      align-items: center;
-      gap: 8px;
+      flex-direction: column;
+      gap: 6px;
       font-family: var(--font-mono);
       font-size: 0.6rem;
       color: var(--text-dim);
       letter-spacing: 0.15em;
       text-transform: uppercase;
+    }
+
+    .vk-top-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .vk-dot {
@@ -334,6 +467,91 @@
       background: var(--amber);
       box-shadow: 0 0 6px rgba(232, 165, 52, 0.5), 0 0 12px rgba(232, 165, 52, 0.2);
       animation: vk-pulse 3s ease-in-out infinite;
+    }
+
+    .vk-dot-teal {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--teal-light);
+      box-shadow: 0 0 6px rgba(91, 188, 214, 0.5), 0 0 12px rgba(91, 188, 214, 0.2);
+      animation: vk-pulse-teal 2.5s ease-in-out 0.8s infinite;
+    }
+
+    .vk-heartbeat {
+      width: 60px;
+      height: 12px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+
+    .vk-heartbeat::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 200%;
+      height: 1px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(232, 165, 52, 0.4) 0px,
+        rgba(232, 165, 52, 0.4) 8px,
+        rgba(232, 165, 52, 0.15) 8px,
+        rgba(232, 165, 52, 0.15) 12px,
+        rgba(232, 165, 52, 0.8) 12px,
+        rgba(232, 165, 52, 0.8) 13px,
+        rgba(232, 165, 52, 0.15) 13px,
+        rgba(232, 165, 52, 0.15) 14px,
+        rgba(232, 165, 52, 0.6) 14px,
+        rgba(232, 165, 52, 0.6) 15px,
+        rgba(232, 165, 52, 0.15) 15px,
+        rgba(232, 165, 52, 0.15) 20px,
+        rgba(232, 165, 52, 0.4) 20px,
+        rgba(232, 165, 52, 0.4) 30px
+      );
+      animation: vk-flatline 2s linear infinite;
+    }
+
+    .vk-readout {
+      font-size: 0.5rem;
+      color: var(--amber);
+      opacity: 0.6;
+      letter-spacing: 0.08em;
+    }
+
+    .vk-readout-val {
+      display: inline-block;
+      animation: vk-readout-cycle 8s steps(1) infinite;
+    }
+
+    @keyframes vk-readout-cycle {
+      0%, 25%  { content: ''; }
+      0%       { opacity: 0.7; }
+      12%      { opacity: 0.5; }
+      25%      { opacity: 0.7; }
+    }
+
+    .vk-readout-val::after {
+      content: 'EMPATHY: 0.87';
+      animation: vk-text-swap 12s steps(1) infinite;
+    }
+
+    @keyframes vk-text-swap {
+      0%       { content: 'EMPATHY: 0.87'; }
+      25%      { content: 'BASELINE: OK'; }
+      50%      { content: 'EMPATHY: 0.91'; }
+      75%      { content: 'CELLS: INTERL.'; }
+    }
+
+    @keyframes vk-flatline {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes vk-pulse-teal {
+      0%, 100% { opacity: 0.3; box-shadow: 0 0 4px rgba(91, 188, 214, 0.3); }
+      50%      { opacity: 1;   box-shadow: 0 0 8px rgba(91, 188, 214, 0.6), 0 0 16px rgba(91, 188, 214, 0.2); }
     }
 
     @keyframes vk-pulse {
@@ -529,12 +747,41 @@
       transition: box-shadow 0.5s ease;
     }
 
+    .meme-tile::after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      border-radius: 4px;
+      opacity: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(232, 165, 52, 0.15) 0%, transparent 70%);
+      transition: opacity 0.5s ease;
+    }
+
     .meme-tile:hover {
       border-color: var(--border-warm-hover);
-      transform: translateY(-3px) scale(1.01);
+      transform: translateY(-3px) scale(1.04);
       box-shadow:
         0 8px 30px rgba(232, 165, 52, 0.08),
         0 0 50px rgba(232, 165, 52, 0.04);
+      animation: tile-glitch 0.3s ease-out;
+    }
+
+    .meme-tile:hover::after {
+      opacity: 1;
+    }
+
+    @keyframes tile-glitch {
+      0%   { transform: translateY(-3px) scale(1.04) translate(0, 0); }
+      15%  { transform: translateY(-3px) scale(1.04) translate(-2px, 1px); filter: hue-rotate(10deg); }
+      30%  { transform: translateY(-3px) scale(1.04) translate(1px, -1px); }
+      45%  { transform: translateY(-3px) scale(1.04) translate(-1px, 0); filter: hue-rotate(-5deg); }
+      60%  { transform: translateY(-3px) scale(1.04) translate(1px, 1px); }
+      100% { transform: translateY(-3px) scale(1.04) translate(0, 0); filter: hue-rotate(0deg); }
     }
     .meme-tile:hover::before {
       box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
@@ -1027,7 +1274,281 @@
       background: rgba(232, 165, 52, 0.3);
     }
 
-    /* --- Accessibility: focus styles --- */
+    /* --- Hero Scanlines --- */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 3px,
+        rgba(150, 190, 220, 0.04) 3px,
+        rgba(150, 190, 220, 0.04) 4px
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 1;
+      animation: scanline-scroll 10s linear infinite;
+    }
+
+    @keyframes scanline-scroll {
+      0%   { background-position: 0 0; }
+      100% { background-position: 0 -200px; }
+    }
+
+    /* --- City Skyline Silhouette --- */
+    .city-skyline {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .city-skyline::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: #08080a;
+      clip-path: polygon(
+        0% 100%,
+        0% 65%, 2% 65%, 2% 55%, 4% 55%, 4% 45%, 5% 45%, 5% 55%, 6% 55%, 6% 60%,
+        8% 60%, 8% 40%, 9% 40%, 9% 25%, 10% 25%, 10% 40%, 11% 40%, 11% 50%,
+        13% 50%, 13% 55%, 15% 55%, 15% 50%, 16% 50%, 16% 35%, 17% 35%, 17% 20%, 18% 20%, 18% 35%, 19% 35%, 19% 50%,
+        21% 50%, 21% 60%, 23% 60%, 23% 55%, 25% 55%, 25% 45%, 26% 45%, 26% 30%, 27% 30%, 27% 45%,
+        29% 45%, 29% 50%, 31% 50%, 31% 65%, 33% 65%, 33% 55%, 35% 55%, 35% 50%, 36% 50%, 36% 40%, 37% 40%, 37% 50%,
+        39% 50%, 39% 60%, 41% 60%, 41% 55%, 43% 55%,
+        45% 55%, 45% 45%, 46% 45%, 46% 30%, 47% 30%, 47% 15%, 48% 15%, 48% 30%, 49% 30%, 49% 45%,
+        51% 45%, 51% 55%, 53% 55%, 53% 60%, 55% 60%, 55% 50%, 57% 50%, 57% 55%,
+        59% 55%, 59% 45%, 60% 45%, 60% 35%, 61% 35%, 61% 45%, 63% 45%, 63% 55%,
+        65% 55%, 65% 60%, 67% 60%, 67% 50%, 69% 50%, 69% 40%, 70% 40%, 70% 25%, 71% 25%, 71% 40%, 72% 40%, 72% 50%,
+        74% 50%, 74% 55%, 76% 55%, 76% 60%, 78% 60%, 78% 50%, 79% 50%, 79% 35%, 80% 35%, 80% 50%,
+        82% 50%, 82% 55%, 84% 55%, 84% 60%, 86% 60%, 86% 65%,
+        88% 65%, 88% 55%, 89% 55%, 89% 45%, 90% 45%, 90% 30%, 91% 30%, 91% 45%, 92% 45%, 92% 55%,
+        94% 55%, 94% 60%, 96% 60%, 96% 55%, 98% 55%, 98% 65%, 100% 65%,
+        100% 100%
+      );
+    }
+
+    .city-skyline::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      pointer-events: none;
+      z-index: 1;
+      box-shadow:
+        /* Amber window lights */
+        10vw 85px 2px 0.5px rgba(232, 165, 52, 0.5),
+        17vw 72px 2px 0.5px rgba(232, 165, 52, 0.4),
+        27vw 65px 2px 0.5px rgba(232, 165, 52, 0.35),
+        36vw 78px 2px 0.5px rgba(232, 165, 52, 0.45),
+        47vw 58px 2px 0.5px rgba(232, 165, 52, 0.5),
+        59vw 72px 2px 0.5px rgba(232, 165, 52, 0.4),
+        70vw 60px 2px 0.5px rgba(232, 165, 52, 0.5),
+        80vw 68px 2px 0.5px rgba(232, 165, 52, 0.35),
+        90vw 75px 2px 0.5px rgba(232, 165, 52, 0.45),
+        /* Neon accent lines on buildings */
+        9vw 55px 3px 0.5px rgba(255, 107, 138, 0.5),
+        47vw 28px 4px 0.5px rgba(79, 195, 247, 0.6),
+        71vw 40px 3px 0.5px rgba(255, 107, 138, 0.4);
+    }
+
+    /* --- Scrolling Text Strip --- */
+    .scroll-strip {
+      width: 100%;
+      overflow: hidden;
+      background: rgba(12, 12, 14, 0.85);
+      border-top: 1px solid rgba(232, 165, 52, 0.1);
+      border-bottom: 1px solid rgba(232, 165, 52, 0.1);
+      padding: 6px 0;
+      position: relative;
+      z-index: 5;
+    }
+
+    .scroll-strip-inner {
+      display: inline-block;
+      white-space: nowrap;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      color: var(--amber);
+      opacity: 0.5;
+      text-transform: uppercase;
+      animation: scroll-strip-move 30s linear infinite;
+    }
+
+    @keyframes scroll-strip-move {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* --- Floating Holographic Particles --- */
+    .holo-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .holo-particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: particle-float linear infinite;
+      opacity: 0;
+    }
+
+    .holo-particle:nth-child(1)  { width: 2px; height: 2px; background: var(--amber); left: 8%;  bottom: -10px; animation-duration: 18s; animation-delay: 0s; }
+    .holo-particle:nth-child(2)  { width: 3px; height: 3px; background: var(--teal-light); left: 15%; bottom: -10px; animation-duration: 22s; animation-delay: 2s; }
+    .holo-particle:nth-child(3)  { width: 2px; height: 2px; background: var(--amber); left: 25%; bottom: -10px; animation-duration: 16s; animation-delay: 5s; }
+    .holo-particle:nth-child(4)  { width: 4px; height: 4px; background: var(--teal); left: 35%; bottom: -10px; animation-duration: 24s; animation-delay: 1s; }
+    .holo-particle:nth-child(5)  { width: 2px; height: 2px; background: var(--amber); left: 42%; bottom: -10px; animation-duration: 19s; animation-delay: 8s; }
+    .holo-particle:nth-child(6)  { width: 3px; height: 3px; background: var(--teal-light); left: 55%; bottom: -10px; animation-duration: 21s; animation-delay: 3s; }
+    .holo-particle:nth-child(7)  { width: 2px; height: 2px; background: var(--amber); left: 63%; bottom: -10px; animation-duration: 17s; animation-delay: 6s; }
+    .holo-particle:nth-child(8)  { width: 3px; height: 3px; background: var(--teal); left: 72%; bottom: -10px; animation-duration: 23s; animation-delay: 4s; }
+    .holo-particle:nth-child(9)  { width: 2px; height: 2px; background: var(--amber); left: 80%; bottom: -10px; animation-duration: 15s; animation-delay: 7s; }
+    .holo-particle:nth-child(10) { width: 4px; height: 4px; background: var(--teal-light); left: 88%; bottom: -10px; animation-duration: 25s; animation-delay: 0.5s; }
+    .holo-particle:nth-child(11) { width: 2px; height: 2px; background: var(--amber); left: 95%; bottom: -10px; animation-duration: 20s; animation-delay: 9s; }
+    .holo-particle:nth-child(12) { width: 3px; height: 3px; background: var(--teal); left: 5%;  bottom: -10px; animation-duration: 18s; animation-delay: 11s; }
+
+    @keyframes particle-float {
+      0%   { transform: translateY(0); opacity: 0; }
+      10%  { opacity: 0.5; }
+      50%  { opacity: 0.7; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-105vh); opacity: 0; }
+    }
+
+    /* --- Grid Reflection / Water Puddle --- */
+    .grid-reflection {
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(232, 165, 52, 0.06) 0%, rgba(58, 124, 165, 0.03) 30%, transparent 100%);
+      opacity: 0.08;
+      margin-top: -4px;
+      margin-bottom: 20px;
+      border-radius: 0 0 2px 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-reflection::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(150, 190, 220, 0.3) 0px,
+        transparent 1px,
+        transparent 3px
+      );
+      animation: reflection-shimmer 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes reflection-shimmer {
+      0%   { opacity: 0.4; }
+      100% { opacity: 0.8; }
+    }
+
+    /* --- Footer Enhancements --- */
+    .footer-heartbeat {
+      width: 120px;
+      height: 2px;
+      margin: 0 auto 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-heartbeat::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(232, 165, 52, 0.2) 0px,
+        rgba(232, 165, 52, 0.2) 15px,
+        rgba(232, 165, 52, 0.1) 15px,
+        rgba(232, 165, 52, 0.1) 18px,
+        rgba(232, 165, 52, 0.8) 18px,
+        rgba(232, 165, 52, 0.8) 20px,
+        rgba(232, 165, 52, 0.1) 20px,
+        rgba(232, 165, 52, 0.1) 22px,
+        rgba(232, 165, 52, 0.5) 22px,
+        rgba(232, 165, 52, 0.5) 24px,
+        rgba(232, 165, 52, 0.1) 24px,
+        rgba(232, 165, 52, 0.1) 30px,
+        rgba(232, 165, 52, 0.2) 30px,
+        rgba(232, 165, 52, 0.2) 40px
+      );
+      animation: heartbeat-scroll 3s linear infinite;
+    }
+
+    @keyframes heartbeat-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .footer-retirement {
+      font-family: var(--font-mono);
+      font-size: 0.45rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      opacity: 0.35;
+      margin-top: 16px;
+      text-transform: uppercase;
+    }
+
+    /* --- Responsive adjustments for new elements --- */
+    @media (max-width: 768px) {
+      .neon-sign-replicant {
+        top: 150px;
+        left: 12px;
+        font-size: 0.5rem;
+      }
+      .neon-sign-katakana {
+        bottom: 140px;
+        left: 12px;
+        font-size: 1rem;
+      }
+      .neon-sign-bar {
+        top: 250px;
+        right: 12px;
+        font-size: 0.45rem;
+      }
+      .city-skyline { height: 80px; }
+      .city-skyline::before { height: 80px; }
+      .city-skyline::after { height: 80px; }
+      .holo-particle:nth-child(n+9) { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .neon-sign-replicant,
+      .neon-sign-bar { display: none; }
+      .scroll-strip-inner { font-size: 0.45rem; }
+      .city-skyline { height: 50px; }
+      .city-skyline::before { height: 50px; }
+      .city-skyline::after { display: none; }
+    }
     a:focus-visible,
     .meme-tile:focus-visible {
       outline: 1px solid var(--amber);
@@ -1062,20 +1583,46 @@
 
   <!-- Atmospheric Fog -->
   <div class="fog-overlay" aria-hidden="true"></div>
+  <div class="fog-overlay-2" aria-hidden="true"></div>
 
   <!-- Film Grain -->
   <div class="grain-overlay" aria-hidden="true"></div>
 
   <!-- Lightning -->
   <div class="lightning-overlay" aria-hidden="true"></div>
+  <div class="lightning-overlay-2" aria-hidden="true"></div>
 
-  <!-- Neon Sign -->
+  <!-- Neon Signs -->
   <div class="neon-sign" aria-hidden="true">酒</div>
+  <div class="neon-sign-replicant" aria-hidden="true">REPLICANT</div>
+  <div class="neon-sign-katakana" aria-hidden="true">メメ</div>
+  <div class="neon-sign-bar" aria-hidden="true">OFF WORLD</div>
+
+  <!-- Floating Holographic Particles -->
+  <div class="holo-particles" aria-hidden="true">
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+    <div class="holo-particle"></div>
+  </div>
 
   <!-- Voight-Kampff Indicator -->
   <div class="vk-indicator" aria-hidden="true">
-    <div class="vk-dot"></div>
-    <span>VK-TEST ACTIVE</span>
+    <div class="vk-top-row">
+      <div class="vk-dot"></div>
+      <div class="vk-dot-teal"></div>
+      <span>VK-TEST ACTIVE</span>
+    </div>
+    <div class="vk-heartbeat"></div>
+    <div class="vk-readout"><span class="vk-readout-val"></span></div>
   </div>
 
   <!-- Page Content -->
@@ -1092,7 +1639,13 @@
       <p class="hero-subtitle">Archivio Memorie // 2022–2025</p>
       <p class="hero-quote">Ho visto cose che voi umani non potreste immaginarvi…</p>
       <div class="hero-line" aria-hidden="true"></div>
+      <div class="city-skyline" aria-hidden="true"></div>
     </header>
+
+    <!-- Scrolling Text Strip -->
+    <div class="scroll-strip" aria-hidden="true">
+      <div class="scroll-strip-inner">ARCHIVIO MEMORIE // TYRELL CORP FILE SYSTEM // NEXUS-6 APPROVED // RESTRICTED ACCESS // ANNO 2022-2025 // TOTAL MEMORIES: 37 // ARCHIVIO MEMORIE // TYRELL CORP FILE SYSTEM // NEXUS-6 APPROVED // RESTRICTED ACCESS // ANNO 2022-2025 // TOTAL MEMORIES: 37 //&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    </div>
 
     <!-- Archive (Grid View) -->
     <main class="archive" id="archive-view">
@@ -1121,9 +1674,11 @@
 
     <!-- Footer -->
     <footer class="site-footer">
+      <div class="footer-heartbeat" aria-hidden="true"></div>
       <div class="footer-line" aria-hidden="true"></div>
       <p class="footer-quote">Come lacrime nella pioggia…</p>
       <p class="footer-meta">Meme del Mese // Archivio Memorie</p>
+      <p class="footer-retirement" aria-hidden="true">Replicant retirement date: January 2026 // Incept date: September 2022 // Longevity: 4 years</p>
     </footer>
   </div>
 
@@ -1325,6 +1880,13 @@
           }
 
           section.appendChild(grid);
+
+          // Add water puddle reflection
+          var reflection = document.createElement('div');
+          reflection.className = 'grid-reflection';
+          reflection.setAttribute('aria-hidden', 'true');
+          section.appendChild(reflection);
+
           archiveView.appendChild(section);
         });
       }

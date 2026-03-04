@@ -1565,6 +1565,99 @@
       clip: rect(0, 0, 0, 0);
       border: 0;
     }
+
+    /* ========================================================
+       INTERACTIVE FEATURES
+       ======================================================== */
+
+    /* --- Scroll-triggered Tile Reveal --- */
+    .meme-tile.tile-animate {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .meme-tile.tile-animate.tile-revealed {
+      opacity: 1;
+      transform: none;
+    }
+    .meme-tile.locked.tile-animate.tile-revealed {
+      opacity: 0.3;
+    }
+
+    /* --- Hover Scan Effect (uses ::before on .tile-thumb since ::after is taken by vignette) --- */
+    .meme-tile:not(.locked) .tile-thumb::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(232,165,52,0.15) 0px, rgba(232,165,52,0.15) 2px, transparent 2px);
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    .meme-tile:not(.locked):hover .tile-thumb::before {
+      animation: scan-sweep 1.5s ease-in-out forwards;
+    }
+    @keyframes scan-sweep {
+      0%   { opacity: 1; transform: translateY(0); }
+      100% { opacity: 1; transform: translateY(100%); }
+    }
+
+    /* --- Ambient Light Follower --- */
+    .ambient-light {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,165,52,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 6;
+      will-change: transform;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .ambient-light.active {
+      opacity: 1;
+    }
+
+    /* --- Cinematic Scroll (hero dim) --- */
+    .hero {
+      transition: opacity 1.2s ease;
+    }
+    body.hero-scrolled .hero {
+      opacity: 0.3;
+    }
+
+    /* --- Reduced Motion --- */
+    @media (prefers-reduced-motion: reduce) {
+      .rain-container,
+      .lightning-overlay,
+      .lightning-overlay-2,
+      .grain-overlay,
+      .holo-particles,
+      .ambient-light {
+        display: none !important;
+      }
+      .meme-tile.tile-animate {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .meme-tile.locked.tile-animate {
+        opacity: 0.3 !important;
+      }
+      .meme-tile:not(.locked):hover .tile-thumb::before {
+        animation: none !important;
+      }
+      .hero {
+        transition: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1730,6 +1823,7 @@
       const zoomModal     = document.getElementById('zoom-modal');
       const zoomImg       = document.getElementById('zoom-img');
       const zoomClose     = document.getElementById('zoom-close');
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       /* --- Helpers --- */
 
@@ -1815,7 +1909,7 @@
           for (var m = 1; m <= 12; m++) {
             var mem = memeMap[memeKey(y, m)];
             var tile = document.createElement('div');
-            tile.className = 'meme-tile';
+            tile.className = 'meme-tile' + (prefersReducedMotion ? '' : ' tile-animate');
             tile.setAttribute('tabindex', '0');
             tile.setAttribute('role', 'button');
 
@@ -2005,6 +2099,7 @@
         .then(function (data) {
           memes = data;
           buildArchive();
+          initTileReveal();
         })
         .catch(function (err) {
           loadingEl.innerHTML =
@@ -2012,6 +2107,91 @@
             '<p style="margin-top:8px;opacity:0.5">' + err.message + '</p></div>';
           console.error('Failed to load memes:', err);
         });
+
+      /* =========================================================
+         Interactive Features
+         ========================================================= */
+
+      /* --- Scroll-triggered Tile Reveal --- */
+      function initTileReveal() {
+        if (prefersReducedMotion) return;
+        var tiles = archiveView.querySelectorAll('.meme-tile.tile-animate');
+        if (!tiles.length) return;
+
+        var observer = new IntersectionObserver(function (entries) {
+          var toReveal = [];
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              toReveal.push(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+          toReveal.forEach(function (tile, i) {
+            tile.style.transitionDelay = (i * 0.08) + 's';
+            tile.classList.add('tile-revealed');
+            tile.addEventListener('transitionend', function handler(e) {
+              if (e.propertyName !== 'opacity') return;
+              tile.style.transitionDelay = '';
+              tile.classList.remove('tile-animate', 'tile-revealed');
+              tile.removeEventListener('transitionend', handler);
+            });
+          });
+        }, { threshold: 0.1 });
+
+        tiles.forEach(function (tile) { observer.observe(tile); });
+      }
+
+      /* --- Ambient Light + Parallax Rain (shared mousemove, rAF-throttled) --- */
+      if (!prefersReducedMotion) {
+        var ambientLight = document.createElement('div');
+        ambientLight.className = 'ambient-light';
+        ambientLight.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(ambientLight);
+
+        var rainContainer = document.querySelector('.rain-container');
+        var mouseRAF = null;
+
+        document.addEventListener('mousemove', function (e) {
+          var mx = e.clientX;
+          var my = e.clientY;
+
+          if (!mouseRAF) {
+            mouseRAF = requestAnimationFrame(function () {
+              // Ambient light — center the 250px glow on cursor
+              ambientLight.style.transform = 'translate(' + (mx - 125) + 'px,' + (my - 125) + 'px)';
+              if (!ambientLight.classList.contains('active')) {
+                ambientLight.classList.add('active');
+              }
+
+              // Parallax rain — shift opposite to mouse, max ±10px
+              var vw = window.innerWidth;
+              var vh = window.innerHeight;
+              var rx = ((mx / vw) - 0.5) * -20;
+              var ry = ((my / vh) - 0.5) * -20;
+              rainContainer.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
+
+              mouseRAF = null;
+            });
+          }
+        });
+
+        document.addEventListener('mouseleave', function () {
+          ambientLight.classList.remove('active');
+        });
+      }
+
+      /* --- Cinematic Scroll (hero dims when leaving viewport) --- */
+      var heroScrollObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            document.body.classList.remove('hero-scrolled');
+          } else {
+            document.body.classList.add('hero-scrolled');
+          }
+        });
+      }, { threshold: 0 });
+
+      heroScrollObserver.observe(heroEl);
 
     })();
   </script>

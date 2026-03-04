@@ -37,8 +37,8 @@
 }
 
 @keyframes scanMove {
-  0%   { top: -5%; }
-  100% { top: 105%; }
+  0%   { transform: translateY(-5vh); }
+  100% { transform: translateY(105vh); }
 }
 
 @keyframes typing {
@@ -152,24 +152,36 @@ body::after {
 /* ── Moving scan bar ── */
 #scanBar {
   position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
   height: 3px;
   background: linear-gradient(90deg, transparent, rgba(0,212,255,0.15), rgba(0,212,255,0.3), rgba(0,212,255,0.15), transparent);
   animation: scanMove 8s linear infinite;
+  will-change: transform;
   pointer-events: none;
   z-index: 9999;
 }
 
+/* ── Digital rain container ── */
+#digitalRain {
+  position: fixed;
+  inset: 0;
+  contain: strict;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* ── Digital rain columns ── */
 .rain-column {
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 14px;
   height: 100vh;
   overflow: hidden;
   pointer-events: none;
-  z-index: 1;
+  will-change: transform;
   opacity: 0.06;
 }
 .rain-column span {
@@ -403,10 +415,18 @@ body::after {
   border: 1px solid rgba(0,212,255,0.2);
   padding: 0;
   cursor: pointer;
-  transition: all 0.3s ease;
+  contain: paint;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
 }
-.meme-tile:hover {
+.meme-tile.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.meme-tile:hover,
+.meme-tile.revealed:hover {
   border-color: #ff6a00;
   box-shadow: 0 0 20px rgba(255,106,0,0.2), inset 0 0 30px rgba(255,106,0,0.03);
   transform: translateY(-3px);
@@ -862,6 +882,70 @@ body::after {
   font-size: 14px;
   letter-spacing: 2px;
 }
+
+/* ════════════════ CLICK RIPPLE EFFECT ════════════════ */
+@keyframes rippleExpand {
+  from { transform: scale(0); opacity: 0.3; }
+  to   { transform: scale(2); opacity: 0; }
+}
+.ripple-effect {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,106,0,0.4), transparent 70%);
+  pointer-events: none;
+  animation: rippleExpand 0.4s ease-out forwards;
+  z-index: 10;
+}
+
+/* ════════════════ NEON GLOW CURSOR ════════════════ */
+#neonGlow {
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,106,0,0.06), transparent 70%);
+  pointer-events: none;
+  will-change: transform;
+  z-index: 9997;
+  top: 0;
+  left: 0;
+  transform: translate(-200px, -200px);
+}
+
+/* ════════════════ REDUCED MOTION ════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .rain-column,
+  #digitalRain,
+  #scanlines,
+  #scanBar,
+  #neonGlow { display: none !important; }
+
+  .meme-tile {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+  }
+  .meme-tile:hover,
+  .meme-tile.revealed:hover {
+    transform: none !important;
+  }
+
+  .status-dot,
+  .year-cursor,
+  .classified-banner h2,
+  .hud-corner,
+  .meme-tile.locked { animation: none !important; }
+
+  .main-title { animation: none !important; }
+  .main-title::before { animation: none !important; }
+  .subtitle {
+    animation: none !important;
+    width: auto !important;
+    border-right: none !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -989,17 +1073,18 @@ body::after {
   function createDigitalRain() {
     const container = document.getElementById('digitalRain');
     const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEF<>{}[]|/\\';
-    const cols = Math.floor(window.innerWidth / 30);
+    const cols = Math.min(12, Math.floor(window.innerWidth / 30));
+    const spacing = window.innerWidth / cols;
     for (let i = 0; i < cols; i++) {
       const col = document.createElement('div');
       col.className = 'rain-column';
-      col.style.left = (i * 30 + Math.random() * 10) + 'px';
+      col.style.left = (i * spacing + Math.random() * 10) + 'px';
       const speed = 10 + Math.random() * 20;
       const delay = Math.random() * speed;
       col.style.setProperty('--rain-speed', speed + 's');
       col.style.setProperty('--rain-delay', '-' + delay + 's');
       let html = '';
-      for (let j = 0; j < 60; j++) {
+      for (let j = 0; j < 25; j++) {
         const c = chars[Math.floor(Math.random() * chars.length)];
         html += '<span>' + c + '</span>';
       }
@@ -1047,6 +1132,9 @@ body::after {
     .then(data => {
       allMemes = data;
       renderGrid(data);
+      setupTileReveal();
+      setupTiltEffect();
+      setupRippleEffect();
       const route = getHashRoute();
       if (route) openDetailByHash(route);
     })
@@ -1257,8 +1345,101 @@ body::after {
     document.getElementById('zoomOverlay').classList.remove('active');
   }
 
-  /* ════ Init digital rain ════ */
-  createDigitalRain();
+  /* ════ Scroll-triggered tile reveal ════ */
+  function setupTileReveal() {
+    const tiles = document.querySelectorAll('.meme-tile');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      tiles.forEach(t => t.classList.add('revealed'));
+      return;
+    }
+    tiles.forEach((tile, i) => {
+      const grid = tile.closest('.meme-grid');
+      const cols = grid ? Math.max(1, Math.round(grid.offsetWidth / 260)) : 3;
+      const col = i % cols;
+      tile.style.transitionDelay = (col * 0.08) + 's';
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    tiles.forEach(tile => observer.observe(tile));
+  }
+
+  /* ════ 3D tilt on hover (event delegation) ════ */
+  function setupTiltEffect() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const container = document.getElementById('memesContainer');
+    let activeTile = null;
+
+    container.addEventListener('mousemove', (e) => {
+      const tile = e.target.closest('.meme-tile');
+      if (!tile || !tile.classList.contains('revealed')) {
+        if (activeTile) {
+          activeTile.style.willChange = '';
+          activeTile.style.transform = '';
+          activeTile = null;
+        }
+        return;
+      }
+      if (activeTile && activeTile !== tile) {
+        activeTile.style.willChange = '';
+        activeTile.style.transform = '';
+      }
+      activeTile = tile;
+      const rect = tile.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      const rotateX = -(y * 10);
+      const rotateY = x * 10;
+      tile.style.willChange = 'transform';
+      tile.style.transform = 'perspective(600px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-3px)';
+    });
+
+    container.addEventListener('mouseleave', () => {
+      if (activeTile) {
+        activeTile.style.willChange = '';
+        activeTile.style.transform = '';
+        activeTile = null;
+      }
+    });
+  }
+
+  /* ════ Mouse-follow neon glow ════ */
+  function setupNeonGlow() {
+    const glow = document.createElement('div');
+    glow.id = 'neonGlow';
+    document.body.appendChild(glow);
+    document.addEventListener('mousemove', (e) => {
+      glow.style.transform = 'translate(' + (e.clientX - 100) + 'px,' + (e.clientY - 100) + 'px)';
+    });
+  }
+
+  /* ════ Click ripple effect on tiles ════ */
+  function setupRippleEffect() {
+    const container = document.getElementById('memesContainer');
+    container.addEventListener('click', (e) => {
+      const tile = e.target.closest('.meme-tile');
+      if (!tile) return;
+      const rect = tile.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple-effect';
+      ripple.style.left = (e.clientX - rect.left - 50) + 'px';
+      ripple.style.top = (e.clientY - rect.top - 50) + 'px';
+      tile.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    });
+  }
+
+  /* ════ Init digital rain + neon glow (respect reduced motion) ════ */
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    createDigitalRain();
+    setupNeonGlow();
+  }
 
 })();
 </script>

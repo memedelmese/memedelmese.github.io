@@ -55,6 +55,8 @@ body::before{
     var(--scanline) 2px,
     var(--scanline) 4px
   );
+  transform:translateX(var(--vhs-shift,0px));
+  will-change:transform;
 }
 
 /* ===== PERSPECTIVE GRID OVERLAY ===== */
@@ -94,6 +96,7 @@ body::after{
   position:absolute;
   opacity:0.08;
   animation:float-geo 20s ease-in-out infinite;
+  will-change:transform;
 }
 .geo-shape.triangle{
   width:0;height:0;
@@ -121,10 +124,10 @@ body::after{
 .geo-shape:nth-child(8){top:45%;left:90%;animation-delay:-3s;animation-duration:21s}
 
 @keyframes float-geo{
-  0%,100%{transform:translateY(0) rotate(0deg)}
-  25%{transform:translateY(-30px) rotate(5deg)}
-  50%{transform:translateY(-15px) rotate(-3deg)}
-  75%{transform:translateY(-40px) rotate(4deg)}
+  0%,100%{transform:translateY(var(--parallax-y,0px)) rotate(0deg)}
+  25%{transform:translateY(calc(-30px + var(--parallax-y,0px))) rotate(5deg)}
+  50%{transform:translateY(calc(-15px + var(--parallax-y,0px))) rotate(-3deg)}
+  75%{transform:translateY(calc(-40px + var(--parallax-y,0px))) rotate(4deg)}
 }
 
 /* ===== MAIN CONTENT WRAPPER ===== */
@@ -248,7 +251,14 @@ body::after{
   box-shadow:
     0 6px 20px rgba(0,0,0,0.5),
     inset 0 1px 0 rgba(255,255,255,0.1);
-  transition:transform .3s ease, box-shadow .3s ease;
+  opacity:0;
+  transform:translateY(25px);
+  transition:transform 0.6s ease-out, opacity 0.6s ease-out, box-shadow .3s ease;
+  will-change:transform, opacity;
+}
+.tv-tile.revealed{
+  opacity:1;
+  transform:none;
 }
 .tv-tile:hover{
   transform:scale(1.04);
@@ -588,6 +598,36 @@ body::after{
   .vhs-btn{padding:8px 14px;font-size:1.1rem}
   .palm-deco{display:none}
 }
+
+/* ===== CRT POWER-ON EFFECT ===== */
+@keyframes crt-power-on{
+  0%{filter:brightness(0.5)}
+  40%{filter:brightness(1.2)}
+  100%{filter:brightness(1.0)}
+}
+.tv-tile.crt-on .tv-screen img{
+  animation:crt-power-on 0.3s ease-out;
+}
+
+/* ===== TILE CLICK ZOOM ===== */
+.tv-tile.zoom-out{
+  transform:scale(1.3)!important;
+  opacity:0!important;
+  transition:transform 0.3s ease-in, opacity 0.3s ease-in!important;
+  pointer-events:none;
+}
+
+/* ===== REDUCED MOTION ===== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:0.01ms!important;
+    scroll-behavior:auto!important;
+  }
+  .tv-tile{opacity:1;transform:none}
+  .tv-tile.revealed{transition:none}
+}
 </style>
 </head>
 <body>
@@ -750,11 +790,28 @@ body::after{
 
     galleryView.innerHTML = html;
 
-    /* Attach click handlers */
-    galleryView.querySelectorAll('.tv-tile[data-idx]').forEach(tile => {
-      tile.addEventListener('click', () => {
-        const idx = parseInt(tile.dataset.idx, 10);
-        showDetail(idx);
+    /* Observe tiles for scroll-triggered reveal */
+    observeTiles();
+  }
+
+  /* IntersectionObserver for scroll-triggered tile reveal */
+  const tileObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        tileObserver.unobserve(entry.target);
+        entry.target.addEventListener('transitionend', function() {
+          entry.target.style.transitionDelay = '';
+        }, { once: true });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  function observeTiles() {
+    document.querySelectorAll('.meme-grid').forEach(function(grid) {
+      grid.querySelectorAll('.tv-tile').forEach(function(tile, i) {
+        tile.style.transitionDelay = (i * 0.07) + 's';
+        tileObserver.observe(tile);
       });
     });
   }
@@ -831,6 +888,66 @@ body::after{
   });
 
   window.addEventListener('hashchange', handleHash);
+
+  /* Tile click with zoom transition (event delegation) */
+  galleryView.addEventListener('click', function(e) {
+    var tile = e.target.closest('.tv-tile[data-idx]');
+    if (!tile) return;
+    var idx = parseInt(tile.dataset.idx, 10);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      showDetail(idx);
+      return;
+    }
+    tile.classList.add('zoom-out');
+    setTimeout(function() {
+      tile.classList.remove('zoom-out');
+      showDetail(idx);
+    }, 300);
+  });
+
+  /* CRT power-on effect on hover (event delegation) */
+  galleryView.addEventListener('mouseover', function(e) {
+    var tile = e.target.closest('.tv-tile[data-idx]');
+    if (!tile || tile.classList.contains('crt-on')) return;
+    tile.classList.add('crt-on');
+  });
+  galleryView.addEventListener('animationend', function(e) {
+    if (e.animationName === 'crt-power-on') {
+      var tile = e.target.closest('.tv-tile');
+      if (tile) tile.classList.remove('crt-on');
+    }
+  });
+
+  /* VHS tracking glitch + parallax shapes — single scroll/rAF loop */
+  var lastScrollY = 0;
+  var scrollTicking = false;
+  var vhsResetTimer = null;
+  var geoShapes = document.querySelectorAll('.geo-shape');
+  var parallaxRates = [0.3, 0.5, 0.2, 0.4, 0.35, 0.45, 0.25, 0.55];
+
+  window.addEventListener('scroll', function() {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(function() {
+        var sy = window.scrollY;
+        /* VHS scanline shift based on scroll velocity */
+        var velocity = sy - lastScrollY;
+        var shift = Math.max(-5, Math.min(5, velocity * 0.5));
+        document.body.style.setProperty('--vhs-shift', shift + 'px');
+        lastScrollY = sy;
+        /* Reset shift after scrolling stops */
+        if (vhsResetTimer) clearTimeout(vhsResetTimer);
+        vhsResetTimer = setTimeout(function() {
+          document.body.style.setProperty('--vhs-shift', '0px');
+        }, 100);
+        /* Parallax floating shapes */
+        for (var i = 0; i < geoShapes.length; i++) {
+          geoShapes[i].style.setProperty('--parallax-y', (sy * parallaxRates[i % parallaxRates.length]) + 'px');
+        }
+        scrollTicking = false;
+      });
+    }
+  }, { passive: true });
 
   /* Fetch and boot */
   fetch('../data/memes.json')

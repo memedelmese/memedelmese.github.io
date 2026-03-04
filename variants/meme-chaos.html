@@ -262,8 +262,11 @@ body {
   border: 3px solid #222;
   box-shadow: var(--meme-shadow);
   cursor: pointer;
-  transition: transform 0.2s, filter 0.3s, box-shadow 0.2s;
+  transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.5s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.3s, box-shadow 0.2s;
   position: relative;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  will-change: transform, opacity;
 }
 
 .meme-card:hover {
@@ -286,6 +289,27 @@ body {
   transform: none;
   filter: grayscale(0.5);
   box-shadow: var(--meme-shadow);
+}
+
+/* Scroll reveal state */
+.meme-card.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.meme-card.revealed:not(.locked):hover {
+  transform: translateY(-6px) rotate(-1deg);
+}
+
+/* Shake on hover */
+@keyframes shake {
+  0%, 100% { transform: translateY(-6px) rotate(-1deg) translateX(0); }
+  20% { transform: translateY(-6px) rotate(-1deg) translateX(-3px); }
+  40% { transform: translateY(-6px) rotate(-1deg) translateX(3px); }
+  60% { transform: translateY(-6px) rotate(-1deg) translateX(-2px); }
+  80% { transform: translateY(-6px) rotate(-1deg) translateX(2px); }
+}
+.meme-card.shake {
+  animation: shake 0.4s ease-in-out;
 }
 
 /* Card header bar */
@@ -653,6 +677,71 @@ body {
   display: block;
   margin-bottom: 8px;
 }
+
+/* ===== CONFETTI PARTICLES ===== */
+@keyframes confetti-fly {
+  0% { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+  100% { transform: translate(var(--cx), var(--cy)) rotate(var(--cr)) scale(0); opacity: 0; }
+}
+.confetti-particle {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  animation: confetti-fly var(--cd, 700ms) ease-out forwards;
+  will-change: transform, opacity;
+}
+
+/* ===== SCROLL INDICATOR ===== */
+.scroll-indicator {
+  text-align: center;
+  font-size: 2rem;
+  padding: 20px 0 10px;
+  animation: bounce-arrow 1.2s ease-in-out infinite;
+  cursor: default;
+  transition: opacity 0.4s;
+}
+.scroll-indicator.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes bounce-arrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+/* ===== REACTION FLY-UP ===== */
+@keyframes fly-up {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-30px) scale(1.3); opacity: 0; }
+}
+.reaction-flyup {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--hot-pink);
+  pointer-events: none;
+  animation: fly-up 0.6s ease-out forwards;
+  font-family: 'Comic Sans MS', cursive;
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .meme-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .scroll-indicator { animation: none; }
+  .confetti-particle { display: none; }
+}
 </style>
 </head>
 <body>
@@ -1000,6 +1089,108 @@ body {
 
       renderGallery(allMemes);
       handleHash();
+
+      // ===== INTERACTIVE FEATURES =====
+
+      // 1. Scroll-triggered tile reveal (single IntersectionObserver)
+      var revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.meme-card').forEach(function(card, i) {
+        card.style.transitionDelay = (i % 12) * 0.05 + 's';
+        revealObserver.observe(card);
+        card.addEventListener('transitionend', function handler(e) {
+          if (e.propertyName === 'opacity') {
+            card.style.transitionDelay = '';
+            card.removeEventListener('transitionend', handler);
+          }
+        });
+      });
+
+      // 2. Shake on hover (event delegation via mouseover)
+      var mainEl = document.getElementById('mainContent');
+      var lastShakeCard = null;
+      mainEl.addEventListener('mouseover', function(e) {
+        var card = e.target.closest('.meme-card:not(.locked)');
+        if (card && card !== lastShakeCard) {
+          lastShakeCard = card;
+          if (!card.classList.contains('shake')) {
+            card.classList.add('shake');
+          }
+        } else if (!card) {
+          lastShakeCard = null;
+        }
+      });
+      mainEl.addEventListener('animationend', function(e) {
+        if (e.target.classList.contains('shake')) {
+          e.target.classList.remove('shake');
+        }
+      });
+
+      // 3. Confetti burst + 6. Reaction bar (single delegated capture handler)
+      var CONFETTI_COLORS = ['#FF1493','#FFD700','#39FF14','#00E5FF','#FF6600','#FF0000','#9B59B6','#FFF'];
+      mainEl.addEventListener('click', function(e) {
+        // Reaction button click
+        var btn = e.target.closest('.reaction-btn');
+        if (btn) {
+          var countEl = btn.querySelector('.reaction-count');
+          if (countEl) {
+            countEl.textContent = parseInt(countEl.textContent, 10) + 1;
+            var flyup = document.createElement('span');
+            flyup.className = 'reaction-flyup';
+            flyup.textContent = '+1';
+            btn.style.position = 'relative';
+            btn.appendChild(flyup);
+            flyup.addEventListener('animationend', function() { flyup.remove(); });
+          }
+          return;
+        }
+        // Confetti burst on card click
+        var card = e.target.closest('.meme-card:not(.locked)');
+        if (!card) return;
+        var x = e.clientX;
+        var y = e.clientY;
+        for (var i = 0; i < 18; i++) {
+          var p = document.createElement('div');
+          p.className = 'confetti-particle';
+          var size = 4 + Math.random() * 4;
+          var angle = Math.random() * Math.PI * 2;
+          var dist = 40 + Math.random() * 80;
+          var dur = 600 + Math.random() * 200;
+          p.style.cssText =
+            'left:' + x + 'px;top:' + y + 'px;' +
+            'width:' + size + 'px;height:' + size + 'px;' +
+            'background:' + CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)] + ';' +
+            '--cx:' + (Math.cos(angle) * dist).toFixed(1) + 'px;' +
+            '--cy:' + (Math.sin(angle) * dist).toFixed(1) + 'px;' +
+            '--cr:' + (Math.random() * 720 - 360).toFixed(0) + 'deg;' +
+            '--cd:' + Math.round(dur) + 'ms;';
+          document.body.appendChild(p);
+          p.addEventListener('animationend', function() { this.remove(); });
+        }
+      }, true);
+
+      // 5. Bouncy scroll indicator on first year section
+      var firstSection = document.querySelector('.year-section');
+      if (firstSection) {
+        var scrollInd = document.createElement('div');
+        scrollInd.className = 'scroll-indicator';
+        scrollInd.textContent = '\u2193';
+        scrollInd.setAttribute('aria-hidden', 'true');
+        firstSection.appendChild(scrollInd);
+        var indObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            scrollInd.classList.toggle('hidden', !entry.isIntersecting);
+          });
+        }, { threshold: 0.1 });
+        indObserver.observe(scrollInd);
+      }
     })
     .catch(function(err) {
       document.getElementById('loadingScreen').innerHTML =

@@ -241,6 +241,14 @@ img {
   text-align: center;
 }
 
+/* Wrapper for thumbnail + placeholder stack */
+.thumb-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
 /* Tile label bar at bottom */
 .month-label {
   position: relative;
@@ -267,19 +275,27 @@ img {
   z-index: 2;
 }
 
-/* Thumbnail image */
+/* Thumbnail image — sits on top of placeholder via absolute positioning */
 .month-thumb {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease, opacity 0.3s ease;
+  z-index: 1;
+  opacity: 0;
 }
 
-/* Placeholder shown while loading, hidden once image loads */
+.month-thumb.loaded {
+  opacity: 1;
+}
+
+/* Placeholder always visible underneath; image covers it when loaded */
 .thumb-placeholder {
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

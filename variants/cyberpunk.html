@@ -62,9 +62,9 @@
 }
 
 @keyframes rainDrop {
-  0%   { transform: translateY(-100vh); opacity: 1; }
-  90%  { opacity: 0.3; }
-  100% { transform: translateY(100vh); opacity: 0; }
+  0%   { transform: translateY(0); opacity: 0.07; }
+  90%  { opacity: 0.03; }
+  100% { transform: translateY(200vh); opacity: 0; }
 }
 
 @keyframes flicker {
@@ -134,7 +134,7 @@ body::after {
   z-index: 0;
 }
 
-/* ── Scanline overlay ── */
+/* ── Scanline overlay (lightweight) ── */
 #scanlines {
   position: fixed;
   inset: 0;
@@ -142,11 +142,12 @@ body::after {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.08) 2px,
-    rgba(0, 0, 0, 0.08) 4px
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
   );
   pointer-events: none;
   z-index: 9998;
+  contain: strict;
 }
 
 /* ── Moving scan bar ── */
@@ -173,24 +174,23 @@ body::after {
   z-index: 1;
 }
 
-/* ── Digital rain columns ── */
+/* ── Digital rain columns — animate column, not individual spans ── */
 .rain-column {
   position: absolute;
-  top: 0;
+  top: -100%;
   width: 14px;
-  height: 100vh;
   overflow: hidden;
   pointer-events: none;
+  opacity: 0.07;
+  animation: rainDrop var(--rain-speed, 14s) linear infinite;
+  animation-delay: var(--rain-delay, 0s);
   will-change: transform;
-  opacity: 0.06;
 }
 .rain-column span {
   display: block;
   font-size: 10px;
   color: #00d4ff;
   line-height: 14px;
-  animation: rainDrop var(--rain-speed, 12s) linear infinite;
-  animation-delay: var(--rain-delay, 0s);
 }
 
 /* ════════════════ TOP HUD BAR ════════════════ */
@@ -298,10 +298,10 @@ body::after {
   color: #ff6a00;
   text-transform: uppercase;
   letter-spacing: 12px;
-  animation: glitch 4s infinite, flicker 6s infinite;
+  animation: glitch 8s ease-in-out infinite;
   position: relative;
   display: inline-block;
-  text-shadow: 0 0 20px rgba(255,106,0,0.4), 0 0 60px rgba(255,106,0,0.15);
+  text-shadow: 0 0 20px rgba(255,106,0,0.4);
 }
 .main-title::before {
   content: attr(data-text);
@@ -311,7 +311,6 @@ body::after {
   width: 100%;
   height: 100%;
   color: #ff6a00;
-  animation: glitchBig 6s infinite;
   z-index: -1;
 }
 .subtitle {
@@ -576,7 +575,6 @@ body::after {
 /* ── Locked tile ── */
 .meme-tile.locked {
   border-color: rgba(255,51,51,0.3);
-  animation: borderPulse 2s infinite;
 }
 .meme-tile.locked .tile-thumb {
   filter: grayscale(1) brightness(0.3);
@@ -628,7 +626,6 @@ body::after {
   font-size: 1.5rem;
   letter-spacing: 6px;
   margin-bottom: 10px;
-  animation: blink 1s step-end infinite;
 }
 .classified-banner p {
   color: rgba(240,240,255,0.5);
@@ -1394,10 +1391,8 @@ body::after {
       const rect = tile.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
-      const rotateX = -(y * 10);
-      const rotateY = x * 10;
       tile.style.willChange = 'transform';
-      tile.style.transform = 'perspective(600px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-3px)';
+      tile.style.transform = 'perspective(600px) rotateX(' + (-(y * 10)) + 'deg) rotateY(' + (x * 10) + 'deg) translateY(-3px)';
     });
 
     container.addEventListener('mouseleave', () => {
@@ -1409,13 +1404,22 @@ body::after {
     });
   }
 
-  /* ════ Mouse-follow neon glow ════ */
+  /* ════ Mouse-follow neon glow (rAF throttled) ════ */
   function setupNeonGlow() {
     const glow = document.createElement('div');
     glow.id = 'neonGlow';
     document.body.appendChild(glow);
+    let glowX = -200, glowY = -200, rafPending = false;
     document.addEventListener('mousemove', (e) => {
-      glow.style.transform = 'translate(' + (e.clientX - 100) + 'px,' + (e.clientY - 100) + 'px)';
+      glowX = e.clientX - 100;
+      glowY = e.clientY - 100;
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(() => {
+          glow.style.transform = 'translate(' + glowX + 'px,' + glowY + 'px)';
+          rafPending = false;
+        });
+      }
     });
   }
 

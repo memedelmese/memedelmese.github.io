@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 – Meme del Mese</title>
+  <meta name="theme-color" content="#0d0221">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div class="page-404">
+    <div class="glitch-404">404</div>
+    <p class="message-404" id="msg404">Questo meme non esiste. O forse è stato censurato. 🤔</p>
+    <a href="/" class="btn btn-home btn-back">← Torna all'archivio</a>
+  </div>
+
+  <script>
+    const messages = [
+      'Questo meme non esiste. O forse è stato censurato. 🤔',
+      'Hai trovato il vuoto cosmico dei meme. Complimenti.',
+      'Error 404: Meme Not Found. L\'umorismo però è ancora qui.',
+      'Questa pagina è andata a prendere il latte. Non è più tornata.',
+      'Il meme che cerchi è in un altro castello. 🏰',
+      'Stai esplorando l\'internet profondo dei meme? Torna su.',
+      '¿ǝsǝɯ lǝp ǝɯǝɯ — 404',
+    ];
+    document.getElementById('msg404').textContent =
+      messages[Math.floor(Math.random() * messages.length)];
+  </script>
+</body>
+</html>

@@ -1828,7 +1828,7 @@
               var thumbDiv = document.createElement('div');
               thumbDiv.className = 'tile-thumb';
               var img = document.createElement('img');
-              img.src = '../' + mem.file.replace(/\/winner\.\w+$/, '/thumb.jpg');
+              img.src = '../' + (mem.thumb || mem.file);
               img.alt = mem.alt || ('Meme del mese — ' + monthName(m) + ' ' + y);
               img.loading = 'lazy';
               thumbDiv.appendChild(img);

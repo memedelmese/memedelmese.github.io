@@ -1,42 +1,335 @@
 [
-  { "year": 2022, "month": 7,  "title": "Luglio 2022",    "file": "assets/2022-07/winner.png", "alt": "Meme del mese - Luglio 2022",    "notes": "" },
-  { "year": 2022, "month": 8,  "title": "Agosto 2022",    "file": "assets/2022-08/winner.png", "alt": "Meme del mese - Agosto 2022",    "notes": "" },
-  { "year": 2022, "month": 10, "title": "Ottobre 2022",   "file": "assets/2022-10/winner.png", "alt": "Meme del mese - Ottobre 2022",   "notes": "" },
-  { "year": 2022, "month": 11, "title": "Novembre 2022",  "file": "assets/2022-11/winner.png", "alt": "Meme del mese - Novembre 2022",  "notes": "" },
-
-  { "year": 2023, "month": 1,  "title": "Gennaio 2023",   "file": "assets/2023-01/winner.png", "alt": "Meme del mese - Gennaio 2023",   "notes": "" },
-  { "year": 2023, "month": 2,  "title": "Febbraio 2023",  "file": "assets/2023-02/winner.png", "alt": "Meme del mese - Febbraio 2023",  "notes": "" },
-  { "year": 2023, "month": 3,  "title": "Marzo 2023",     "file": "assets/2023-03/winner.png", "alt": "Meme del mese - Marzo 2023",     "notes": "" },
-  { "year": 2023, "month": 4,  "title": "Aprile 2023",    "file": "assets/2023-04/winner.png", "alt": "Meme del mese - Aprile 2023",    "notes": "" },
-  { "year": 2023, "month": 5,  "title": "Maggio 2023",    "file": "assets/2023-05/winner.png", "alt": "Meme del mese - Maggio 2023",    "notes": "" },
-  { "year": 2023, "month": 6,  "title": "Giugno 2023",    "file": "assets/2023-06/winner.png", "alt": "Meme del mese - Giugno 2023",    "notes": "" },
-  { "year": 2023, "month": 7,  "title": "Luglio 2023",    "file": "assets/2023-07/winner.gif", "alt": "Meme del mese - Luglio 2023",    "notes": "" },
-  { "year": 2023, "month": 8,  "title": "Agosto 2023",    "file": "assets/2023-08/winner.gif", "alt": "Meme del mese - Agosto 2023",    "notes": "" },
-  { "year": 2023, "month": 9,  "title": "Settembre 2023", "file": "assets/2023-09/winner.gif", "alt": "Meme del mese - Settembre 2023", "notes": "" },
-  { "year": 2023, "month": 10, "title": "Ottobre 2023",   "file": "assets/2023-10/winner.gif", "alt": "Meme del mese - Ottobre 2023",   "notes": "" },
-  { "year": 2023, "month": 11, "title": "Novembre 2023",  "file": "assets/2023-11/winner.gif", "alt": "Meme del mese - Novembre 2023",  "notes": "" },
-  { "year": 2023, "month": 12, "title": "Dicembre 2023",  "file": "assets/2023-12/winner.gif", "alt": "Meme del mese - Dicembre 2023",  "notes": "" },
-
-  { "year": 2024, "month": 1,  "title": "Gennaio 2024",   "file": "assets/2024-01/winner.gif", "alt": "Meme del mese - Gennaio 2024",   "notes": "" },
-  { "year": 2024, "month": 2,  "title": "Febbraio 2024",  "file": "assets/2024-02/winner.gif", "alt": "Meme del mese - Febbraio 2024",  "notes": "" },
-  { "year": 2024, "month": 3,  "title": "Marzo 2024",     "file": "assets/2024-03/winner.gif", "alt": "Meme del mese - Marzo 2024",     "notes": "" },
-  { "year": 2024, "month": 4,  "title": "Aprile 2024",    "file": "assets/2024-04/winner.gif", "alt": "Meme del mese - Aprile 2024",    "notes": "" },
-  { "year": 2024, "month": 5,  "title": "Maggio 2024",    "file": "assets/2024-05/winner.gif", "alt": "Meme del mese - Maggio 2024",    "notes": "" },
-  { "year": 2024, "month": 6,  "title": "Giugno 2024",    "file": "assets/2024-06/winner.gif", "alt": "Meme del mese - Giugno 2024",    "notes": "" },
-  { "year": 2024, "month": 7,  "title": "Luglio 2024",    "file": "assets/2024-07/winner.gif", "alt": "Meme del mese - Luglio 2024",    "notes": "" },
-  { "year": 2024, "month": 8,  "title": "Agosto 2024",    "file": "assets/2024-08/winner.gif", "alt": "Meme del mese - Agosto 2024",    "notes": "" },
-  { "year": 2024, "month": 9,  "title": "Settembre 2024", "file": "assets/2024-09/winner.gif", "alt": "Meme del mese - Settembre 2024", "notes": "" },
-  { "year": 2024, "month": 10, "title": "Ottobre 2024",   "file": "assets/2024-10/winner.gif", "alt": "Meme del mese - Ottobre 2024",   "notes": "" },
-  { "year": 2024, "month": 11, "title": "Novembre 2024",  "file": "assets/2024-11/winner.gif", "alt": "Meme del mese - Novembre 2024",  "notes": "" },
-  { "year": 2024, "month": 12, "title": "Dicembre 2024",  "file": "assets/2024-12/winner.gif", "alt": "Meme del mese - Dicembre 2024",  "notes": "" },
-
-  { "year": 2025, "month": 1,  "title": "Gennaio 2025",   "file": "assets/2025-01/winner.gif", "alt": "Meme del mese - Gennaio 2025",   "notes": "" },
-  { "year": 2025, "month": 2,  "title": "Febbraio 2025",  "file": "assets/2025-02/winner.gif", "alt": "Meme del mese - Febbraio 2025",  "notes": "" },
-  { "year": 2025, "month": 3,  "title": "Marzo 2025",     "file": "assets/2025-03/winner.gif", "alt": "Meme del mese - Marzo 2025",     "notes": "" },
-  { "year": 2025, "month": 4,  "title": "Aprile 2025",    "file": "assets/2025-04/winner.gif", "alt": "Meme del mese - Aprile 2025",    "notes": "" },
-  { "year": 2025, "month": 5,  "title": "Maggio 2025",    "file": "assets/2025-05/winner.gif", "alt": "Meme del mese - Maggio 2025",    "notes": "" },
-  { "year": 2025, "month": 6,  "title": "Giugno 2025",    "file": "assets/2025-06/winner.gif", "alt": "Meme del mese - Giugno 2025",    "notes": "" },
-  { "year": 2025, "month": 7,  "title": "Luglio 2025",    "file": "assets/2025-07/winner.gif", "alt": "Meme del mese - Luglio 2025",    "notes": "" },
-  { "year": 2025, "month": 8,  "title": "Agosto 2025",    "file": "assets/2025-08/winner.gif", "alt": "Meme del mese - Agosto 2025",    "notes": "" },
-  { "year": 2025, "month": 9,  "title": "Settembre 2025", "file": "assets/2025-09/winner.gif", "alt": "Meme del mese - Settembre 2025", "notes": "" }
+  {
+    "year": 2022,
+    "month": 7,
+    "title": "Luglio 2022",
+    "file": "assets/2022-07/winner.png",
+    "alt": "Meme del mese - Luglio 2022",
+    "notes": "",
+    "thumb": "assets/2022-07/thumb.jpg"
+  },
+  {
+    "year": 2022,
+    "month": 8,
+    "title": "Agosto 2022",
+    "file": "assets/2022-08/winner.png",
+    "alt": "Meme del mese - Agosto 2022",
+    "notes": "",
+    "thumb": "assets/2022-08/thumb.jpg"
+  },
+  {
+    "year": 2022,
+    "month": 10,
+    "title": "Ottobre 2022",
+    "file": "assets/2022-10/winner.png",
+    "alt": "Meme del mese - Ottobre 2022",
+    "notes": "",
+    "thumb": "assets/2022-10/thumb.jpg"
+  },
+  {
+    "year": 2022,
+    "month": 11,
+    "title": "Novembre 2022",
+    "file": "assets/2022-11/winner.png",
+    "alt": "Meme del mese - Novembre 2022",
+    "notes": "",
+    "thumb": "assets/2022-11/thumb.jpg"
+  },
+  {
+    "year": 2023,
+    "month": 1,
+    "title": "Gennaio 2023",
+    "file": "assets/2023-01/winner.png",
+    "alt": "Meme del mese - Gennaio 2023",
+    "notes": "",
+    "thumb": "assets/2023-01/thumb.jpg"
+  },
+  {
+    "year": 2023,
+    "month": 2,
+    "title": "Febbraio 2023",
+    "file": "assets/2023-02/winner.png",
+    "alt": "Meme del mese - Febbraio 2023",
+    "notes": "",
+    "thumb": "assets/2023-02/thumb.jpg"
+  },
+  {
+    "year": 2023,
+    "month": 3,
+    "title": "Marzo 2023",
+    "file": "assets/2023-03/winner.png",
+    "alt": "Meme del mese - Marzo 2023",
+    "notes": "",
+    "thumb": "assets/2023-03/thumb.jpg"
+  },
+  {
+    "year": 2023,
+    "month": 4,
+    "title": "Aprile 2023",
+    "file": "assets/2023-04/winner.png",
+    "alt": "Meme del mese - Aprile 2023",
+    "notes": "",
+    "thumb": "assets/2023-04/thumb.jpg"
+  },
+  {
+    "year": 2023,
+    "month": 5,
+    "title": "Maggio 2023",
+    "file": "assets/2023-05/winner.png",
+    "alt": "Meme del mese - Maggio 2023",
+    "notes": "",
+    "thumb": "assets/2023-05/thumb.jpg"
+  },
+  {
+    "year": 2023,
+    "month": 6,
+    "title": "Giugno 2023",
+    "file": "assets/2023-06/winner.png",
+    "alt": "Meme del mese - Giugno 2023",
+    "notes": "",
+    "thumb": "assets/2023-06/thumb.jpg"
+  },
+  {
+    "year": 2023,
+    "month": 7,
+    "title": "Luglio 2023",
+    "file": "assets/2023-07/winner.gif",
+    "alt": "Meme del mese - Luglio 2023",
+    "notes": "",
+    "thumb": "assets/2023-07/thumb.gif"
+  },
+  {
+    "year": 2023,
+    "month": 8,
+    "title": "Agosto 2023",
+    "file": "assets/2023-08/winner.gif",
+    "alt": "Meme del mese - Agosto 2023",
+    "notes": "",
+    "thumb": "assets/2023-08/thumb.gif"
+  },
+  {
+    "year": 2023,
+    "month": 9,
+    "title": "Settembre 2023",
+    "file": "assets/2023-09/winner.gif",
+    "alt": "Meme del mese - Settembre 2023",
+    "notes": "",
+    "thumb": "assets/2023-09/thumb.gif"
+  },
+  {
+    "year": 2023,
+    "month": 10,
+    "title": "Ottobre 2023",
+    "file": "assets/2023-10/winner.gif",
+    "alt": "Meme del mese - Ottobre 2023",
+    "notes": "",
+    "thumb": "assets/2023-10/thumb.gif"
+  },
+  {
+    "year": 2023,
+    "month": 11,
+    "title": "Novembre 2023",
+    "file": "assets/2023-11/winner.gif",
+    "alt": "Meme del mese - Novembre 2023",
+    "notes": "",
+    "thumb": "assets/2023-11/thumb.gif"
+  },
+  {
+    "year": 2023,
+    "month": 12,
+    "title": "Dicembre 2023",
+    "file": "assets/2023-12/winner.gif",
+    "alt": "Meme del mese - Dicembre 2023",
+    "notes": "",
+    "thumb": "assets/2023-12/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 1,
+    "title": "Gennaio 2024",
+    "file": "assets/2024-01/winner.gif",
+    "alt": "Meme del mese - Gennaio 2024",
+    "notes": "",
+    "thumb": "assets/2024-01/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 2,
+    "title": "Febbraio 2024",
+    "file": "assets/2024-02/winner.gif",
+    "alt": "Meme del mese - Febbraio 2024",
+    "notes": "",
+    "thumb": "assets/2024-02/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 3,
+    "title": "Marzo 2024",
+    "file": "assets/2024-03/winner.gif",
+    "alt": "Meme del mese - Marzo 2024",
+    "notes": "",
+    "thumb": "assets/2024-03/thumb.jpg"
+  },
+  {
+    "year": 2024,
+    "month": 4,
+    "title": "Aprile 2024",
+    "file": "assets/2024-04/winner.gif",
+    "alt": "Meme del mese - Aprile 2024",
+    "notes": "",
+    "thumb": "assets/2024-04/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 5,
+    "title": "Maggio 2024",
+    "file": "assets/2024-05/winner.gif",
+    "alt": "Meme del mese - Maggio 2024",
+    "notes": "",
+    "thumb": "assets/2024-05/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 6,
+    "title": "Giugno 2024",
+    "file": "assets/2024-06/winner.gif",
+    "alt": "Meme del mese - Giugno 2024",
+    "notes": "",
+    "thumb": "assets/2024-06/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 7,
+    "title": "Luglio 2024",
+    "file": "assets/2024-07/winner.gif",
+    "alt": "Meme del mese - Luglio 2024",
+    "notes": "",
+    "thumb": "assets/2024-07/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 8,
+    "title": "Agosto 2024",
+    "file": "assets/2024-08/winner.gif",
+    "alt": "Meme del mese - Agosto 2024",
+    "notes": "",
+    "thumb": "assets/2024-08/thumb.jpg"
+  },
+  {
+    "year": 2024,
+    "month": 9,
+    "title": "Settembre 2024",
+    "file": "assets/2024-09/winner.gif",
+    "alt": "Meme del mese - Settembre 2024",
+    "notes": "",
+    "thumb": "assets/2024-09/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 10,
+    "title": "Ottobre 2024",
+    "file": "assets/2024-10/winner.gif",
+    "alt": "Meme del mese - Ottobre 2024",
+    "notes": "",
+    "thumb": "assets/2024-10/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 11,
+    "title": "Novembre 2024",
+    "file": "assets/2024-11/winner.gif",
+    "alt": "Meme del mese - Novembre 2024",
+    "notes": "",
+    "thumb": "assets/2024-11/thumb.gif"
+  },
+  {
+    "year": 2024,
+    "month": 12,
+    "title": "Dicembre 2024",
+    "file": "assets/2024-12/winner.gif",
+    "alt": "Meme del mese - Dicembre 2024",
+    "notes": "",
+    "thumb": "assets/2024-12/thumb.jpg"
+  },
+  {
+    "year": 2025,
+    "month": 1,
+    "title": "Gennaio 2025",
+    "file": "assets/2025-01/winner.gif",
+    "alt": "Meme del mese - Gennaio 2025",
+    "notes": "",
+    "thumb": "assets/2025-01/thumb.gif"
+  },
+  {
+    "year": 2025,
+    "month": 2,
+    "title": "Febbraio 2025",
+    "file": "assets/2025-02/winner.gif",
+    "alt": "Meme del mese - Febbraio 2025",
+    "notes": "",
+    "thumb": "assets/2025-02/thumb.jpg"
+  },
+  {
+    "year": 2025,
+    "month": 3,
+    "title": "Marzo 2025",
+    "file": "assets/2025-03/winner.gif",
+    "alt": "Meme del mese - Marzo 2025",
+    "notes": "",
+    "thumb": "assets/2025-03/thumb.gif"
+  },
+  {
+    "year": 2025,
+    "month": 4,
+    "title": "Aprile 2025",
+    "file": "assets/2025-04/winner.gif",
+    "alt": "Meme del mese - Aprile 2025",
+    "notes": "",
+    "thumb": "assets/2025-04/thumb.gif"
+  },
+  {
+    "year": 2025,
+    "month": 5,
+    "title": "Maggio 2025",
+    "file": "assets/2025-05/winner.gif",
+    "alt": "Meme del mese - Maggio 2025",
+    "notes": "",
+    "thumb": "assets/2025-05/thumb.gif"
+  },
+  {
+    "year": 2025,
+    "month": 6,
+    "title": "Giugno 2025",
+    "file": "assets/2025-06/winner.gif",
+    "alt": "Meme del mese - Giugno 2025",
+    "notes": "",
+    "thumb": "assets/2025-06/thumb.gif"
+  },
+  {
+    "year": 2025,
+    "month": 7,
+    "title": "Luglio 2025",
+    "file": "assets/2025-07/winner.gif",
+    "alt": "Meme del mese - Luglio 2025",
+    "notes": "",
+    "thumb": "assets/2025-07/thumb.jpg"
+  },
+  {
+    "year": 2025,
+    "month": 8,
+    "title": "Agosto 2025",
+    "file": "assets/2025-08/winner.gif",
+    "alt": "Meme del mese - Agosto 2025",
+    "notes": "",
+    "thumb": "assets/2025-08/thumb.gif"
+  },
+  {
+    "year": 2025,
+    "month": 9,
+    "title": "Settembre 2025",
+    "file": "assets/2025-09/winner.gif",
+    "alt": "Meme del mese - Settembre 2025",
+    "notes": "",
+    "thumb": "assets/2025-09/thumb.gif"
+  }
 ]

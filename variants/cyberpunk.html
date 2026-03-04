@@ -1097,7 +1097,7 @@ body::after {
         html += '<span class="tile-status"><span class="status-dot"></span> ACTIVE</span>';
         html += '</div>';
         html += '<div class="tile-thumb">';
-        html += '<img src="../' + meme.file.replace(/\/winner\.\w+$/, '/thumb.jpg') + '" alt="' + (meme.alt || meme.title) + '" loading="lazy">';
+        html += '<img src="../' + (meme.thumb || meme.file) + '" alt="' + (meme.alt || meme.title) + '" loading="lazy">';
         html += '</div>';
         html += '<div class="tile-info">';
         html += '<div class="tile-title">' + meme.title + '</div>';

@@ -28,6 +28,19 @@
     ];
     document.getElementById('msg404').textContent =
       messages[Math.floor(Math.random() * messages.length)];
+
+    // Easter egg #10: visiting 404 counts!
+    try {
+      const eggs = new Set(JSON.parse(localStorage.getItem('mdm_eggs') || '[]'));
+      if (!eggs.has('404-page')) {
+        eggs.add('404-page');
+        localStorage.setItem('mdm_eggs', JSON.stringify([...eggs]));
+        const badge = document.createElement('p');
+        badge.style.cssText = 'margin-top:1.5rem; font-size:0.85rem; color:var(--neon-pink); font-family:var(--font-mono);';
+        badge.textContent = '🥚 Easter egg #10 trovato! Anche la pagina 404 ha i suoi segreti. (' + eggs.size + '/10)';
+        document.querySelector('.page-404').appendChild(badge);
+      }
+    } catch(e) {}
   </script>
 </body>
 </html>

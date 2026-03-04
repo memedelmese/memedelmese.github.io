@@ -16,7 +16,7 @@
     '🌊', '🔥', '🍂', '🎃', '🍁', '🎄'
   ];
 
-  // ── Taglines (easter egg #2) ──
+  // ── Taglines (Easter Egg #1: random taglines) ──
   const TAGLINES = [
     'Archivio ufficiale delle risate mensili',
     'Dove i meme vengono archiviati con rispetto™',
@@ -33,20 +33,44 @@
     'git commit -m "meme troppo bello per non committare"',
     'Error 200: Meme trovato con successo',
     'Sponsored by: nessuno, siamo troppo di nicchia',
+    'npm install meme-del-mese --save-humor',
+    'Connessione al server dei meme... stabilita',
+    'Hai provato a spegnere e riaccendere i meme?',
   ];
 
-  // ── Joke tooltips (easter egg #5) ──
+  // ── Joke tooltips (Easter Egg #2: hover jokes) ──
   const TILE_JOKES = {
     1:  'Buon anno! (forse)',
-    4:  'Pesce d\'aprile?',
-    7:  'Troppo caldo per meme migliori',
+    2:  'L\'amore è un meme 💕',
+    4:  'Pesce d\'aprile? 🐟',
+    7:  'Troppo caldo per meme migliori 🥵',
+    8:  'Ferragosto mode: ON',
     10: 'Spooky meme season 🎃',
     12: 'Il meme di Natale 🎅',
   };
 
+  // ── Locked tile messages (Easter Egg #3: different messages each click) ──
+  const LOCKED_MESSAGES = [
+    'Nessun meme per questo mese… ancora 🔒',
+    'Qui non c\'è nulla. Come il mio conto in banca.',
+    'Meme non pervenuto. Riprova tra un mese.',
+    'Error 404: Meme Not Found 🕳️',
+    'Questo mese era in ferie.',
+    'Il meme è scappato. Lo stiamo cercando.',
+    'Vuoto cosmico. Ma con stile.',
+    '*rumore di grilli* 🦗',
+    'Coming soon™ (forse)',
+    'Il comitato ha deciso: niente meme questo mese.',
+  ];
+
+  // ── Easter Egg registry ──
+  const TOTAL_EGGS = 10;
+  const eggsFound = new Set(JSON.parse(localStorage.getItem('mdm_eggs') || '[]'));
+
   // ── State ──
   let memes = [];
   let currentRoute = null;
+  let lockedClickIdx = 0;
 
   // ── DOM refs ──
   const $ = (sel) => document.querySelector(sel);
@@ -55,6 +79,7 @@
   // ── Init ──
   async function init() {
     setTagline();
+    printConsoleArt();
     try {
       const resp = await fetch('data/memes.json');
       if (!resp.ok) throw new Error('Failed to load memes');
@@ -69,6 +94,38 @@
     onRoute();
     initKonamiCode();
     initSecretFooter();
+    initTitleClicks();
+    initTaglineClicks();
+    initTypeMeme();
+    initScrollSecret();
+    updateEggTracker();
+  }
+
+  // ── Easter Egg #4: Console ASCII art ──
+  function printConsoleArt() {
+    const art = [
+      '%c╔══════════════════════════════════════════╗',
+      '║     🏆  M E M E  D E L  M E S E  🏆     ║',
+      '║                                          ║',
+      '║  Hai aperto la console? Sei un vero dev! ║',
+      '║  Questo conta come easter egg #4 🥚      ║',
+      '║                                          ║',
+      '║  Prova: ↑↑↓↓←→←→BA (Konami Code)        ║',
+      '║  Prova: scrivi "meme" sulla tastiera     ║',
+      '║  Prova: clicca il titolo 10 volte        ║',
+      '║  Prova: clicca le ☆ nel footer           ║',
+      '║  Prova: scorri fino in fondo             ║',
+      '╚══════════════════════════════════════════╝',
+    ].join('\n');
+    console.log(art, 'color: #b967ff; font-family: monospace; font-size: 12px;');
+    console.log('%c🥚 Se stai leggendo questo, digita window.__unlock() nella console per un regalo!', 'color: #ff6ec7; font-size: 11px;');
+
+    // Secret console command
+    window.__unlock = function() {
+      discoverEgg('console-unlock', 'Hai sbloccato l\'easter egg della console! 🧑‍💻');
+      triggerEmojiRain(['🏆', '🥚', '⭐', '🎉', '💜'], 30);
+      return '🏆 Congratulazioni, hacker dei meme!';
+    };
   }
 
   // ── Tagline ──
@@ -77,9 +134,25 @@
     if (el) el.textContent = TAGLINES[Math.floor(Math.random() * TAGLINES.length)];
   }
 
+  // ── Easter Egg #1: Click tagline to cycle ──
+  function initTaglineClicks() {
+    const el = $('.site-tagline');
+    if (!el) return;
+    let idx = TAGLINES.indexOf(el.textContent);
+    el.addEventListener('click', () => {
+      idx = (idx + 1) % TAGLINES.length;
+      el.style.opacity = '0';
+      setTimeout(() => {
+        el.textContent = TAGLINES[idx];
+        el.style.opacity = '1';
+      }, 300);
+      discoverEgg('tagline-click', 'Hai scoperto che le tagline sono cliccabili! 💬');
+    });
+  }
+
   // ── Router ──
   function onRoute() {
-    const hash = location.hash.slice(1); // e.g. "2025-03"
+    const hash = location.hash.slice(1);
     if (/^\d{4}-\d{2}$/.test(hash)) {
       showMemeView(hash);
     } else {
@@ -87,12 +160,11 @@
     }
   }
 
-  // ── Home View ──
+  // ── Home View (with thumbnails) ──
   function showHome() {
     currentRoute = 'home';
     const app = $('#app');
 
-    // Determine year range
     const years = getYears();
     let html = '';
 
@@ -109,8 +181,18 @@
         const joke = TILE_JOKES[m] ? ` data-joke="${TILE_JOKES[m]}"` : '';
 
         html += `<div class="month-tile ${cls}" data-slug="${slug}"${joke}>`;
+
+        if (active) {
+          html += `<img class="month-thumb" src="${meme.file}" alt="${meme.alt}" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`;
+          html += `<div class="thumb-placeholder" style="display:none">${MONTH_EMOJI[m]}</div>`;
+        } else {
+          html += `<div class="thumb-placeholder">🔒</div>`;
+        }
+
+        html += '<div class="month-label">';
         html += `<span class="month-emoji">${MONTH_EMOJI[m]}</span>`;
         html += `<span class="month-name">${MONTHS_IT[m].slice(0, 3)}</span>`;
+        html += '</div>';
         html += '</div>';
       }
 
@@ -129,7 +211,12 @@
 
     $$('.month-tile.locked').forEach(tile => {
       tile.addEventListener('click', () => {
-        showToast('Nessun meme per questo mese… ancora 🔒');
+        const msg = LOCKED_MESSAGES[lockedClickIdx % LOCKED_MESSAGES.length];
+        lockedClickIdx++;
+        showToast(msg);
+        if (lockedClickIdx >= 5) {
+          discoverEgg('locked-clicks', 'Hai cliccato abbastanza mesi vuoti da meritare un premio! 🏅');
+        }
       });
     });
   }
@@ -178,15 +265,12 @@
     html += '</div></div>';
 
     app.innerHTML = html;
-
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // ── Helpers ──
   function getYears() {
     const yearSet = new Set(memes.map(m => m.year));
-    // Fill in any gap years and include current year
     const min = Math.min(...yearSet);
     const max = Math.max(...yearSet, new Date().getFullYear());
     const years = [];
@@ -199,7 +283,6 @@
   }
 
   function getNeighbors(year, month) {
-    // Sort all memes by year then month
     const sorted = [...memes].sort((a, b) => a.year - b.year || a.month - b.month);
     const idx = sorted.findIndex(m => m.year === year && m.month === month);
     const prev = idx > 0 ? toSlug(sorted[idx - 1]) : null;
@@ -220,7 +303,6 @@
       document.body.appendChild(toast);
     }
     toast.textContent = msg;
-    // Trigger reflow
     toast.classList.remove('visible');
     void toast.offsetWidth;
     toast.classList.add('visible');
@@ -246,7 +328,7 @@
     overlay.classList.add('visible');
   };
 
-  // Close modal on Escape
+  // Close modals on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       const modal = $('.modal-overlay.visible');
@@ -256,7 +338,7 @@
     }
   });
 
-  // ── Easter Egg #1: Konami Code ──
+  // ── Easter Egg #5: Konami Code ──
   function initKonamiCode() {
     const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     let pos = 0;
@@ -278,15 +360,14 @@
     if (document.body.classList.contains('vaporwave-overdrive')) return;
     document.body.classList.add('vaporwave-overdrive');
 
-    // Add banner
     const banner = document.createElement('div');
     banner.className = 'overdrive-banner';
     banner.textContent = '✦ V A P O R W A V E  O V E R D R I V E ✦';
     document.body.prepend(banner);
 
-    showToast('🌴 Vaporwave Overdrive attivato! 🌴');
+    discoverEgg('konami', '🌴 Vaporwave Overdrive attivato! 🌴');
+    triggerEmojiRain(['🌴', '🌊', '🦩', '💜', '✨', '🎶'], 25);
 
-    // Remove after 15 seconds
     setTimeout(() => {
       document.body.classList.remove('vaporwave-overdrive');
       banner.remove();
@@ -294,22 +375,27 @@
     }, 15000);
   }
 
-  // ── Easter Egg #3: Secret Footer ──
+  // ── Easter Egg #6: Secret Footer (click stars) ──
   function initSecretFooter() {
-    const secret = $('.footer-secret');
-    if (!secret) return;
-
-    let clicks = 0;
-    secret.addEventListener('click', () => {
-      clicks++;
-      if (clicks >= 3) {
-        clicks = 0;
-        showCredits();
-      }
+    $$('.footer-secret').forEach(star => {
+      let clicks = 0;
+      star.addEventListener('click', () => {
+        clicks++;
+        // Visual feedback on each click
+        star.style.transform = `scale(${1 + clicks * 0.15}) rotate(${clicks * 30}deg)`;
+        if (clicks >= 3) {
+          clicks = 0;
+          star.style.transform = '';
+          showCredits();
+        }
+        setTimeout(() => { star.style.transform = ''; }, 600);
+      });
     });
   }
 
   function showCredits() {
+    discoverEgg('credits', 'Hai trovato i crediti segreti! ⭐');
+
     let modal = $('.credits-modal');
     if (!modal) {
       modal = document.createElement('div');
@@ -319,7 +405,8 @@
           <h2>🏆 Crediti Segreti</h2>
           <p>Sito creato con amore, caffeina e una quantità discutibile di CSS neon.</p>
           <p>Dedicato a tutti i meme che non ce l'hanno fatta. 🫡</p>
-          <p style="font-size:0.75rem; margin-top:0.8rem; color: var(--text-muted)">Hai trovato un easter egg! Ce ne sono altri…</p>
+          <p style="margin-top:0.8rem">Easter egg trovati: <strong>${eggsFound.size}/${TOTAL_EGGS}</strong></p>
+          <p style="font-size:0.75rem; margin-top:0.5rem; color: var(--text-muted)">${eggsFound.size >= TOTAL_EGGS ? '🎉 Li hai trovati TUTTI! Sei un meme master!' : 'Continua a cercare…'}</p>
           <button class="credits-close">Chiudi (e torna ai meme)</button>
         </div>
       `;
@@ -329,8 +416,116 @@
         }
       });
       document.body.appendChild(modal);
+    } else {
+      // Update count
+      modal.querySelector('strong').textContent = `${eggsFound.size}/${TOTAL_EGGS}`;
     }
     modal.classList.add('visible');
+  }
+
+  // ── Easter Egg #7: Title clicks ──
+  function initTitleClicks() {
+    const title = $('.site-title');
+    if (!title) return;
+    let clicks = 0;
+
+    title.addEventListener('click', () => {
+      clicks++;
+      title.classList.add('spin');
+      setTimeout(() => title.classList.remove('spin'), 1000);
+
+      if (clicks === 5) {
+        showToast('Continua a cliccare… 🤔');
+      }
+      if (clicks >= 10) {
+        clicks = 0;
+        discoverEgg('title-clicks', 'Hai cliccato il titolo 10 volte! 🎯');
+        triggerEmojiRain(['🏆', '🎉', '✨', '🌟', '💫', '⭐'], 40);
+      }
+    });
+  }
+
+  // ── Easter Egg #8: Type "meme" ──
+  function initTypeMeme() {
+    const target = 'meme';
+    let buffer = '';
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key.length === 1) {
+        buffer += e.key.toLowerCase();
+        if (buffer.length > target.length) buffer = buffer.slice(-target.length);
+        if (buffer === target) {
+          buffer = '';
+          discoverEgg('type-meme', 'Hai digitato "meme"! Sei un vero intenditore! 🧠');
+          triggerEmojiRain(['😂', '🤣', '💀', '😭', '🗿', '🫠', '😎', '🤡'], 50);
+        }
+      }
+    });
+  }
+
+  // ── Easter Egg #9: Scroll to bottom reveals secret ──
+  function initScrollSecret() {
+    const secretDiv = document.createElement('div');
+    secretDiv.className = 'scroll-secret';
+    secretDiv.innerHTML = '🥚 Hai scrollato fino alla fine! Sei una persona determinata.<br><span style="font-size:0.65rem; opacity:0.5">Questo è l\'easter egg #9. Ne mancano pochi.</span>';
+    document.body.appendChild(secretDiv);
+
+    let revealed = false;
+    window.addEventListener('scroll', () => {
+      if (revealed) return;
+      const scrollBottom = window.innerHeight + window.scrollY;
+      const pageHeight = document.documentElement.scrollHeight;
+      if (scrollBottom >= pageHeight - 20) {
+        revealed = true;
+        secretDiv.classList.add('revealed');
+        discoverEgg('scroll-bottom', 'Hai scrollato fino in fondo! 📜');
+      }
+    });
+  }
+
+  // ── Emoji rain effect ──
+  function triggerEmojiRain(emojis, count) {
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const el = document.createElement('div');
+        el.className = 'emoji-rain';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.animationDuration = (2 + Math.random() * 3) + 's';
+        el.style.fontSize = (1.2 + Math.random() * 1.5) + 'rem';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 5000);
+      }, i * 80);
+    }
+  }
+
+  // ── Easter Egg discovery system ──
+  function discoverEgg(id, message) {
+    const isNew = !eggsFound.has(id);
+    eggsFound.add(id);
+    localStorage.setItem('mdm_eggs', JSON.stringify([...eggsFound]));
+    if (isNew) {
+      showToast(`🥚 ${message} (${eggsFound.size}/${TOTAL_EGGS})`);
+      updateEggTracker();
+    } else {
+      showToast(message);
+    }
+  }
+
+  function updateEggTracker() {
+    const tracker = $('.egg-tracker');
+    if (!tracker) return;
+    tracker.textContent = `🥚 ${eggsFound.size}/${TOTAL_EGGS} trovati`;
+    if (eggsFound.size > 0) {
+      tracker.classList.add('found');
+      setTimeout(() => tracker.classList.remove('found'), 600);
+    }
+    if (eggsFound.size >= TOTAL_EGGS) {
+      tracker.style.borderColor = 'var(--neon-pink)';
+      tracker.style.color = 'var(--neon-pink)';
+      tracker.textContent = `🥚 ${eggsFound.size}/${TOTAL_EGGS} ★ COMPLETO ★`;
+    }
   }
 
   // ── Boot ──

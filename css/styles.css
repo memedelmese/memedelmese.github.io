@@ -22,8 +22,8 @@
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --font-stack: 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-  --max-width: 1100px;
-  --grid-gap: 12px;
+  --max-width: 1200px;
+  --grid-gap: 14px;
 }
 
 /* ── Reset & Base ── */
@@ -100,7 +100,22 @@ img {
   background-clip: text;
   animation: gradientShift 8s ease infinite;
   text-shadow: none;
-  cursor: default;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+
+.site-title:active {
+  transform: scale(0.97);
+}
+
+.site-title.spin {
+  animation: titleSpin 1s ease 1, gradientShift 2s ease infinite;
+}
+
+@keyframes titleSpin {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
 }
 
 .site-tagline {
@@ -110,6 +125,61 @@ img {
   margin-top: 0.4rem;
   min-height: 1.3em;
   transition: opacity 0.4s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.site-tagline:hover {
+  color: var(--text-secondary);
+}
+
+/* Egg tracker */
+.egg-tracker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.6rem;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid rgba(185, 103, 255, 0.15);
+  border-radius: 20px;
+  background: rgba(26, 10, 46, 0.5);
+  transition: all 0.4s ease;
+  cursor: help;
+}
+
+.egg-tracker:hover {
+  border-color: var(--neon-purple);
+  color: var(--text-secondary);
+}
+
+.egg-tracker.found {
+  animation: eggPop 0.5s ease;
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+}
+
+@keyframes eggPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Konami hint */
+.konami-hint {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+  letter-spacing: 0.15em;
+}
+
+.konami-hint:hover {
+  opacity: 0.8;
 }
 
 @keyframes gradientShift {
@@ -147,21 +217,20 @@ img {
   font-size: 0.9em;
 }
 
-/* ── Month Grid ── */
+/* ── Month Grid (with thumbnails) ── */
 .month-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: var(--grid-gap);
 }
 
 .month-tile {
   position: relative;
-  aspect-ratio: 1;
   border-radius: var(--radius);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
@@ -170,20 +239,57 @@ img {
   transition: all var(--transition);
   overflow: hidden;
   text-align: center;
-  padding: 0.5rem;
+}
+
+/* Tile label bar at bottom */
+.month-label {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 0.5rem 0.4rem;
+  background: linear-gradient(to top, rgba(13, 2, 33, 0.95), rgba(13, 2, 33, 0.7));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  transition: background var(--transition);
 }
 
 .month-tile .month-name {
   position: relative;
   z-index: 2;
-  transition: transform var(--transition);
+  transition: color var(--transition);
 }
 
 .month-tile .month-emoji {
-  font-size: 1.5rem;
-  margin-bottom: 0.3rem;
+  font-size: 1.1rem;
   position: relative;
   z-index: 2;
+}
+
+/* Thumbnail image */
+.month-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.month-thumb.loaded {
+  opacity: 1;
+}
+
+/* Placeholder for loading thumbnails */
+.thumb-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, rgba(185, 103, 255, 0.08), rgba(0, 255, 245, 0.05));
 }
 
 /* Active (has meme) */
@@ -193,23 +299,21 @@ img {
 }
 
 .month-tile.active:hover {
-  transform: translateY(-3px) scale(1.03);
+  transform: translateY(-4px) scale(1.02);
   border-color: var(--neon-pink);
   box-shadow: var(--shadow-neon);
-  background: var(--bg-card-hover);
+}
+
+.month-tile.active:hover .month-thumb {
+  transform: scale(1.08);
 }
 
 .month-tile.active:hover .month-name {
   color: var(--neon-cyan);
 }
 
-.month-tile.active::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius);
-  background: linear-gradient(135deg, transparent 40%, rgba(255, 110, 199, 0.08));
-  pointer-events: none;
+.month-tile.active:hover .month-label {
+  background: linear-gradient(to top, rgba(13, 2, 33, 1), rgba(13, 2, 33, 0.85));
 }
 
 /* Locked (no meme) */
@@ -221,6 +325,11 @@ img {
 
 .month-tile.locked .month-name {
   color: var(--text-muted);
+}
+
+.month-tile.locked .thumb-placeholder {
+  font-size: 2rem;
+  opacity: 0.5;
 }
 
 /* ── Meme Viewer ── */
@@ -488,13 +597,35 @@ img {
 
 .footer-secret {
   display: inline-block;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   transition: all 0.5s ease;
+  font-size: 1.1em;
+  animation: starPulse 3s ease infinite;
 }
 
 .footer-secret:hover {
-  text-shadow: 0 0 8px var(--neon-purple);
+  text-shadow: 0 0 12px var(--neon-purple), 0 0 20px var(--neon-pink);
+  transform: scale(1.3);
+}
+
+@keyframes starPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; text-shadow: 0 0 6px var(--neon-purple); }
+}
+
+.footer-hint {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  opacity: 0.35;
+  margin-top: 0.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.footer-hint:hover {
+  opacity: 0.7;
 }
 
 /* ── Vaporwave Overdrive (Konami) ── */
@@ -612,40 +743,6 @@ body.vaporwave-overdrive .year-heading {
   html { scroll-behavior: auto; }
 }
 
-/* ── Responsive ── */
-@media (max-width: 600px) {
-  .month-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-  .month-tile {
-    font-size: 0.75rem;
-    border-radius: var(--radius-sm);
-  }
-  .month-tile .month-emoji {
-    font-size: 1.2rem;
-  }
-  .viewer-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .site-header {
-    padding: 1.5rem 1rem 1rem;
-  }
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-  .month-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
-@media (min-width: 901px) {
-  .month-grid {
-    grid-template-columns: repeat(12, 1fr);
-  }
-}
-
 /* ── 404 Page ── */
 .page-404 {
   display: flex;
@@ -686,4 +783,71 @@ body.vaporwave-overdrive .year-heading {
 .page-404 .btn-home {
   padding: 0.7rem 2rem;
   font-size: 1rem;
+}
+
+/* ── Emoji Rain ── */
+.emoji-rain {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 1.8rem;
+  animation: emojiDrop linear forwards;
+  opacity: 0.9;
+}
+
+@keyframes emojiDrop {
+  0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── Secret scroll message ── */
+.scroll-secret {
+  text-align: center;
+  padding: 3rem 1rem 1rem;
+  opacity: 0;
+  transition: opacity 1s ease;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.scroll-secret.revealed {
+  opacity: 1;
+}
+
+/* ── Responsive (updated for thumbnails) ── */
+@media (max-width: 500px) {
+  .month-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .month-tile {
+    font-size: 0.75rem;
+    border-radius: var(--radius-sm);
+  }
+  .viewer-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .site-header {
+    padding: 1.5rem 1rem 1rem;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 750px) {
+  .month-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 751px) and (max-width: 1000px) {
+  .month-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1001px) {
+  .month-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }

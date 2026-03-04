@@ -183,8 +183,9 @@
         html += `<div class="month-tile ${cls}" data-slug="${slug}"${joke}>`;
 
         if (active) {
-          html += `<img class="month-thumb" src="${meme.file}" alt="${meme.alt}" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`;
-          html += `<div class="thumb-placeholder" style="display:none">${MONTH_EMOJI[m]}</div>`;
+          // Placeholder visible while image loads; hidden once image fires onload
+          html += `<div class="thumb-placeholder" id="ph-${slug}">${MONTH_EMOJI[m]}</div>`;
+          html += `<img class="month-thumb" src="${meme.file}" alt="${meme.alt}" loading="lazy" style="display:none" onload="this.style.display='block';document.getElementById('ph-${slug}').classList.add('hidden')" onerror="this.style.display='none'">`;
         } else {
           html += `<div class="thumb-placeholder">🔒</div>`;
         }

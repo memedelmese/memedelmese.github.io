@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEME // DEL // MESE — ARCHIVIO CLASSIFICATO</title>
+<style>
+/* ════════════════════════════════════════════════
+   CYBERPUNK / BLADE RUNNER THEME
+   ════════════════════════════════════════════════ */
+
+@keyframes glitch {
+  0%   { text-shadow: 2px 0 #ff3333, -2px 0 #00d4ff; transform: translate(0); }
+  20%  { text-shadow: -3px 2px #ff3333, 3px -1px #00d4ff; transform: translate(-2px, 1px); }
+  40%  { text-shadow: 3px -2px #ff3333, -3px 2px #00d4ff; transform: translate(1px, -1px); }
+  60%  { text-shadow: -2px 0 #ff3333, 2px 0 #00d4ff; transform: translate(2px, 2px); }
+  80%  { text-shadow: 2px 2px #ff3333, -2px -2px #00d4ff; transform: translate(-1px, 0); }
+  100% { text-shadow: 2px 0 #ff3333, -2px 0 #00d4ff; transform: translate(0); }
+}
+
+@keyframes glitchBig {
+  0%, 90%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+  92% { clip-path: inset(20% 0 40% 0); transform: translate(-4px, 0); }
+  94% { clip-path: inset(60% 0 10% 0); transform: translate(4px, 0); }
+  96% { clip-path: inset(30% 0 50% 0); transform: translate(-2px, 0); }
+  98% { clip-path: inset(70% 0 5% 0); transform: translate(3px, 0); }
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes blinkSlow {
+  0%, 70% { opacity: 1; }
+  71%, 100% { opacity: 0; }
+}
+
+@keyframes scanMove {
+  0%   { top: -5%; }
+  100% { top: 105%; }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 5px #ff6a00, 0 0 10px rgba(255,106,0,0.3); }
+  50%      { box-shadow: 0 0 15px #ff6a00, 0 0 30px rgba(255,106,0,0.5); }
+}
+
+@keyframes borderPulse {
+  0%, 100% { border-color: #ff3333; }
+  50%      { border-color: #ff333366; }
+}
+
+@keyframes rainDrop {
+  0%   { transform: translateY(-100vh); opacity: 1; }
+  90%  { opacity: 0.3; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes flicker {
+  0%, 97%, 100% { opacity: 1; }
+  98% { opacity: 0.6; }
+  99% { opacity: 0.9; }
+}
+
+@keyframes hudPulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 1; }
+}
+
+@keyframes loadBar {
+  from { width: 0; }
+  to   { width: var(--load-pct); }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #ff6a00 #0a0a0f;
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background: #0a0a0f;
+  color: #f0f0ff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  position: relative;
+}
+
+/* ── Digital noise background ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255,106,0,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(0,212,255,0.02) 0%, transparent 50%),
+    radial-gradient(circle at 30% 70%, rgba(255,51,51,0.02) 0%, transparent 30%),
+    radial-gradient(circle at 70% 30%, rgba(0,255,65,0.01) 0%, transparent 30%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Hexagonal pattern overlay ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(30deg, rgba(0,212,255,0.015) 12%, transparent 12.5%, transparent 87%, rgba(0,212,255,0.015) 87.5%, rgba(0,212,255,0.015)),
+    linear-gradient(150deg, rgba(0,212,255,0.015) 12%, transparent 12.5%, transparent 87%, rgba(0,212,255,0.015) 87.5%, rgba(0,212,255,0.015)),
+    linear-gradient(30deg, rgba(0,212,255,0.015) 12%, transparent 12.5%, transparent 87%, rgba(0,212,255,0.015) 87.5%, rgba(0,212,255,0.015)),
+    linear-gradient(150deg, rgba(0,212,255,0.015) 12%, transparent 12.5%, transparent 87%, rgba(0,212,255,0.015) 87.5%, rgba(0,212,255,0.015)),
+    linear-gradient(60deg, rgba(255,106,0,0.01) 25%, transparent 25.5%, transparent 75%, rgba(255,106,0,0.01) 75%, rgba(255,106,0,0.01)),
+    linear-gradient(60deg, rgba(255,106,0,0.01) 25%, transparent 25.5%, transparent 75%, rgba(255,106,0,0.01) 75%, rgba(255,106,0,0.01));
+  background-size: 80px 140px;
+  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Scanline overlay ── */
+#scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ── Moving scan bar ── */
+#scanBar {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.15), rgba(0,212,255,0.3), rgba(0,212,255,0.15), transparent);
+  animation: scanMove 8s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Digital rain columns ── */
+.rain-column {
+  position: fixed;
+  top: 0;
+  width: 14px;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.06;
+}
+.rain-column span {
+  display: block;
+  font-size: 10px;
+  color: #00d4ff;
+  line-height: 14px;
+  animation: rainDrop var(--rain-speed, 12s) linear infinite;
+  animation-delay: var(--rain-delay, 0s);
+}
+
+/* ════════════════ TOP HUD BAR ════════════════ */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  background: linear-gradient(180deg, rgba(10,10,15,0.97), rgba(10,10,15,0.9));
+  border-bottom: 1px solid rgba(0,212,255,0.3);
+  font-size: 11px;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  backdrop-filter: blur(10px);
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.top-bar a {
+  color: #ff6a00;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.top-bar a:hover {
+  color: #f0f0ff;
+  text-shadow: 0 0 10px #ff6a00;
+}
+.hud-left, .hud-center, .hud-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00ff41;
+  animation: blinkSlow 2s infinite;
+  box-shadow: 0 0 6px #00ff41;
+}
+.status-dot.red {
+  background: #ff3333;
+  box-shadow: 0 0 6px #ff3333;
+}
+
+/* ════════════════ CORNER HUD ELEMENTS ════════════════ */
+.hud-corner {
+  position: fixed;
+  font-size: 9px;
+  color: rgba(0,212,255,0.4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 100;
+  pointer-events: none;
+  animation: hudPulse 4s ease-in-out infinite;
+}
+.hud-corner.top-left {
+  top: 50px;
+  left: 10px;
+  border-left: 1px solid rgba(0,212,255,0.2);
+  padding-left: 8px;
+}
+.hud-corner.top-right {
+  top: 50px;
+  right: 10px;
+  text-align: right;
+  border-right: 1px solid rgba(255,106,0,0.2);
+  padding-right: 8px;
+}
+.hud-corner.bottom-left {
+  bottom: 10px;
+  left: 10px;
+  border-left: 1px solid rgba(0,255,65,0.2);
+  padding-left: 8px;
+}
+.hud-corner.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  text-align: right;
+  border-right: 1px solid rgba(255,51,51,0.2);
+  padding-right: 8px;
+}
+
+/* ════════════════ MAIN CONTENT ════════════════ */
+.main-wrapper {
+  position: relative;
+  z-index: 10;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+/* ── Title Section ── */
+.title-section {
+  text-align: center;
+  padding: 60px 20px 40px;
+}
+.main-title {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: bold;
+  color: #ff6a00;
+  text-transform: uppercase;
+  letter-spacing: 12px;
+  animation: glitch 4s infinite, flicker 6s infinite;
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 0 20px rgba(255,106,0,0.4), 0 0 60px rgba(255,106,0,0.15);
+}
+.main-title::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #ff6a00;
+  animation: glitchBig 6s infinite;
+  z-index: -1;
+}
+.subtitle {
+  margin-top: 15px;
+  font-size: clamp(0.7rem, 2vw, 1rem);
+  color: #00d4ff;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #00d4ff;
+  display: inline-block;
+  animation: typing 3s steps(25) 0.5s forwards, blink 0.8s step-end infinite;
+  width: 0;
+}
+.divider {
+  width: 60%;
+  max-width: 500px;
+  height: 1px;
+  margin: 30px auto;
+  background: linear-gradient(90deg, transparent, #ff6a00, #00d4ff, #ff6a00, transparent);
+}
+.tagline {
+  font-size: 10px;
+  color: rgba(240,240,255,0.3);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+/* ════════════════ YEAR SECTIONS ════════════════ */
+.year-section {
+  margin: 50px 0 30px;
+  animation: fadeInUp 0.6s ease-out;
+}
+.year-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.year-label {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  color: #00d4ff;
+  letter-spacing: 4px;
+  text-shadow: 0 0 15px rgba(0,212,255,0.3);
+}
+.year-label .chevron { color: #ff6a00; }
+.year-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1.3em;
+  background: #00d4ff;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+.year-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,212,255,0.4), transparent);
+  min-width: 40px;
+}
+.progress-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+  font-size: 10px;
+  color: rgba(0,212,255,0.5);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.progress-track {
+  width: 200px;
+  max-width: 40%;
+  height: 4px;
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.15);
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff, #ff6a00);
+  box-shadow: 0 0 8px rgba(0,212,255,0.4);
+  animation: loadBar 1.5s ease-out forwards;
+  width: 0;
+}
+
+/* ════════════════ MEME GRID ════════════════ */
+.meme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* ── HUD Panel Tile ── */
+.meme-tile {
+  position: relative;
+  background: linear-gradient(135deg, rgba(26,26,46,0.8), rgba(10,10,15,0.9));
+  border: 1px solid rgba(0,212,255,0.2);
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.meme-tile:hover {
+  border-color: #ff6a00;
+  box-shadow: 0 0 20px rgba(255,106,0,0.2), inset 0 0 30px rgba(255,106,0,0.03);
+  transform: translateY(-3px);
+}
+.meme-tile:hover .tile-thumb img {
+  filter: brightness(1.1) saturate(1.2);
+}
+
+/* Corner brackets */
+.meme-tile::before,
+.meme-tile::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  z-index: 5;
+  pointer-events: none;
+  transition: border-color 0.3s;
+}
+.meme-tile::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid #00d4ff;
+  border-left: 2px solid #00d4ff;
+}
+.meme-tile::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid #00d4ff;
+  border-right: 2px solid #00d4ff;
+}
+.meme-tile:hover::before,
+.meme-tile:hover::after {
+  border-color: #ff6a00;
+}
+/* Additional corner brackets via inner element */
+.tile-corners::before,
+.tile-corners::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  z-index: 5;
+  pointer-events: none;
+  transition: border-color 0.3s;
+}
+.tile-corners::before {
+  top: -1px;
+  right: -1px;
+  border-top: 2px solid #00d4ff;
+  border-right: 2px solid #00d4ff;
+}
+.tile-corners::after {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid #00d4ff;
+  border-left: 2px solid #00d4ff;
+}
+.meme-tile:hover .tile-corners::before,
+.meme-tile:hover .tile-corners::after {
+  border-color: #ff6a00;
+}
+
+/* Tile header */
+.tile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(0,212,255,0.05);
+  border-bottom: 1px solid rgba(0,212,255,0.1);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.tile-file-id { color: #00d4ff; }
+.tile-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: rgba(240,240,255,0.4);
+  font-size: 9px;
+}
+.tile-status .status-dot {
+  width: 5px;
+  height: 5px;
+}
+
+/* Tile thumbnail */
+.tile-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: #0d0d18;
+}
+.tile-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.4s;
+  display: block;
+}
+/* Scanlines on thumb */
+.tile-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.12) 3px,
+    rgba(0, 0, 0, 0.12) 6px
+  );
+  pointer-events: none;
+}
+
+/* Tile info */
+.tile-info {
+  padding: 10px 12px;
+}
+.tile-title {
+  font-size: 13px;
+  color: #f0f0ff;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tile-classification {
+  font-size: 9px;
+  color: #ff6a00;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.tile-alt {
+  font-size: 10px;
+  color: rgba(240,240,255,0.35);
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Locked tile ── */
+.meme-tile.locked {
+  border-color: rgba(255,51,51,0.3);
+  animation: borderPulse 2s infinite;
+}
+.meme-tile.locked .tile-thumb {
+  filter: grayscale(1) brightness(0.3);
+}
+.meme-tile.locked .tile-thumb::before {
+  content: '⛔ ACCESS DENIED';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10,10,15,0.7);
+  color: #ff3333;
+  font-size: 12px;
+  letter-spacing: 3px;
+  z-index: 2;
+  text-shadow: 0 0 10px rgba(255,51,51,0.5);
+}
+.meme-tile.locked::before { border-color: #ff3333; }
+.meme-tile.locked::after { border-color: #ff3333; }
+.meme-tile.locked .tile-corners::before { border-color: #ff3333; }
+.meme-tile.locked .tile-corners::after { border-color: #ff3333; }
+.meme-tile.locked .tile-status .status-dot {
+  background: #ff3333;
+  box-shadow: 0 0 6px #ff3333;
+}
+
+/* ════════════════ CLASSIFIED WARNING BANNER ════════════════ */
+.classified-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(10,10,15,0.95);
+  border: 2px solid #ff3333;
+  padding: 30px 50px;
+  z-index: 10000;
+  text-align: center;
+  opacity: 0;
+  transition: all 0.3s;
+  box-shadow: 0 0 60px rgba(255,51,51,0.3);
+}
+.classified-banner.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+.classified-banner h2 {
+  color: #ff3333;
+  font-size: 1.5rem;
+  letter-spacing: 6px;
+  margin-bottom: 10px;
+  animation: blink 1s step-end infinite;
+}
+.classified-banner p {
+  color: rgba(240,240,255,0.5);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+/* ════════════════ DETAIL VIEW ════════════════ */
+.detail-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  background: rgba(10,10,15,0.96);
+  overflow-y: auto;
+  padding: 40px 20px;
+}
+.detail-overlay.active { display: flex; flex-direction: column; align-items: center; }
+
+.detail-loading {
+  text-align: center;
+  color: #00d4ff;
+  font-size: 12px;
+  letter-spacing: 4px;
+  margin-top: 100px;
+}
+.detail-loading .bar-track {
+  width: 300px;
+  height: 3px;
+  background: rgba(0,212,255,0.1);
+  margin: 15px auto;
+  overflow: hidden;
+}
+.detail-loading .bar-fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff, #ff6a00);
+  transition: width 0.8s;
+}
+
+.detail-content {
+  display: none;
+  max-width: 900px;
+  width: 100%;
+  animation: fadeInUp 0.5s ease-out;
+}
+.detail-content.show { display: block; }
+
+.detail-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.detail-nav button {
+  background: transparent;
+  border: 1px solid rgba(0,212,255,0.3);
+  color: #00d4ff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  padding: 8px 18px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+}
+.detail-nav button:hover {
+  border-color: #ff6a00;
+  color: #ff6a00;
+  box-shadow: 0 0 15px rgba(255,106,0,0.2);
+}
+.detail-nav button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.detail-close {
+  background: transparent;
+  border: 1px solid rgba(255,51,51,0.4);
+  color: #ff3333;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  padding: 8px 18px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+}
+.detail-close:hover {
+  border-color: #ff3333;
+  box-shadow: 0 0 15px rgba(255,51,51,0.3);
+}
+
+.detail-file-info {
+  font-size: 10px;
+  color: rgba(0,212,255,0.5);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.detail-file-info span { display: inline-flex; align-items: center; gap: 5px; }
+.detail-file-info .label { color: rgba(240,240,255,0.3); }
+
+/* Holographic frame for image */
+.holo-frame {
+  position: relative;
+  border: 1px solid rgba(0,212,255,0.3);
+  padding: 4px;
+  background: rgba(0,212,255,0.02);
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+.holo-frame::before {
+  content: '';
+  position: absolute;
+  top: -4px; left: -4px; right: -4px; bottom: -4px;
+  border: 1px solid rgba(255,106,0,0.15);
+  pointer-events: none;
+}
+.holo-frame img {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+/* Scanlines on detail image */
+.holo-frame::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 4px,
+    rgba(0, 0, 0, 0.06) 4px,
+    rgba(0, 0, 0, 0.06) 8px
+  );
+  pointer-events: none;
+}
+
+.detail-title {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: #ff6a00;
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px rgba(255,106,0,0.3);
+  margin-bottom: 10px;
+}
+.detail-notes {
+  font-size: 12px;
+  color: rgba(240,240,255,0.5);
+  letter-spacing: 1px;
+  line-height: 1.8;
+}
+
+/* ════════════════ ZOOM OVERLAY ════════════════ */
+.zoom-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(10,10,15,0.97);
+  justify-content: center;
+  align-items: center;
+  cursor: zoom-out;
+}
+.zoom-overlay.active { display: flex; }
+.zoom-overlay img {
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain;
+  border: 1px solid rgba(0,212,255,0.2);
+}
+/* Scanlines on zoomed image */
+.zoom-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.05) 3px,
+    rgba(0, 0, 0, 0.05) 6px
+  );
+  pointer-events: none;
+}
+
+/* ════════════════ FOOTER ════════════════ */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid rgba(0,212,255,0.1);
+  margin-top: 60px;
+}
+.footer-text {
+  font-size: 10px;
+  color: rgba(0,212,255,0.3);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+.footer-text .sep { color: #ff6a00; margin: 0 8px; }
+
+/* ════════════════ RESPONSIVE ════════════════ */
+@media (max-width: 900px) {
+  .meme-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+  .hud-corner { display: none; }
+}
+@media (max-width: 600px) {
+  .meme-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .top-bar { font-size: 9px; padding: 6px 10px; }
+  .hud-center { display: none; }
+  .title-section { padding: 40px 10px 25px; }
+  .main-title { letter-spacing: 5px; }
+  .subtitle { letter-spacing: 3px; font-size: 0.65rem; }
+  .tile-header { padding: 6px 8px; font-size: 8px; }
+  .tile-info { padding: 8px; }
+  .tile-title { font-size: 11px; }
+  .detail-overlay { padding: 20px 10px; }
+}
+
+/* ── Loading state ── */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  color: #00d4ff;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+.loading-screen .spinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(0,212,255,0.1);
+  border-top: 2px solid #00d4ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Error state ── */
+.error-screen {
+  text-align: center;
+  padding: 60px 20px;
+  color: #ff3333;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+</style>
+</head>
+<body>
+
+<!-- Scanline overlay -->
+<div id="scanlines"></div>
+<div id="scanBar"></div>
+
+<!-- Digital rain container -->
+<div id="digitalRain" aria-hidden="true"></div>
+
+<!-- Corner HUD elements -->
+<div class="hud-corner top-left" id="hudTL">
+  SYS.STATUS: ONLINE<br>
+  PROTOCOL: MEME-7<br>
+  LATENCY: <span id="hudLatency">12</span>ms
+</div>
+<div class="hud-corner top-right" id="hudTR">
+  <span id="hudClock">00:00:00</span><br>
+  MEME DB v2.1<br>
+  SECTOR: IT-EU
+</div>
+<div class="hud-corner bottom-left" id="hudBL">
+  UPLINK: ACTIVE<br>
+  FRAMES: <span id="hudFrames">0</span><br>
+  HEAP: <span id="hudHeap">--</span>
+</div>
+<div class="hud-corner bottom-right" id="hudBR">
+  COORD: 45.4642°N<br>
+  LONG: 9.1900°E<br>
+  GRID: <span id="hudGrid">MX-7A</span>
+</div>
+
+<!-- Top HUD bar -->
+<nav class="top-bar">
+  <div class="hud-left">
+    <a href="index.html">← MAIN_MENU</a>
+    <span><span class="status-dot"></span> SYS.OK</span>
+  </div>
+  <div class="hud-center">
+    <span>LOC: 45.4642 // 9.1900</span>
+    <span>NODE: <span id="topNode">CYB-0x7F</span></span>
+  </div>
+  <div class="hud-right">
+    <span>SEC.LVL: <span style="color:#ff6a00;">DECLASSIFIED</span></span>
+    <span class="status-dot"></span>
+  </div>
+</nav>
+
+<!-- Classified warning banner -->
+<div class="classified-banner" id="classifiedBanner">
+  <h2>⚠ WARNING ⚠</h2>
+  <p>CLASSIFIED DATA — CLEARANCE REQUIRED</p>
+  <p style="margin-top:10px;color:#ff6a00;font-size:10px;letter-spacing:3px;">CLICK ANYWHERE TO DISMISS</p>
+</div>
+
+<!-- Main content wrapper -->
+<div class="main-wrapper">
+
+  <!-- Title section -->
+  <header class="title-section">
+    <h1 class="main-title" data-text="MEME // DEL // MESE">MEME // DEL // MESE</h1>
+    <div class="subtitle" id="subtitle">ARCHIVIO CLASSIFICATO</div>
+    <div class="divider"></div>
+    <div class="tagline">— SISTEMA DI ARCHIVIAZIONE DATI // PROTOCOLLO MEME-7 —</div>
+  </header>
+
+  <!-- Memes container -->
+  <main id="memesContainer">
+    <div class="loading-screen">
+      <div class="spinner"></div>
+      ACCESSING MEME DATABASE...
+    </div>
+  </main>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-text">
+    CONNECTION TERMINATED <span class="sep">//</span> memedelmese.github.io <span class="sep">//</span> ALL RIGHTS RESERVED
+  </div>
+</footer>
+
+<!-- Detail overlay -->
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-loading" id="detailLoading">
+    ACCESSING FILE...<br>
+    <div class="bar-track"><div class="bar-fill" id="detailBar"></div></div>
+    <span id="detailLoadText">0%</span>
+  </div>
+  <div class="detail-content" id="detailContent">
+    <div class="detail-nav">
+      <button id="prevBtn" title="Previous file">[← PREV_FILE]</button>
+      <button class="detail-close" id="closeDetail">[✕ CLOSE_FILE]</button>
+      <button id="nextBtn" title="Next file">[NEXT_FILE →]</button>
+    </div>
+    <div class="detail-file-info" id="detailFileInfo"></div>
+    <div class="holo-frame" id="holoFrame">
+      <img id="detailImg" src="" alt="">
+    </div>
+    <h2 class="detail-title" id="detailTitle"></h2>
+    <div class="detail-notes" id="detailNotes"></div>
+  </div>
+</div>
+
+<!-- Zoom overlay -->
+<div class="zoom-overlay" id="zoomOverlay">
+  <img id="zoomImg" src="" alt="">
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const MONTHS_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+                     'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+
+  const CLASSIFICATIONS = ['DANK','SPICY','LEGENDARY','CRISPY','ULTRA','ELITE','GODTIER','S-RANK','OMEGA','SUPREME'];
+
+  let allMemes = [];
+  let currentIdx = -1;
+
+  /* ════ Digital rain ════ */
+  function createDigitalRain() {
+    const container = document.getElementById('digitalRain');
+    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEF<>{}[]|/\\';
+    const cols = Math.floor(window.innerWidth / 30);
+    for (let i = 0; i < cols; i++) {
+      const col = document.createElement('div');
+      col.className = 'rain-column';
+      col.style.left = (i * 30 + Math.random() * 10) + 'px';
+      const speed = 10 + Math.random() * 20;
+      const delay = Math.random() * speed;
+      col.style.setProperty('--rain-speed', speed + 's');
+      col.style.setProperty('--rain-delay', '-' + delay + 's');
+      let html = '';
+      for (let j = 0; j < 60; j++) {
+        const c = chars[Math.floor(Math.random() * chars.length)];
+        html += '<span>' + c + '</span>';
+      }
+      col.innerHTML = html;
+      container.appendChild(col);
+    }
+  }
+
+  /* ════ HUD clock + stats ════ */
+  function updateHUD() {
+    const now = new Date();
+    const ts = [now.getHours(), now.getMinutes(), now.getSeconds()]
+      .map(n => String(n).padStart(2, '0')).join(':');
+    document.getElementById('hudClock').textContent = ts;
+    document.getElementById('hudLatency').textContent = (8 + Math.floor(Math.random() * 12));
+    document.getElementById('hudFrames').textContent = Math.floor(performance.now() / 16.67);
+    if (performance.memory) {
+      document.getElementById('hudHeap').textContent =
+        (performance.memory.usedJSHeapSize / 1048576).toFixed(1) + 'MB';
+    } else {
+      document.getElementById('hudHeap').textContent =
+        (30 + Math.random() * 20).toFixed(1) + 'MB';
+    }
+    const grids = ['MX-7A','NX-3B','QZ-9F','AX-1C','VR-5D'];
+    document.getElementById('hudGrid').textContent = grids[Math.floor(Math.random() * grids.length)];
+  }
+  setInterval(updateHUD, 1000);
+  updateHUD();
+
+  /* ════ Format file ID ════ */
+  function fileId(meme) {
+    return meme.year + '-' + String(meme.month).padStart(2, '0');
+  }
+
+  /* ════ Hash routing ════ */
+  function getHashRoute() {
+    const h = location.hash.replace('#', '');
+    if (/^\d{4}-\d{2}$/.test(h)) return h;
+    return null;
+  }
+
+  /* ════ Fetch and render ════ */
+  fetch('../data/memes.json')
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(data => {
+      allMemes = data;
+      renderGrid(data);
+      const route = getHashRoute();
+      if (route) openDetailByHash(route);
+    })
+    .catch(err => {
+      document.getElementById('memesContainer').innerHTML =
+        '<div class="error-screen">⚠ DATABASE ERROR: ' + err.message +
+        '<br><br><span style="font-size:10px;color:#00d4ff;">RETRY CONNECTION</span></div>';
+    });
+
+  /* ════ Render grid ════ */
+  function renderGrid(memes) {
+    const container = document.getElementById('memesContainer');
+    const byYear = {};
+    memes.forEach(m => {
+      if (!byYear[m.year]) byYear[m.year] = [];
+      byYear[m.year].push(m);
+    });
+
+    const years = Object.keys(byYear).sort((a, b) => b - a);
+    let html = '';
+
+    years.forEach(year => {
+      const items = byYear[year].sort((a, b) => a.month - b.month);
+      const count = items.length;
+      const pct = Math.round((count / 12) * 100);
+
+      html += '<section class="year-section">';
+      html += '<div class="year-header">';
+      html += '<span class="year-label"><span class="chevron">&gt;&gt;</span> YEAR_' + year + ' <span class="chevron">&lt;&lt;</span></span>';
+      html += '<span class="year-cursor"></span>';
+      html += '<div class="year-line"></div>';
+      html += '</div>';
+      html += '<div class="progress-bar-container">';
+      html += '<span>MEMES LOADED: ' + count + '/12</span>';
+      html += '<div class="progress-track"><div class="progress-fill" style="--load-pct:' + pct + '%;"></div></div>';
+      html += '<span>' + pct + '%</span>';
+      html += '</div>';
+      html += '<div class="meme-grid">';
+
+      items.forEach((meme, idx) => {
+        const id = fileId(meme);
+        const cls = CLASSIFICATIONS[Math.floor(Math.random() * CLASSIFICATIONS.length)];
+        const globalIdx = allMemes.indexOf(meme);
+        html += '<div class="meme-tile" data-idx="' + globalIdx + '" data-id="' + id + '">';
+        html += '<div class="tile-corners"></div>';
+        html += '<div class="tile-header">';
+        html += '<span class="tile-file-id">FILE: ' + id + '</span>';
+        html += '<span class="tile-status"><span class="status-dot"></span> ACTIVE</span>';
+        html += '</div>';
+        html += '<div class="tile-thumb">';
+        html += '<img src="../' + meme.file + '" alt="' + (meme.alt || meme.title) + '" loading="lazy">';
+        html += '</div>';
+        html += '<div class="tile-info">';
+        html += '<div class="tile-title">' + meme.title + '</div>';
+        html += '<div class="tile-classification">CLASSIFICATION: ' + cls + '</div>';
+        if (meme.alt) html += '<div class="tile-alt">' + meme.alt + '</div>';
+        html += '</div>';
+        html += '</div>';
+      });
+
+      html += '</div></section>';
+    });
+
+    container.innerHTML = html;
+
+    // Attach tile click events
+    container.querySelectorAll('.meme-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
+        const idx = parseInt(tile.dataset.idx);
+        if (tile.classList.contains('locked')) {
+          showClassifiedBanner();
+          return;
+        }
+        openDetail(idx);
+      });
+    });
+  }
+
+  /* ════ Classified banner ════ */
+  function showClassifiedBanner() {
+    const banner = document.getElementById('classifiedBanner');
+    banner.classList.add('show');
+    setTimeout(() => banner.classList.remove('show'), 2500);
+  }
+  document.getElementById('classifiedBanner').addEventListener('click', function() {
+    this.classList.remove('show');
+  });
+
+  /* ════ Detail view ════ */
+  function openDetail(idx) {
+    if (idx < 0 || idx >= allMemes.length) return;
+    currentIdx = idx;
+    const meme = allMemes[idx];
+    const id = fileId(meme);
+    location.hash = id;
+
+    const overlay = document.getElementById('detailOverlay');
+    const loading = document.getElementById('detailLoading');
+    const content = document.getElementById('detailContent');
+    const bar = document.getElementById('detailBar');
+    const loadText = document.getElementById('detailLoadText');
+
+    overlay.classList.add('active');
+    content.classList.remove('show');
+    loading.style.display = 'block';
+    bar.style.width = '0%';
+    loadText.textContent = '0%';
+    document.body.style.overflow = 'hidden';
+
+    // Simulate loading
+    let progress = 0;
+    const loadInterval = setInterval(() => {
+      progress += 15 + Math.floor(Math.random() * 25);
+      if (progress > 100) progress = 100;
+      bar.style.width = progress + '%';
+      loadText.textContent = progress + '%';
+      if (progress >= 100) {
+        clearInterval(loadInterval);
+        setTimeout(() => {
+          loading.style.display = 'none';
+          showDetailContent(meme, idx);
+        }, 200);
+      }
+    }, 120);
+  }
+
+  function showDetailContent(meme, idx) {
+    const content = document.getElementById('detailContent');
+    const id = fileId(meme);
+    const ext = meme.file.split('.').pop().toUpperCase();
+
+    // File info
+    const infoEl = document.getElementById('detailFileInfo');
+    infoEl.innerHTML =
+      '<span><span class="label">FILE:</span> ' + id + '</span>' +
+      '<span><span class="label">FORMAT:</span> ' + ext + '</span>' +
+      '<span><span class="label">STATUS:</span> <span style="color:#00ff41;">DECLASSIFIED</span></span>' +
+      '<span><span class="label">SECTOR:</span> IT-EU-' + meme.year + '</span>' +
+      '<span><span class="label">MONTH:</span> ' + MONTHS_IT[meme.month - 1] + '</span>';
+
+    // Image
+    const img = document.getElementById('detailImg');
+    img.src = '../' + meme.file;
+    img.alt = meme.alt || meme.title;
+
+    // Title & notes
+    document.getElementById('detailTitle').textContent = meme.title;
+    document.getElementById('detailNotes').textContent = meme.notes || '';
+
+    // Nav buttons
+    document.getElementById('prevBtn').disabled = (idx <= 0);
+    document.getElementById('nextBtn').disabled = (idx >= allMemes.length - 1);
+
+    content.classList.add('show');
+  }
+
+  function openDetailByHash(hash) {
+    const idx = allMemes.findIndex(m => fileId(m) === hash);
+    if (idx >= 0) openDetail(idx);
+  }
+
+  /* ── Detail controls ── */
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if (currentIdx > 0) openDetail(currentIdx - 1);
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (currentIdx < allMemes.length - 1) openDetail(currentIdx + 1);
+  });
+  document.getElementById('closeDetail').addEventListener('click', closeDetail);
+
+  function closeDetail() {
+    document.getElementById('detailOverlay').classList.remove('active');
+    document.getElementById('detailContent').classList.remove('show');
+    document.body.style.overflow = '';
+    history.replaceState(null, '', location.pathname);
+  }
+
+  /* ── Keyboard nav ── */
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('zoomOverlay').classList.contains('active')) {
+      if (e.key === 'Escape') closeZoom();
+      return;
+    }
+    if (document.getElementById('detailOverlay').classList.contains('active')) {
+      if (e.key === 'Escape') closeDetail();
+      else if (e.key === 'ArrowLeft' && currentIdx > 0) openDetail(currentIdx - 1);
+      else if (e.key === 'ArrowRight' && currentIdx < allMemes.length - 1) openDetail(currentIdx + 1);
+    }
+  });
+
+  /* ── Hash change ── */
+  window.addEventListener('hashchange', () => {
+    const route = getHashRoute();
+    if (route) openDetailByHash(route);
+    else closeDetail();
+  });
+
+  /* ════ Zoom ════ */
+  document.getElementById('holoFrame').addEventListener('click', () => {
+    const src = document.getElementById('detailImg').src;
+    if (!src) return;
+    document.getElementById('zoomImg').src = src;
+    document.getElementById('zoomOverlay').classList.add('active');
+  });
+  document.getElementById('zoomOverlay').addEventListener('click', closeZoom);
+
+  function closeZoom() {
+    document.getElementById('zoomOverlay').classList.remove('active');
+  }
+
+  /* ════ Init digital rain ════ */
+  createDigitalRain();
+
+})();
+</script>
+
+</body>
+</html>

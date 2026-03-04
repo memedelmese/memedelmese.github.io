@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meme del Mese — Galleria</title>
+<style>
+/* ── Reset & Base ───────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#faf8f5;
+  --coral:#e8634f;
+  --gold:#d4a853;
+  --charcoal:#2a2a2a;
+  --sage:#7d9e82;
+  --card-bg:#ffffff;
+  --shadow-warm:rgba(180,140,100,.18);
+  --shadow-hover:rgba(180,140,100,.32);
+  --glow-warm:rgba(232,99,79,.12);
+  --serif:Georgia,'Playfair Display',serif;
+  --sans:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --radius:12px;
+  --header-h:140px;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:var(--sans);
+  color:var(--charcoal);
+  background:var(--bg);
+  /* subtle paper-noise texture via CSS gradient */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:var(--bg);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  border-bottom:1px solid rgba(0,0,0,.06);
+  backdrop-filter:blur(8px);
+  transition:box-shadow .3s;
+}
+.site-header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.06)}
+
+.header-inner{
+  max-width:1200px;margin:0 auto;
+  padding:18px 24px 14px;
+  text-align:center;position:relative;
+}
+
+.back-link{
+  position:absolute;left:24px;top:20px;
+  font-size:.85rem;color:var(--coral);text-decoration:none;
+  font-family:var(--sans);letter-spacing:.02em;
+  transition:color .2s;
+}
+.back-link:hover{color:var(--charcoal)}
+
+.site-title{
+  font-family:var(--serif);
+  font-size:clamp(1.6rem,4vw,2.4rem);
+  font-weight:700;color:var(--charcoal);
+  letter-spacing:.01em;
+  line-height:1.2;
+}
+.site-subtitle{
+  font-family:var(--serif);
+  font-style:italic;font-weight:400;
+  font-size:clamp(.82rem,2vw,1rem);
+  color:#8a8078;margin-top:2px;
+}
+.header-divider{
+  width:60px;height:2px;
+  background:linear-gradient(90deg,var(--coral),var(--gold));
+  margin:10px auto 12px;border-radius:2px;
+}
+
+/* Count badge */
+.meme-count{
+  font-size:.78rem;color:#a09890;
+  font-family:var(--sans);letter-spacing:.04em;
+  margin-bottom:8px;
+}
+
+/* Year pills */
+.year-pills{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+}
+.year-pill{
+  border:none;background:transparent;
+  font-family:var(--sans);font-size:.82rem;
+  color:#8a8078;padding:5px 14px;
+  border-radius:20px;cursor:pointer;
+  transition:all .25s;letter-spacing:.02em;
+  border:1px solid transparent;
+}
+.year-pill:hover{color:var(--charcoal);background:rgba(0,0,0,.04)}
+.year-pill.active{
+  background:var(--coral);color:#fff;
+  border-color:var(--coral);
+  box-shadow:0 2px 8px rgba(232,99,79,.25);
+}
+
+/* ── Masonry Gallery ────────────────────────────────────────── */
+.gallery-container{
+  max-width:1200px;margin:0 auto;
+  padding:30px 20px 60px;
+}
+
+.masonry{
+  column-count:4;column-gap:20px;
+}
+
+@media(max-width:1100px){.masonry{column-count:3}}
+@media(max-width:760px){.masonry{column-count:2;column-gap:14px}}
+@media(max-width:480px){.masonry{column-count:1;column-gap:0}}
+
+/* ── Meme Card ──────────────────────────────────────────────── */
+.meme-card{
+  break-inside:avoid;
+  margin-bottom:20px;
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 3px 14px var(--shadow-warm);
+  cursor:pointer;
+  transition:transform .35s cubic-bezier(.25,.8,.25,1),
+             box-shadow .35s cubic-bezier(.25,.8,.25,1);
+  position:relative;
+  opacity:0;transform:translateY(24px);
+  /* padding to mimic art-print / Polaroid frame */
+  padding:10px 10px 0;
+}
+.meme-card.visible{
+  opacity:1;transform:translateY(0);
+}
+.meme-card:hover{
+  transform:translateY(-5px) scale(1.015);
+  box-shadow:0 10px 30px var(--shadow-hover),0 0 0 3px var(--glow-warm);
+}
+
+.meme-card .card-img-wrap{
+  border-radius:8px;overflow:hidden;
+  position:relative;
+}
+.meme-card img{
+  display:block;width:100%;height:auto;
+  transition:transform .5s cubic-bezier(.25,.8,.25,1);
+}
+.meme-card:hover img{transform:scale(1.03)}
+
+/* Hover overlay caption */
+.card-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:30px 14px 12px;
+  background:linear-gradient(transparent,rgba(0,0,0,.52));
+  color:#fff;opacity:0;transition:opacity .3s;
+  pointer-events:none;
+  border-radius:0 0 8px 8px;
+}
+.meme-card:hover .card-overlay{opacity:1}
+.card-overlay .overlay-month{
+  font-family:var(--serif);font-style:italic;
+  font-size:.95rem;
+}
+.card-overlay .overlay-year{
+  font-size:.75rem;opacity:.8;margin-top:1px;
+}
+
+/* Bookmark icon on hover */
+.card-bookmark{
+  position:absolute;top:16px;right:16px;
+  width:28px;height:28px;
+  background:rgba(255,255,255,.88);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:scale(.7);
+  transition:opacity .25s,transform .25s;
+  pointer-events:none;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+.meme-card:hover .card-bookmark{opacity:1;transform:scale(1)}
+.card-bookmark svg{width:14px;height:14px;fill:var(--coral)}
+
+/* Caption below image */
+.card-caption{
+  padding:10px 4px 12px;
+  text-align:center;
+}
+.card-caption .caption-month{
+  font-family:var(--serif);font-style:italic;
+  font-size:.88rem;color:var(--charcoal);
+}
+.card-caption .caption-year{
+  font-size:.7rem;color:#a09890;letter-spacing:.06em;
+  margin-top:1px;
+}
+
+/* ── Year Divider ───────────────────────────────────────────── */
+.year-divider{
+  break-inside:avoid;
+  margin-bottom:20px;
+  padding:8px 0;
+  text-align:center;
+  column-span:all;
+}
+.year-divider span{
+  font-family:var(--serif);
+  font-size:1.1rem;color:#b0a898;
+  letter-spacing:.08em;
+  position:relative;
+}
+.year-divider span::before,
+.year-divider span::after{
+  content:'';position:absolute;top:50%;
+  width:40px;height:1px;
+  background:linear-gradient(90deg,transparent,#d0c8be);
+}
+.year-divider span::before{right:calc(100% + 12px)}
+.year-divider span::after{left:calc(100% + 12px);background:linear-gradient(90deg,#d0c8be,transparent)}
+
+/* ── Skeleton Loading ───────────────────────────────────────── */
+.skeleton-card{
+  break-inside:avoid;
+  margin-bottom:20px;
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  overflow:hidden;
+  padding:10px 10px 0;
+  box-shadow:0 3px 14px var(--shadow-warm);
+}
+.skeleton-img{
+  border-radius:8px;
+  background:linear-gradient(110deg,#f0ece7 30%,#faf5ef 50%,#f0ece7 70%);
+  background-size:300% 100%;
+  animation:shimmer 1.6s ease-in-out infinite;
+}
+.skeleton-text{
+  margin:12px auto;
+  width:60%;height:12px;border-radius:6px;
+  background:linear-gradient(110deg,#f0ece7 30%,#faf5ef 50%,#f0ece7 70%);
+  background-size:300% 100%;
+  animation:shimmer 1.6s ease-in-out infinite;
+}
+.skeleton-text-sm{
+  margin:4px auto 14px;
+  width:35%;height:8px;border-radius:4px;
+  background:linear-gradient(110deg,#f0ece7 30%,#faf5ef 50%,#f0ece7 70%);
+  background-size:300% 100%;
+  animation:shimmer 1.6s ease-in-out infinite;
+}
+@keyframes shimmer{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+
+/* ── Detail Overlay ─────────────────────────────────────────── */
+.detail-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;
+  transition:opacity .3s,visibility .3s;
+}
+.detail-overlay.open{opacity:1;visibility:visible}
+
+.detail-content{
+  max-width:720px;width:92%;max-height:90vh;
+  display:flex;flex-direction:column;align-items:center;
+  position:relative;
+  animation:detailIn .35s ease-out;
+}
+@keyframes detailIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.detail-title{
+  font-family:var(--serif);
+  font-size:clamp(1.1rem,3vw,1.5rem);
+  color:var(--charcoal);margin-bottom:14px;
+  text-align:center;
+}
+.detail-img-wrap{
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:0 8px 40px var(--shadow-hover);
+  max-height:70vh;
+  cursor:zoom-in;
+}
+.detail-img-wrap img{
+  display:block;max-width:100%;max-height:70vh;
+  object-fit:contain;
+}
+.detail-notes{
+  font-family:var(--serif);font-style:italic;
+  font-size:.9rem;color:#8a8078;
+  margin-top:12px;text-align:center;
+  max-width:500px;
+}
+
+.detail-close{
+  position:absolute;top:-10px;right:-10px;
+  border:none;background:var(--card-bg);
+  width:38px;height:38px;border-radius:50%;
+  font-size:1rem;cursor:pointer;
+  box-shadow:0 2px 10px rgba(0,0,0,.1);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--charcoal);transition:background .2s,transform .2s;
+}
+.detail-close:hover{background:var(--coral);color:#fff;transform:scale(1.08)}
+
+.detail-nav{
+  position:absolute;top:50%;
+  width:42px;height:42px;border-radius:50%;
+  border:none;background:var(--card-bg);
+  box-shadow:0 2px 12px rgba(0,0,0,.1);
+  cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--charcoal);transition:background .2s,transform .2s;
+  transform:translateY(-50%);
+}
+.detail-nav:hover{background:var(--coral);color:#fff;transform:translateY(-50%) scale(1.08)}
+.detail-prev{left:-60px}
+.detail-next{right:-60px}
+
+@media(max-width:820px){
+  .detail-prev{left:4px}
+  .detail-next{right:4px}
+}
+
+/* ── Lightbox ───────────────────────────────────────────────── */
+.lightbox{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(20,18,16,.92);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;
+  transition:opacity .3s,visibility .3s;
+  cursor:zoom-out;
+}
+.lightbox.open{opacity:1;visibility:visible}
+.lightbox img{
+  max-width:94vw;max-height:94vh;
+  object-fit:contain;
+  border-radius:8px;
+  box-shadow:0 0 60px rgba(0,0,0,.4);
+  animation:lbIn .3s ease-out;
+}
+@keyframes lbIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+
+/* ── Back to Top ────────────────────────────────────────────── */
+.back-to-top{
+  position:fixed;bottom:28px;right:28px;z-index:150;
+  width:44px;height:44px;border-radius:50%;
+  border:none;background:var(--coral);color:#fff;
+  font-size:1.2rem;cursor:pointer;
+  box-shadow:0 4px 16px rgba(232,99,79,.35);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .3s,transform .3s,background .2s;
+  pointer-events:none;
+}
+.back-to-top.visible{opacity:1;transform:none;pointer-events:auto}
+.back-to-top:hover{background:var(--charcoal)}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.site-footer{
+  text-align:center;padding:40px 20px 32px;
+  color:#b0a898;font-size:.82rem;
+  font-family:var(--sans);letter-spacing:.03em;
+}
+.footer-deco{
+  width:40px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,var(--gold),var(--sage));
+  margin:0 auto 14px;
+}
+.site-footer span{font-family:var(--serif);font-style:italic;font-weight:400}
+
+/* ── Error state ────────────────────────────────────────────── */
+.error-msg{
+  text-align:center;padding:80px 20px;
+  font-family:var(--serif);font-style:italic;
+  color:#b0a898;font-size:1.1rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Header ────────────────────────────────────────────── -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="back-link">← Tutti i temi</a>
+    <h1 class="site-title">Meme del Mese</h1>
+    <p class="site-subtitle">Un archivio di capolavori mensili</p>
+    <div class="header-divider"></div>
+    <p class="meme-count" id="memeCount"></p>
+    <div class="year-pills" id="yearPills"></div>
+  </div>
+</header>
+
+<!-- ─── Gallery ───────────────────────────────────────────── -->
+<main class="gallery-container">
+  <div class="masonry" id="masonry"></div>
+</main>
+
+<!-- ─── Detail Overlay ────────────────────────────────────── -->
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-content">
+    <button class="detail-close" id="detailClose" aria-label="Chiudi">✕</button>
+    <button class="detail-nav detail-prev" id="detailPrev" aria-label="Precedente">‹</button>
+    <button class="detail-nav detail-next" id="detailNext" aria-label="Successivo">›</button>
+    <h2 class="detail-title" id="detailTitle"></h2>
+    <div class="detail-img-wrap" id="detailImgWrap">
+      <img id="detailImg" src="" alt="">
+    </div>
+    <p class="detail-notes" id="detailNotes"></p>
+  </div>
+</div>
+
+<!-- ─── Lightbox ──────────────────────────────────────────── -->
+<div class="lightbox" id="lightbox">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- ─── Back to Top ───────────────────────────────────────── -->
+<button class="back-to-top" id="backToTop" aria-label="Torna su">↑</button>
+
+<!-- ─── Footer ────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="footer-deco"></div>
+  <span>Meme del Mese</span> · una collezione curata
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  const MONTHS_IT = ['','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+                     'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+
+  /* ── State ──────────────────────────────────────────────── */
+  let allMemes = [];
+  let filtered = [];
+  let activeYear = null;
+  let currentIdx = -1;
+
+  /* ── DOM refs ───────────────────────────────────────────── */
+  const $masonry    = document.getElementById('masonry');
+  const $pills      = document.getElementById('yearPills');
+  const $count      = document.getElementById('memeCount');
+  const $header     = document.getElementById('siteHeader');
+  const $detail     = document.getElementById('detailOverlay');
+  const $detailImg  = document.getElementById('detailImg');
+  const $detailTitle= document.getElementById('detailTitle');
+  const $detailNotes= document.getElementById('detailNotes');
+  const $detailWrap = document.getElementById('detailImgWrap');
+  const $lightbox   = document.getElementById('lightbox');
+  const $lbImg      = document.getElementById('lightboxImg');
+  const $btt        = document.getElementById('backToTop');
+
+  /* ── Skeleton loading ───────────────────────────────────── */
+  function showSkeletons(){
+    const heights = [200,280,180,240,260,190,220,300,210,250,270,230];
+    let html = '';
+    for(let i=0;i<12;i++){
+      html += `<div class="skeleton-card">
+        <div class="skeleton-img" style="height:${heights[i]}px"></div>
+        <div class="skeleton-text"></div>
+        <div class="skeleton-text-sm"></div>
+      </div>`;
+    }
+    $masonry.innerHTML = html;
+  }
+
+  /* ── Fetch & Init ───────────────────────────────────────── */
+  showSkeletons();
+
+  fetch('../data/memes.json')
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(data => {
+      allMemes = data.slice().reverse(); // most recent first
+      buildPills();
+      handleHash();
+      window.addEventListener('hashchange', handleHash);
+    })
+    .catch(() => {
+      $masonry.innerHTML = '<p class="error-msg">Impossibile caricare i meme. Riprova più tardi.</p>';
+    });
+
+  /* ── Year Pills ─────────────────────────────────────────── */
+  function buildPills(){
+    const years = [...new Set(allMemes.map(m=>m.year))].sort((a,b)=>b-a);
+    let html = '<button class="year-pill active" data-year="all">Tutti</button>';
+    years.forEach(y => { html += `<button class="year-pill" data-year="${y}">${y}</button>`; });
+    $pills.innerHTML = html;
+    $pills.addEventListener('click', e => {
+      const btn = e.target.closest('.year-pill');
+      if(!btn) return;
+      const v = btn.dataset.year;
+      activeYear = v === 'all' ? null : +v;
+      $pills.querySelectorAll('.year-pill').forEach(b => b.classList.toggle('active', b === btn));
+      // clear hash detail when switching filter
+      if(location.hash) history.replaceState(null,'','#');
+      renderGallery();
+    });
+  }
+
+  /* ── Render Gallery ─────────────────────────────────────── */
+  function renderGallery(){
+    filtered = activeYear ? allMemes.filter(m => m.year === activeYear) : allMemes.slice();
+    $count.textContent = `${filtered.length} meme archiviati`;
+    let html = '';
+    let lastYear = null;
+
+    filtered.forEach((m, i) => {
+      if(m.year !== lastYear){
+        lastYear = m.year;
+        html += `<div class="year-divider"><span>${m.year}</span></div>`;
+      }
+      const month = MONTHS_IT[m.month] || '';
+      const pad = String(m.month).padStart(2,'0');
+      const key = `${m.year}-${pad}`;
+      html += `
+      <article class="meme-card" data-key="${key}" data-index="${i}">
+        <div class="card-img-wrap">
+          <img src="../${m.file}" alt="${m.alt}" loading="lazy">
+          <div class="card-overlay">
+            <div class="overlay-month">${month}</div>
+            <div class="overlay-year">${m.year}</div>
+          </div>
+          <div class="card-bookmark">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </div>
+        </div>
+        <div class="card-caption">
+          <div class="caption-month">${month}</div>
+          <div class="caption-year">${m.year}</div>
+        </div>
+      </article>`;
+    });
+
+    $masonry.innerHTML = html;
+    observeCards();
+    bindCardClicks();
+  }
+
+  /* ── Intersection Observer for fade-in ──────────────────── */
+  function observeCards(){
+    const cards = $masonry.querySelectorAll('.meme-card');
+    if(!('IntersectionObserver' in window)){
+      cards.forEach(c => c.classList.add('visible'));
+      return;
+    }
+    let delay = 0;
+    const obs = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const el = entry.target;
+          const d = +el.dataset.delay || 0;
+          setTimeout(() => el.classList.add('visible'), d);
+          observer.unobserve(el);
+        }
+      });
+    }, {threshold:0.08});
+
+    cards.forEach((c,i) => {
+      c.dataset.delay = Math.min(i * 60, 600);
+      c.style.transition = `opacity .5s ease ${c.dataset.delay}ms, transform .5s ease ${c.dataset.delay}ms`;
+      obs.observe(c);
+    });
+  }
+
+  /* ── Card clicks → hash routing ─────────────────────────── */
+  function bindCardClicks(){
+    $masonry.querySelectorAll('.meme-card').forEach(card => {
+      card.addEventListener('click', () => {
+        location.hash = card.dataset.key;
+      });
+    });
+  }
+
+  /* ── Hash handling ──────────────────────────────────────── */
+  function handleHash(){
+    const hash = location.hash.replace('#','');
+    if(!hash){
+      closeDetail();
+      if(!filtered.length) renderGallery();
+      return;
+    }
+    // find meme matching hash like "2025-03"
+    const idx = filtered.findIndex(m => {
+      const pad = String(m.month).padStart(2,'0');
+      return `${m.year}-${pad}` === hash;
+    });
+    if(idx >= 0){
+      if(!filtered.length) renderGallery();
+      openDetail(idx);
+    } else {
+      // maybe need to render first
+      if(!filtered.length) renderGallery();
+    }
+  }
+
+  /* ── Detail View ────────────────────────────────────────── */
+  function openDetail(idx){
+    currentIdx = idx;
+    const m = filtered[idx];
+    if(!m) return;
+    const month = MONTHS_IT[m.month] || '';
+    $detailTitle.textContent = `${month} ${m.year}`;
+    $detailImg.src = `../${m.file}`;
+    $detailImg.alt = m.alt;
+    $detailNotes.textContent = m.notes || '';
+    $detailNotes.style.display = m.notes ? '' : 'none';
+    $detail.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('detailPrev').style.display = idx > 0 ? '' : 'none';
+    document.getElementById('detailNext').style.display = idx < filtered.length - 1 ? '' : 'none';
+  }
+
+  function closeDetail(){
+    $detail.classList.remove('open');
+    document.body.style.overflow = '';
+    currentIdx = -1;
+  }
+
+  document.getElementById('detailClose').addEventListener('click', () => {
+    history.replaceState(null,'','#');
+    closeDetail();
+  });
+  document.getElementById('detailPrev').addEventListener('click', e => {
+    e.stopPropagation();
+    if(currentIdx > 0){
+      const m = filtered[currentIdx - 1];
+      const pad = String(m.month).padStart(2,'0');
+      location.hash = `${m.year}-${pad}`;
+    }
+  });
+  document.getElementById('detailNext').addEventListener('click', e => {
+    e.stopPropagation();
+    if(currentIdx < filtered.length - 1){
+      const m = filtered[currentIdx + 1];
+      const pad = String(m.month).padStart(2,'0');
+      location.hash = `${m.year}-${pad}`;
+    }
+  });
+
+  $detail.addEventListener('click', e => {
+    if(e.target === $detail){
+      history.replaceState(null,'','#');
+      closeDetail();
+    }
+  });
+
+  /* ── Lightbox ───────────────────────────────────────────── */
+  $detailWrap.addEventListener('click', e => {
+    e.stopPropagation();
+    $lbImg.src = $detailImg.src;
+    $lbImg.alt = $detailImg.alt;
+    $lightbox.classList.add('open');
+  });
+  $lightbox.addEventListener('click', () => $lightbox.classList.remove('open'));
+
+  /* ── Keyboard ───────────────────────────────────────────── */
+  document.addEventListener('keydown', e => {
+    if($lightbox.classList.contains('open')){
+      if(e.key === 'Escape') $lightbox.classList.remove('open');
+      return;
+    }
+    if($detail.classList.contains('open')){
+      if(e.key === 'Escape'){ history.replaceState(null,'','#'); closeDetail(); }
+      if(e.key === 'ArrowLeft') document.getElementById('detailPrev').click();
+      if(e.key === 'ArrowRight') document.getElementById('detailNext').click();
+    }
+  });
+
+  /* ── Back to Top + Header shadow ────────────────────────── */
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if(!ticking){
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        $btt.classList.toggle('visible', y > 400);
+        $header.classList.toggle('scrolled', y > 10);
+
+        // subtle parallax: shift cards slightly
+        $masonry.querySelectorAll('.meme-card.visible').forEach(c => {
+          const rect = c.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
+          const offset = (center - window.innerHeight / 2) * 0.015;
+          c.style.transform = `translateY(${offset}px)`;
+        });
+
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, {passive:true});
+
+  $btt.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+})();
+</script>
+</body>
+</html>

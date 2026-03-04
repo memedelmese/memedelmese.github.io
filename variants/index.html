@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme del Mese — Design Variants</title>
+  <style>
+    :root {
+      --bg: #0d0221;
+      --card: rgba(26, 10, 46, 0.85);
+      --pink: #ff6ec7;
+      --cyan: #00fff5;
+      --purple: #b967ff;
+      --text: #e8e0f0;
+      --muted: #6b5f8a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--pink), var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 3rem;
+      font-family: 'Cascadia Code', monospace;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      width: 100%;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(185, 103, 255, 0.3);
+      border-radius: 16px;
+      padding: 2rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--pink);
+      box-shadow: 0 0 25px rgba(255, 110, 199, 0.2), 0 0 50px rgba(0, 255, 245, 0.1);
+    }
+    .card-icon { font-size: 2.5rem; }
+    .card-title { font-size: 1.3rem; font-weight: 700; color: var(--cyan); }
+    .card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .card-tag {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-family: monospace;
+      border: 1px solid;
+      width: fit-content;
+    }
+    .tag-current { border-color: var(--cyan); color: var(--cyan); }
+    .tag-new { border-color: var(--pink); color: var(--pink); }
+    .back {
+      margin-top: 3rem;
+      color: var(--cyan);
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: 1px solid rgba(0, 255, 245, 0.3);
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .back:hover {
+      background: rgba(0, 255, 245, 0.1);
+      border-color: var(--cyan);
+    }
+  </style>
+</head>
+<body>
+  <h1>Design Variants</h1>
+  <p class="subtitle">Confronta i diversi temi per Meme del Mese</p>
+
+  <div class="grid">
+    <a href="/" class="card">
+      <span class="card-icon">🌆</span>
+      <span class="card-title">Vaporwave (Originale)</span>
+      <span class="card-desc">Il design attuale: neon pink/cyan/purple, griglia con thumbnail, easter eggs. Elegante e leggibile.</span>
+      <span class="card-tag tag-current">ATTUALE</span>
+    </a>
+
+    <a href="meme-chaos.html" class="card">
+      <span class="card-icon">🤡</span>
+      <span class="card-title">Meme Chaos</span>
+      <span class="card-desc">Pieno di meme e battute. Comic Sans, colori assurdi, deep-fried effects, marquee di testo, stickers. Massimo divertimento.</span>
+      <span class="card-tag tag-new">VARIANTE</span>
+    </a>
+
+    <a href="vaporwave-sunset.html" class="card">
+      <span class="card-icon">🌅</span>
+      <span class="card-title">Vaporwave Sunset</span>
+      <span class="card-desc">Vaporwave alternativo con palette tramonto (rosa caldo, arancio, viola). Scanline VHS, testo giapponese, estetica retro-futuristica.</span>
+      <span class="card-tag tag-new">VARIANTE</span>
+    </a>
+
+    <a href="cyberpunk.html" class="card">
+      <span class="card-icon">🏙️</span>
+      <span class="card-title">Cyberpunk / Blade Runner</span>
+      <span class="card-desc">Stile Blade Runner con neon arancio/blu, effetti glitch, elementi HUD, estetica dark e futuristica. Pioggia digitale.</span>
+      <span class="card-tag tag-new">VARIANTE</span>
+    </a>
+
+    <a href="gallery.html" class="card">
+      <span class="card-icon">🖼️</span>
+      <span class="card-title">Gallery Moderna</span>
+      <span class="card-desc">Layout galleria masonry ispirato a Pinterest/aeriszhu.com. Sfondo chiaro, focus sulle immagini, design pulito e moderno.</span>
+      <span class="card-tag tag-new">VARIANTE</span>
+    </a>
+  </div>
+
+  <a href="/" class="back">← Torna al sito principale</a>
+</body>
+</html>

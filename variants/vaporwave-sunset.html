@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meme del Mese — ＶａｐｏｒＳｕｎｓｅｔ</title>
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --purple-deep:#1a0533;
+  --purple-mid:#2d1b69;
+  --sunset-orange:#ff6b35;
+  --pink-hot:#ff71ce;
+  --coral:#ff6b6b;
+  --gold:#ffd700;
+  --lavender:#c4b7ff;
+  --purple-accent:#9b59b6;
+  --tv-frame:#6b6b6b;
+  --tv-frame-light:#8a8a8a;
+  --tv-body:#4a4a4a;
+  --scanline:rgba(0,0,0,0.08);
+  --crt-glow:rgba(255,113,206,0.15);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:Georgia,'Times New Roman',serif;
+  color:#f0e6ff;
+  min-height:100vh;
+  overflow-x:hidden;
+  background:linear-gradient(180deg,
+    var(--purple-deep) 0%,
+    #2a0845 20%,
+    #5c2d91 40%,
+    #c0392b 65%,
+    #e67e22 80%,
+    var(--sunset-orange) 100%);
+  background-attachment:fixed;
+}
+
+/* ===== VHS SCANLINES OVERLAY ===== */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9999;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    var(--scanline) 2px,
+    var(--scanline) 4px
+  );
+}
+
+/* ===== PERSPECTIVE GRID OVERLAY ===== */
+body::after{
+  content:'';
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:45vh;
+  pointer-events:none;
+  z-index:1;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,107,53,0.12) 0px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,107,53,0.10) 0px,
+      transparent 1px,
+      transparent 40px
+    );
+  transform:perspective(400px) rotateX(45deg);
+  transform-origin:bottom center;
+  mask-image:linear-gradient(to top,rgba(0,0,0,0.7),transparent);
+  -webkit-mask-image:linear-gradient(to top,rgba(0,0,0,0.7),transparent);
+}
+
+/* ===== FLOATING GEOMETRIC SHAPES ===== */
+.geo-shapes{
+  position:fixed;inset:0;
+  pointer-events:none;z-index:0;
+  overflow:hidden;
+}
+.geo-shape{
+  position:absolute;
+  opacity:0.08;
+  animation:float-geo 20s ease-in-out infinite;
+}
+.geo-shape.triangle{
+  width:0;height:0;
+  border-left:40px solid transparent;
+  border-right:40px solid transparent;
+  border-bottom:70px solid var(--pink-hot);
+}
+.geo-shape.circle{
+  width:60px;height:60px;
+  border-radius:50%;
+  border:3px solid var(--gold);
+}
+.geo-shape.diamond{
+  width:50px;height:50px;
+  background:var(--lavender);
+  transform:rotate(45deg);
+}
+.geo-shape:nth-child(1){top:10%;left:5%;animation-delay:0s;animation-duration:18s}
+.geo-shape:nth-child(2){top:30%;right:8%;animation-delay:-4s;animation-duration:22s}
+.geo-shape:nth-child(3){top:55%;left:12%;animation-delay:-8s;animation-duration:25s}
+.geo-shape:nth-child(4){top:75%;right:15%;animation-delay:-2s;animation-duration:20s}
+.geo-shape:nth-child(5){top:20%;left:50%;animation-delay:-6s;animation-duration:28s}
+.geo-shape:nth-child(6){top:65%;left:80%;animation-delay:-10s;animation-duration:19s}
+.geo-shape:nth-child(7){top:85%;left:35%;animation-delay:-14s;animation-duration:24s}
+.geo-shape:nth-child(8){top:45%;left:90%;animation-delay:-3s;animation-duration:21s}
+
+@keyframes float-geo{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  25%{transform:translateY(-30px) rotate(5deg)}
+  50%{transform:translateY(-15px) rotate(-3deg)}
+  75%{transform:translateY(-40px) rotate(4deg)}
+}
+
+/* ===== MAIN CONTENT WRAPPER ===== */
+.content-wrap{
+  position:relative;z-index:2;
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 20px 60px;
+}
+
+/* ===== HEADER / HERO ===== */
+.hero{
+  text-align:center;
+  padding:60px 20px 50px;
+  position:relative;
+}
+.hero .back-link{
+  display:inline-block;
+  color:var(--lavender);
+  text-decoration:none;
+  font-size:0.95rem;
+  margin-bottom:24px;
+  transition:color .3s;
+  font-family:sans-serif;
+}
+.hero .back-link:hover{color:var(--pink-hot)}
+
+.hero .deco-jp{
+  font-size:1.1rem;
+  color:var(--gold);
+  letter-spacing:8px;
+  margin-bottom:12px;
+  opacity:0.7;
+}
+
+.hero h1{
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  font-weight:700;
+  background:linear-gradient(135deg,var(--pink-hot),var(--gold),var(--coral));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  text-shadow:none;
+  filter:drop-shadow(0 0 30px rgba(255,113,206,0.4))
+         drop-shadow(0 0 60px rgba(255,107,53,0.2));
+  line-height:1.1;
+  margin-bottom:10px;
+}
+.hero .subtitle{
+  font-size:1.3rem;
+  color:var(--lavender);
+  letter-spacing:6px;
+  margin-bottom:8px;
+}
+.hero .quote{
+  font-style:italic;
+  color:rgba(255,215,0,0.6);
+  font-size:0.95rem;
+  margin-top:18px;
+  letter-spacing:2px;
+}
+.hero .palms{
+  font-size:2.5rem;
+  margin-top:12px;
+  opacity:0.6;
+  letter-spacing:20px;
+}
+
+/* ===== YEAR SECTION ===== */
+.year-section{margin-bottom:60px}
+
+.year-heading{
+  text-align:center;
+  font-size:2.4rem;
+  font-weight:700;
+  color:var(--pink-hot);
+  text-shadow:
+    0 0 10px rgba(255,113,206,0.6),
+    0 0 20px rgba(255,113,206,0.4),
+    0 0 40px rgba(255,113,206,0.2),
+    0 0 80px rgba(255,107,53,0.15);
+  margin-bottom:10px;
+  padding-top:10px;
+}
+.year-heading .jp-year{
+  font-size:0.8rem;
+  display:block;
+  color:var(--gold);
+  opacity:0.5;
+  letter-spacing:4px;
+  margin-top:4px;
+}
+
+.section-divider{
+  text-align:center;
+  font-size:1.4rem;
+  letter-spacing:16px;
+  color:var(--lavender);
+  opacity:0.5;
+  margin-bottom:30px;
+  user-select:none;
+}
+
+/* ===== MEME GRID ===== */
+.meme-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+@media(max-width:1024px){.meme-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){.meme-grid{grid-template-columns:repeat(2,1fr);gap:16px}}
+@media(max-width:420px){.meme-grid{grid-template-columns:1fr}}
+
+/* ===== TV TILE ===== */
+.tv-tile{
+  background:linear-gradient(145deg,#555,#3a3a3a);
+  border-radius:14px;
+  padding:10px 10px 8px;
+  cursor:pointer;
+  position:relative;
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.tv-tile:hover{
+  transform:scale(1.04);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.6),
+    0 0 20px var(--crt-glow);
+}
+.tv-tile .power-led{
+  position:absolute;
+  bottom:6px;right:14px;
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--coral);
+  box-shadow:0 0 6px var(--coral);
+  animation:led-blink 3s ease-in-out infinite;
+}
+@keyframes led-blink{
+  0%,100%{opacity:1}
+  50%{opacity:0.4}
+}
+.tv-tile .tv-bezel{
+  position:absolute;
+  bottom:5px;left:14px;
+  display:flex;gap:4px;
+}
+.tv-tile .tv-bezel span{
+  width:10px;height:3px;
+  border-radius:1px;
+  background:rgba(255,255,255,0.15);
+}
+
+.tv-screen{
+  background:#111;
+  border-radius:8px;
+  overflow:hidden;
+  aspect-ratio:1/1;
+  position:relative;
+  border:2px solid #222;
+}
+.tv-screen img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  transition:filter .3s, border-radius .3s;
+}
+.tv-tile:hover .tv-screen img{
+  filter:contrast(1.1) saturate(1.15);
+  border-radius:6px;
+}
+/* CRT curvature on hover */
+.tv-tile:hover .tv-screen{
+  border-radius:12px / 14px;
+  box-shadow:inset 0 0 30px rgba(255,113,206,0.1);
+}
+
+.tv-label{
+  text-align:center;
+  padding:8px 4px 2px;
+  font-size:0.82rem;
+  color:var(--lavender);
+  letter-spacing:1px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.tv-label .month-name{
+  color:var(--gold);
+  font-weight:700;
+}
+
+/* ===== LOCKED / NO SIGNAL TILE ===== */
+.tv-screen.no-signal{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  background:repeating-conic-gradient(
+    #222 0% 25%,#1a1a1a 25% 50%
+  ) 0 0 / 4px 4px;
+  animation:static-noise .15s steps(4) infinite;
+}
+.tv-screen.no-signal::before{
+  content:'NO SIGNAL';
+  color:var(--coral);
+  font-family:monospace;
+  font-size:0.75rem;
+  font-weight:700;
+  letter-spacing:2px;
+  text-shadow:0 0 8px var(--coral);
+  animation:signal-blink 1.5s steps(2) infinite;
+}
+@keyframes static-noise{
+  0%{background-position:0 0}
+  25%{background-position:2px -1px}
+  50%{background-position:-1px 2px}
+  75%{background-position:3px 1px}
+  100%{background-position:-2px -2px}
+}
+@keyframes signal-blink{
+  0%,100%{opacity:1}
+  50%{opacity:0.3}
+}
+
+/* ===== DETAIL VIEW ===== */
+.detail-view{
+  display:none;
+  animation:fadeIn .4s ease;
+}
+.detail-view.active{display:block}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.detail-back{
+  display:inline-block;
+  color:var(--lavender);
+  text-decoration:none;
+  font-size:0.95rem;
+  margin-bottom:20px;
+  cursor:pointer;
+  font-family:sans-serif;
+  transition:color .3s;
+}
+.detail-back:hover{color:var(--pink-hot)}
+
+.detail-tv{
+  max-width:750px;
+  margin:0 auto;
+  background:linear-gradient(145deg,#555,#3a3a3a);
+  border-radius:20px;
+  padding:18px 18px 14px;
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.6),
+    0 0 40px rgba(255,113,206,0.08);
+  position:relative;
+}
+.detail-tv .power-led{
+  position:absolute;
+  bottom:10px;right:22px;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:#33ff55;
+  box-shadow:0 0 8px #33ff55;
+  animation:led-blink 3s ease-in-out infinite;
+}
+.detail-tv .tv-brand{
+  position:absolute;
+  bottom:8px;left:22px;
+  font-size:0.6rem;
+  color:rgba(255,255,255,0.2);
+  font-family:sans-serif;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.detail-screen{
+  background:#0a0a0a;
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  border:3px solid #222;
+}
+.detail-screen img{
+  width:100%;
+  display:block;
+  max-height:70vh;
+  object-fit:contain;
+  cursor:zoom-in;
+  background:#0a0a0a;
+}
+
+.detail-info{
+  text-align:center;
+  padding:20px 10px 8px;
+}
+.detail-title{
+  font-size:1.8rem;
+  color:var(--pink-hot);
+  text-shadow:0 0 15px rgba(255,113,206,0.4);
+  margin-bottom:6px;
+}
+.detail-notes{
+  color:var(--lavender);
+  font-size:0.9rem;
+  opacity:0.7;
+  font-style:italic;
+}
+
+/* ===== VHS NAV BUTTONS ===== */
+.vhs-nav{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-top:24px;
+}
+.vhs-btn{
+  background:linear-gradient(145deg,#444,#2a2a2a);
+  border:2px solid #555;
+  color:var(--lavender);
+  font-size:1.3rem;
+  padding:10px 22px;
+  border-radius:8px;
+  cursor:pointer;
+  font-family:monospace;
+  transition:all .2s;
+  box-shadow:0 3px 10px rgba(0,0,0,0.4);
+  display:flex;align-items:center;gap:8px;
+}
+.vhs-btn:hover{
+  background:linear-gradient(145deg,#555,#3a3a3a);
+  border-color:var(--pink-hot);
+  color:var(--pink-hot);
+  box-shadow:0 0 15px rgba(255,113,206,0.2);
+}
+.vhs-btn:disabled{
+  opacity:0.3;
+  cursor:not-allowed;
+  border-color:#444;
+}
+.vhs-btn:disabled:hover{
+  background:linear-gradient(145deg,#444,#2a2a2a);
+  color:var(--lavender);
+  box-shadow:none;
+  border-color:#444;
+}
+.vhs-btn .label{font-size:0.7rem;letter-spacing:1px}
+
+/* ===== ZOOM MODAL ===== */
+.zoom-overlay{
+  display:none;
+  position:fixed;inset:0;
+  z-index:10000;
+  background:rgba(10,2,20,0.92);
+  align-items:center;
+  justify-content:center;
+  cursor:zoom-out;
+  animation:fadeIn .25s ease;
+}
+.zoom-overlay.active{display:flex}
+.zoom-frame{
+  background:linear-gradient(145deg,#555,#3a3a3a);
+  border-radius:18px;
+  padding:14px;
+  max-width:92vw;
+  max-height:92vh;
+  box-shadow:0 0 60px rgba(255,113,206,0.15);
+  position:relative;
+}
+.zoom-frame img{
+  max-width:88vw;
+  max-height:84vh;
+  display:block;
+  border-radius:10px;
+  border:3px solid #222;
+}
+.zoom-close{
+  position:absolute;
+  top:-12px;right:-12px;
+  width:32px;height:32px;
+  border-radius:50%;
+  background:var(--coral);
+  color:#fff;
+  border:none;
+  font-size:1.1rem;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 10px rgba(255,107,107,0.4);
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  text-align:center;
+  padding:50px 20px 30px;
+  position:relative;
+  z-index:2;
+  background:linear-gradient(to top,rgba(255,107,53,0.2),transparent);
+}
+.footer .palms{
+  font-size:3rem;
+  letter-spacing:20px;
+  opacity:0.5;
+  margin-bottom:10px;
+}
+.footer .footer-text{
+  color:var(--lavender);
+  opacity:0.5;
+  font-size:0.8rem;
+  letter-spacing:2px;
+}
+.footer .footer-jp{
+  color:var(--gold);
+  opacity:0.3;
+  font-size:0.75rem;
+  letter-spacing:6px;
+  margin-top:6px;
+}
+
+/* ===== DECORATIVE PALM TREES (CSS) ===== */
+.palm-deco{
+  position:fixed;
+  bottom:0;
+  font-size:4rem;
+  opacity:0.06;
+  z-index:1;
+  pointer-events:none;
+  user-select:none;
+}
+.palm-deco.left{left:20px}
+.palm-deco.right{right:20px}
+
+/* ===== LOADING STATE ===== */
+.loading{
+  text-align:center;
+  padding:80px 20px;
+  color:var(--lavender);
+  font-size:1.2rem;
+  letter-spacing:3px;
+}
+.loading::after{
+  content:'';
+  display:inline-block;
+  width:20px;height:20px;
+  border:2px solid var(--pink-hot);
+  border-top-color:transparent;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin-left:12px;
+  vertical-align:middle;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== RESPONSIVE TWEAKS ===== */
+@media(max-width:600px){
+  .hero h1{font-size:2rem}
+  .hero .subtitle{font-size:0.9rem;letter-spacing:3px}
+  .year-heading{font-size:1.8rem}
+  .detail-title{font-size:1.3rem}
+  .vhs-btn{padding:8px 14px;font-size:1.1rem}
+  .palm-deco{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Floating geometric shapes -->
+<div class="geo-shapes">
+  <div class="geo-shape triangle"></div>
+  <div class="geo-shape circle"></div>
+  <div class="geo-shape diamond"></div>
+  <div class="geo-shape triangle"></div>
+  <div class="geo-shape circle"></div>
+  <div class="geo-shape diamond"></div>
+  <div class="geo-shape triangle"></div>
+  <div class="geo-shape circle"></div>
+</div>
+
+<!-- Decorative palms -->
+<div class="palm-deco left">🌴</div>
+<div class="palm-deco right">🌴</div>
+
+<div class="content-wrap">
+  <!-- HERO HEADER -->
+  <header class="hero">
+    <a href="index.html" class="back-link">← Tutti i temi</a>
+    <div class="deco-jp">メメ・デル・メセ</div>
+    <h1>Meme del Mese</h1>
+    <div class="subtitle">ＶａｐｏｒＳｕｎｓｅｔ　Ｅｄｉｔｉｏｎ</div>
+    <div class="quote">「永遠の日没の中で、ミームは生き続ける」</div>
+    <div class="palms">🌴 🗿 🌴</div>
+  </header>
+
+  <!-- GALLERY VIEW -->
+  <main id="gallery-view">
+    <div class="loading" id="loading">Caricamento...</div>
+  </main>
+
+  <!-- DETAIL VIEW -->
+  <section class="detail-view" id="detail-view">
+    <a class="detail-back" id="detail-back">← Archivio</a>
+    <div class="detail-tv">
+      <div class="detail-screen">
+        <img id="detail-img" src="" alt="">
+      </div>
+      <div class="detail-info">
+        <div class="detail-title" id="detail-title"></div>
+        <div class="detail-notes" id="detail-notes"></div>
+      </div>
+      <div class="power-led"></div>
+      <div class="tv-brand">ＶａｐｏｒＴＶ</div>
+    </div>
+    <div class="vhs-nav">
+      <button class="vhs-btn" id="btn-prev" title="Precedente">
+        <span>⏮</span><span class="label">PREV</span>
+      </button>
+      <button class="vhs-btn" id="btn-next" title="Successivo">
+        <span class="label">NEXT</span><span>⏭</span>
+      </button>
+    </div>
+  </section>
+</div>
+
+<!-- ZOOM MODAL -->
+<div class="zoom-overlay" id="zoom-overlay">
+  <div class="zoom-frame">
+    <img id="zoom-img" src="" alt="">
+    <button class="zoom-close" title="Chiudi">✕</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="palms">🌴🌴🌴</div>
+  <div class="footer-text">Meme del Mese — Vaporwave Sunset Edition</div>
+  <div class="footer-jp">日没 · メメ · 月</div>
+</footer>
+
+<script>
+(function(){
+  const MONTHS_IT = [
+    '','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+    'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'
+  ];
+
+  let memes = [];
+  let currentIdx = -1;
+
+  const galleryView  = document.getElementById('gallery-view');
+  const detailView   = document.getElementById('detail-view');
+  const detailImg    = document.getElementById('detail-img');
+  const detailTitle  = document.getElementById('detail-title');
+  const detailNotes  = document.getElementById('detail-notes');
+  const detailBack   = document.getElementById('detail-back');
+  const btnPrev      = document.getElementById('btn-prev');
+  const btnNext      = document.getElementById('btn-next');
+  const zoomOverlay  = document.getElementById('zoom-overlay');
+  const zoomImg      = document.getElementById('zoom-img');
+  const loading      = document.getElementById('loading');
+
+  /* Determine which months are "locked" (future) */
+  function isLocked(year, month) {
+    const now = new Date();
+    const cy = now.getFullYear();
+    const cm = now.getMonth() + 1;
+    return (year > cy) || (year === cy && month > cm);
+  }
+
+  /* Build the gallery from meme data */
+  function renderGallery() {
+    loading.style.display = 'none';
+    const byYear = {};
+    /* Include all 12 months for each year that appears in data */
+    const years = [...new Set(memes.map(m => m.year))].sort();
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+
+    years.forEach(y => { byYear[y] = {}; });
+    memes.forEach(m => { byYear[m.year][m.month] = m; });
+
+    let html = '';
+    years.forEach(y => {
+      html += `<section class="year-section">`;
+      html += `<h2 class="year-heading">${y}<span class="jp-year">年 ${y}</span></h2>`;
+      html += `<div class="section-divider">🗿 🗿 🗿</div>`;
+      html += `<div class="meme-grid">`;
+
+      for (let m = 1; m <= 12; m++) {
+        /* Skip months beyond current for the current year */
+        if (y === currentYear && m > currentMonth) break;
+        /* Skip months before the archive started (July 2022) */
+        if (y === 2022 && m < 7) continue;
+
+        const meme = byYear[y][m];
+        const locked = !meme;
+        const monthName = MONTHS_IT[m];
+        const key = `${y}-${String(m).padStart(2,'0')}`;
+
+        if (locked) {
+          html += `
+            <div class="tv-tile" data-key="${key}" title="${monthName} ${y} — non disponibile">
+              <div class="tv-screen no-signal"></div>
+              <div class="tv-label"><span class="month-name">${monthName}</span></div>
+              <div class="tv-bezel"><span></span><span></span><span></span></div>
+            </div>`;
+        } else {
+          html += `
+            <div class="tv-tile" data-key="${key}" data-idx="${memes.indexOf(meme)}" title="${meme.title}">
+              <div class="tv-screen">
+                <img src="../${meme.file}" alt="${meme.alt}" loading="lazy">
+              </div>
+              <div class="tv-label"><span class="month-name">${monthName}</span></div>
+              <div class="power-led"></div>
+              <div class="tv-bezel"><span></span><span></span><span></span></div>
+            </div>`;
+        }
+      }
+
+      html += `</div></section>`;
+    });
+
+    galleryView.innerHTML = html;
+
+    /* Attach click handlers */
+    galleryView.querySelectorAll('.tv-tile[data-idx]').forEach(tile => {
+      tile.addEventListener('click', () => {
+        const idx = parseInt(tile.dataset.idx, 10);
+        showDetail(idx);
+      });
+    });
+  }
+
+  /* Show detail view for a meme */
+  function showDetail(idx) {
+    if (idx < 0 || idx >= memes.length) return;
+    currentIdx = idx;
+    const meme = memes[idx];
+    detailImg.src = `../${meme.file}`;
+    detailImg.alt = meme.alt;
+    detailTitle.textContent = meme.title;
+    detailNotes.textContent = meme.notes || '';
+
+    galleryView.style.display = 'none';
+    detailView.classList.add('active');
+
+    btnPrev.disabled = (idx === 0);
+    btnNext.disabled = (idx === memes.length - 1);
+
+    const key = `${meme.year}-${String(meme.month).padStart(2,'0')}`;
+    history.replaceState(null, '', `#${key}`);
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  /* Show gallery */
+  function showGallery() {
+    detailView.classList.remove('active');
+    galleryView.style.display = '';
+    currentIdx = -1;
+    history.replaceState(null, '', window.location.pathname);
+  }
+
+  /* Route by hash */
+  function handleHash() {
+    const hash = window.location.hash.replace('#','');
+    if (!hash) { showGallery(); return; }
+    const match = hash.match(/^(\d{4})-(\d{2})$/);
+    if (!match) { showGallery(); return; }
+    const y = parseInt(match[1],10);
+    const m = parseInt(match[2],10);
+    const idx = memes.findIndex(me => me.year === y && me.month === m);
+    if (idx >= 0) showDetail(idx);
+    else showGallery();
+  }
+
+  /* Zoom modal */
+  detailImg.addEventListener('click', () => {
+    zoomImg.src = detailImg.src;
+    zoomImg.alt = detailImg.alt;
+    zoomOverlay.classList.add('active');
+  });
+  zoomOverlay.addEventListener('click', (e) => {
+    if (e.target === zoomOverlay || e.target.closest('.zoom-close')) {
+      zoomOverlay.classList.remove('active');
+    }
+  });
+
+  /* Navigation */
+  detailBack.addEventListener('click', (e) => { e.preventDefault(); showGallery(); });
+  btnPrev.addEventListener('click', () => { if (currentIdx > 0) showDetail(currentIdx - 1); });
+  btnNext.addEventListener('click', () => { if (currentIdx < memes.length - 1) showDetail(currentIdx + 1); });
+
+  /* Keyboard navigation */
+  document.addEventListener('keydown', (e) => {
+    if (zoomOverlay.classList.contains('active')) {
+      if (e.key === 'Escape') zoomOverlay.classList.remove('active');
+      return;
+    }
+    if (!detailView.classList.contains('active')) return;
+    if (e.key === 'ArrowLeft' && currentIdx > 0) showDetail(currentIdx - 1);
+    if (e.key === 'ArrowRight' && currentIdx < memes.length - 1) showDetail(currentIdx + 1);
+    if (e.key === 'Escape') showGallery();
+  });
+
+  window.addEventListener('hashchange', handleHash);
+
+  /* Fetch and boot */
+  fetch('../data/memes.json')
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(data => {
+      memes = data;
+      renderGallery();
+      handleHash();
+    })
+    .catch(err => {
+      loading.textContent = 'Errore nel caricamento dei dati.';
+      console.error('Fetch error:', err);
+    });
+})();
+</script>
+</body>
+</html>
